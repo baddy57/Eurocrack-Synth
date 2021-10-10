@@ -1,0 +1,50 @@
+#include "MODULES_FX_Multi.h"
+
+#include "Module.h"
+#include "Address.h"
+
+#include "CONTROLS_Potentiometer.h"
+#include "CONTROLS_Switch.h"
+#include "CONTROLS_Button.h"
+
+#include "CONTROLS_OutputSocket.h"
+#include "CONTROLS_InputSocket.h"
+
+#include <vector>
+#include <Audio.h>
+#include <cstdint>
+
+namespace {
+	enum _inputs {};
+	enum _outputs {};
+};
+
+//ctor
+FX_Multi :: FX_Multi (const Address& a)
+:	//init list
+	Module(a),
+	_sw0	(a, 0), 
+	_sw1	(a, 1),
+	_pot0	(a, 2),
+	_btn0	(a, 3),
+	stream0(), 
+	stream1()
+{
+	
+	outputSocket.push_back(new OutputSocket(a, id___, dectid____, @@stream@@, ___, "name___"));
+	inputSocket.push_back(new InputSocket(a, id___, dectid____, @@stream@@, ___, "name___"));
+	
+	internalConns.push_back(new AudioConnection(stream0,0, stream1,0));
+}
+
+void
+FX_Multi :: updateValues() {
+	if(_pot0.wasUpdated()){
+		stream0.foo(_pot0.f_read());
+	}
+	
+	
+	if(sw0[0].b_read()) 
+		current_fx = new ...
+	
+}

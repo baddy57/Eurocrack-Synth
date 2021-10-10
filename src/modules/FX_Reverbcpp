@@ -1,0 +1,40 @@
+#include "MODULES_FX_Reverb.h"
+
+#include "Module.h"
+#include "Address.h"
+
+#include "CONTROLS_Potentiometer.h"
+#include "CONTROLS_Switch.h"
+#include "CONTROLS_Button.h"
+
+#include "CONTROLS_OutputSocket.h"
+#include "CONTROLS_InputSocket.h"
+
+#include <vector>
+#include <Audio.h>
+#include <cstdint>
+
+namespace {
+	enum _inputSockets {IN};
+	enum _outputSockets {OUT};
+};
+
+//ctor
+Reverb :: Reverb (const Address& a)
+	:	Module(a),
+		_roomsize_pot0	(a, 0),
+		_damping_pot1	(a, 1),
+		_rev()
+	{
+	
+	outputSocket.push_back(new OutputSocket(a, OUT,99, _rev, 0));
+	inputSocket.push_back(new InputSocket(a, IN,99, _rev, 0));
+}
+
+void
+Reverb :: updateValues() {
+	if(_roomsize_pot0.wasUpdated())
+		_rev->roomsize(_roomsize_pot0.f_read());
+	if(_damping_pot1.wasUpdated())
+		_rev->damping(_damping_pot1.f_read());
+}
