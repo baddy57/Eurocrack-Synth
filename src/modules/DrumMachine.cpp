@@ -1,14 +1,14 @@
-#include "MODULES_DrumMachine.h"
+#include "DrumMachine.h"
 
 #include "Module.h"
 #include "Address.h"
 
-#include "CONTROLS_Potentiometer.h"
-#include "CONTROLS_Switch.h"
-#include "CONTROLS_Button.h"
+#include "../controls/Potentiometer.h"
+#include "../controls/Switch.h"
+#include "../controls/Button.h"
 
-#include "CONTROLS_OutputSocket.h"
-#include "CONTROLS_InputSocket.h"
+#include "../controls/OutputSocket.h"
+#include "../controls/InputSocket.h"
 
 #include <vector>
 #include <Audio.h>
