@@ -3,10 +3,10 @@
 
 #include "Address.h"
 #include "Control.h"
-#include "CONTROLS_InputSocket.h"
-#include "CONTROLS_OutputSocket.h"
-#include <vector>
+#include "controls/InputSocket.h"
+#include "controls/OutputSocket.h"
 #include <Audio.h>
+#include <vector>
 
 
 class Module{
