@@ -8,7 +8,7 @@
 
 #include <cstdint>
 #include <Audio.h>
-//#include <list>
+#include <list>
 #include <functional>
 
 // class OutputSocket;
