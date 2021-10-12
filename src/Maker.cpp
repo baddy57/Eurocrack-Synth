@@ -55,8 +55,134 @@ uint_fast8_t connected_modules =0;
 
 void
 Maker :: createModules (std::vector<Module*>& vm) {	
-	for (uint_fast8_t i=0; i<MAX_MODULES; ++i)
-		vm.push_back(factory(Address(i)));
+	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
+		//vm.push_back(factory(Address(i)));
+		Address slotAddress(i);
+		uint_fast8_t moduleID = getModuleID(slotAddress);
+		uint_fast8_t type = 0;
+		for (int j = 0; j < 8; ++j)
+			bitWrite(type, j, bitRead(moduleID, j));
+
+		bool verbose = true;
+
+		switch (type) {
+		case 0: {
+			//	tft.println("empty" );
+			//	tft.println("EMPTY" );
+			//vm.push_back( new EmptyModule(slotAddress));
+			break;
+		}
+
+		case 1: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  AUDIO_OUT");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new AudioOut(slotAddress));
+			break;
+		}
+		case 2: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  AUDIO_IN");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new AudioIn(slotAddress));
+			break;
+		}
+		case 3: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  VCF");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new VCF(slotAddress));
+			break;
+		}
+		case 4: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  VCO_det");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new VCO_det(slotAddress));
+			break;
+		}
+		case 5: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  MIDI MONO");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new MidiMono(slotAddress));
+			break;
+		}
+		case 6: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  ADSR");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new ADSR(slotAddress));
+			break;
+		}
+		case 9: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  MIXER8");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new Mixer8(slotAddress));
+			break;
+		}
+		case 10: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  VCA");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new VCA(slotAddress));
+			break;
+		}
+		case 11: {
+			if (verbose) {
+				tft.print(type);
+				tft.print("  DRUMZ");
+				tft.print("  @  ");
+				tft.println(slotAddress.toInt());
+			}
+			++connected_modules;
+			vm.push_back(new DrumMachine(slotAddress));
+			break;
+		}
+		default: {
+			// tft.print(type);
+			// tft.print("  unknown" );
+			// tft.print("  @  " );
+			// tft.println(slotAddress.toInt());
+			//vm.push_back(new EmptyModule(slotAddress));
+			break;
+		}
+		};
+
+	}
 	tft.print("total modules connected: ");
 	tft.println(connected_modules);
 }
@@ -76,127 +202,5 @@ Maker :: getModuleID(const Address& moduleAddress) {
 Module*
 Maker :: factory (const Address& slotAddress) {
 //	tft.println("Maker :: factory");
-	uint_fast8_t moduleID = getModuleID(slotAddress);
-	uint_fast8_t type = 0;
-	for(int i=0; i<8; ++i)
-		bitWrite(type, i, bitRead(moduleID, i));
 	
-	bool verbose = true;
-	
-	switch(type){
-		case 0:{
-		//	tft.println("empty" );
-		//	tft.println("EMPTY" );
-			return new EmptyModule(slotAddress);
-			break;
-		}
-		 
-		case 1:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  AUDIO_OUT" );
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());	
-			}
-			++connected_modules;
-			return new AudioOut(slotAddress);
-			break;
-		}
-		case 2:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  AUDIO_IN" );
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new AudioIn(slotAddress);
-			break;
-		}
-		case 3:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  VCF" );
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new VCF(slotAddress);
-			break;
-		}
-		case 4:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  VCO_det" );
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new VCO_det(slotAddress);
-			break;
-		}
-		case 5:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  MIDI MONO");
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new MidiMono(slotAddress);
-			break;
-		}
-		case 6:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  ADSR");
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new ADSR(slotAddress);
-			break;
-		}
-		case 9:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  MIXER8");
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new Mixer8(slotAddress);
-			break;
-		}
-		case 10:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  VCA");
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new VCA(slotAddress);
-			break;
-		}
-		case 11:{
-			if(verbose){
-				tft.print(type);
-				tft.print("  DRUMZ");
-				tft.print("  @  " );
-				tft.println(slotAddress.toInt());
-			}
-			++connected_modules;
-			return new DrumMachine(slotAddress);
-			break;
-		}
-		default :{
-		 	// tft.print(type);
-			// tft.print("  unknown" );
-		 	// tft.print("  @  " );
-		 	// tft.println(slotAddress.toInt());
-			return new EmptyModule(slotAddress);
-			break;
-		}
-	};
 }

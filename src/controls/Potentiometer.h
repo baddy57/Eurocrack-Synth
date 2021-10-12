@@ -1,5 +1,5 @@
 #ifndef __CONTROLS_POTENTIOMETER_H__
-#define __CONTROLS_POTENTIOMETER_H__ 1
+#define __CONTROLS_POTENTIOMETER_H__
 
 #include "../Control.h"
 #include "../Address.h"
