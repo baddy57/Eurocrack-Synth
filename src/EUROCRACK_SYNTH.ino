@@ -98,7 +98,6 @@ void loop() {
 		(*i)->updateConnections();
 		(*i)->updateValues();
 	}
-	//tft.print(".");
 }
 
 

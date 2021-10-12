@@ -15,7 +15,6 @@ class Module{
 				
 	protected:
 		Address moduleAddress;
-		std::vector<int> jjkl;
 		std :: vector <InputSocket*> inputSocket;
 		std :: vector <OutputSocket*> outputSocket;
 		std :: vector <AudioConnection*> internalConns;
@@ -23,7 +22,7 @@ class Module{
 	public:
 		Module(const Address&);
 		
-		void updateConnections();
+		virtual void updateConnections();
 		virtual void updateValues()=0; 
 };
 
