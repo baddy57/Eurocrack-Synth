@@ -1,14 +1,14 @@
 #ifndef __PATCH_CABLE_H__
-#define __PATCH_CABLE_H__ 1
+#define __PATCH_CABLE_H__
 
 // #include "CONTROLS_InputSocket_POLY.h"
 // #include "CONTROLS_OutputSocket_POLY.h"
-#include "CONTROLS_InputSocket.h"
-#include "CONTROLS_OutputSocket.h"
+#include "controls/InputSocket.h"
+#include "controls/OutputSocket.h"
 #include "HardwareCfg.h"
 
 #include <Audio.h>
-#include <list>
+//#include <list>
 
 // class OutputSocket;
 // class InputSocket;

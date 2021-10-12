@@ -1,8 +1,5 @@
 #include "ADSR.h"
 
-#include "Module.h"
-#include "Address.h"
-
 #include "../controls/Potentiometer.h"
 #include "../controls/Switch.h"
 

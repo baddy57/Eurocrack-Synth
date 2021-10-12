@@ -1,8 +1,8 @@
 #ifndef __CONTROLS_BUTTON_H__
 #define __CONTROLS_BUTTON_H__ 1
 
-#include "Control.h"
-#include "Address.h"
+#include "../Control.h"
+#include "../Address.h"
 #include <cstdint>
 
 class Button : public Control {

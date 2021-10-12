@@ -1,8 +1,5 @@
 #include "AudioIn.h"
 
-#include "Module.h"
-#include "Address.h"
-
 #include "../controls/Potentiometer.h"
 #include "../controls/Switch.h"
 #include "../controls/Button.h"
@@ -10,7 +7,7 @@
 #include "../controls/OutputSocket.h"
 #include "../controls/InputSocket.h"
 
-#include <vector>
+//#include <vector>
 #include <Audio.h>
 #include <cstdint>
 extern ILI9341_t3 tft;

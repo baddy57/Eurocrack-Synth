@@ -1,11 +1,7 @@
-#include "CONTROLS_OutputSocket.h"
+#include "OutputSocket.h"
 
-#include "Control.h"
-#include "HardwareCfg.h"
-#include "Address.h"
-
-#include "CONTROLS_InputSocket.h"
-#include "PatchCable.h"
+#include "InputSocket.h"
+#include "../PatchCable.h"
 
 #include <list>
 #include <cstdint>

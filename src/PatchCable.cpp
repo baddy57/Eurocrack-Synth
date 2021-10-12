@@ -1,13 +1,13 @@
 #include "PatchCable.h"
 
-// #include "CONTROLS_InputSocket_POLY.h"
-// #include "CONTROLS_OutputSocket_POLY.h"
-#include "CONTROLS_InputSocket.h"
-#include "CONTROLS_OutputSocket.h"
+// #include "controls/InputSocket_POLY.h"
+// #include "controls/OutputSocket_POLY.h"
+#include "controls/InputSocket.h"
+#include "controls/OutputSocket.h"
 
 #include <Audio.h>
-#include <list>
-#include <vector>
+//#include <list>
+//#include <vector>
 #include "HardwareCfg.h"
 extern ILI9341_t3 tft;
 

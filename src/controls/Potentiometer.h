@@ -1,8 +1,8 @@
 #ifndef __CONTROLS_POTENTIOMETER_H__
 #define __CONTROLS_POTENTIOMETER_H__ 1
 
-#include "Control.h"
-#include "Address.h"
+#include "../Control.h"
+#include "../Address.h"
 #include <cstdint>
 
 #define DIV1023 1/1023

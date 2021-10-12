@@ -3,7 +3,7 @@
 #include "HardwareCfg.h"
 #include "Module.h"
 #include "Address.h"
-#include "CONTROLS_IdMux.h"
+#include "controls/IdMux.h"
 
 #include "modules/EmptyModule.h"
 #include "modules/AudioOut.h"

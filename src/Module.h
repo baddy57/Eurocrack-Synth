@@ -1,11 +1,12 @@
 #ifndef __MODULE_H__
-#define __MODULE_H__ 1
+#define __MODULE_H__
 
 #include "Address.h"
 #include "Control.h"
 #include "controls/InputSocket.h"
 #include "controls/OutputSocket.h"
 #include <Audio.h>
+//#include "stl_vector.h"
 #include <vector>
 
 
@@ -14,6 +15,7 @@ class Module{
 				
 	protected:
 		Address moduleAddress;
+		std::vector<int> jjkl;
 		std :: vector <InputSocket*> inputSocket;
 		std :: vector <OutputSocket*> outputSocket;
 		std :: vector <AudioConnection*> internalConns;

@@ -1,13 +1,13 @@
 #ifndef __MODULES_MIXER8_H__
 #define __MODULES_MIXER8_H__ 1
 
-#include "Module.h"
-#include "Address.h"
+#include "../Module.h"
+#include "../Address.h"
 #include <Audio.h>
 #include <cstdint>
-#include "CONTROLS_Potentiometer.h"
-#include "CONTROLS_Switch.h"
-#include "CONTROLS_Button.h"
+#include "../controls/Potentiometer.h"
+#include "../controls/Switch.h"
+#include "../controls/Button.h"
 
 class Mixer8 : public Module {
 	private:

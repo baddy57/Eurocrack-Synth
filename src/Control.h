@@ -1,5 +1,5 @@
 #ifndef __CONTROL_H__
-#define __CONTROL_H__ 1
+#define __CONTROL_H__
 
 #include "Address.h"
 #include <cstdint>

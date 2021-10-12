@@ -1,13 +1,13 @@
 #ifndef __MODULES_MIDIMONO_H__
 #define __MODULES_MIDIMONO_H__ 1
 
-#include "Module.h"
-#include "Address.h"
+#include "../Module.h"
+#include "../Address.h"
 #include <Audio.h>
 #include <cstdint>
-#include "CONTROLS_Potentiometer.h"
-#include "CONTROLS_Switch.h"
-#include "CONTROLS_Button.h"
+#include "../controls/Potentiometer.h"
+#include "../controls/Switch.h"
+#include "../controls/Button.h"
 #include "USBHost_t36.h"
 
 #include <MIDI.h>

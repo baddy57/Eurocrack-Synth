@@ -1,16 +1,12 @@
-#include "CONTROLS_InputSocket.h"
+#include "InputSocket.h"
 
-#include "Control.h"
-#include "HardwareCfg.h"
 extern ILI9341_t3 tft;
-
-#include "Address.h"
 
 #include <list>
 #include <functional>
 #include <cstdint>
 
-#include "PatchCable.h"
+#include "../PatchCable.h"
 
 std::list<InputSocket*> InputSocket :: withJack = {};
 

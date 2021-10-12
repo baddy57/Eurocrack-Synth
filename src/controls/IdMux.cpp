@@ -1,8 +1,4 @@
-#include "CONTROLS_IdMux.h"
-
-#include "Control.h"
-#include "HardwareCfg.h"
-#include "Address.h"
+#include "IdMux.h"
 
 #include <cstdint>
 

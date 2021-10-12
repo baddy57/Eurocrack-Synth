@@ -1,8 +1,8 @@
 #ifndef __CONTROLS_SWITCH_H__
-#define __CONTROLS_SWITCH_H__ 1
+#define __CONTROLS_SWITCH_H__
 
-#include "Control.h"
-#include "Address.h"
+#include "../Control.h"
+#include "../Address.h"
 #include <cstdint>
 
 class Switch : public Control {

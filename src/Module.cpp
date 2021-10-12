@@ -1,13 +1,13 @@
 #include "Module.h"
 
 #include <Audio.h>
-#include <vector>
+//#include <vector>
 #include <cstdint>
 
 #include "HardwareCfg.h"
 extern ILI9341_t3 tft;
-#include "CONTROLS_InputSocket.h"
-#include "CONTROLS_OutputSocket.h"
+#include "controls/InputSocket.h"
+#include "controls/OutputSocket.h"
 #include "Control.h"
 #include "PatchCable.h"
 
@@ -18,7 +18,7 @@ Module :: Module(const Address& address) : moduleAddress(address), verbose(false
 
 void
 Module :: updateConnections(){
-	using std::vector;
+	//using std::vector;
 	
 	for(auto i = inputSocket.begin(), 
 		end = inputSocket.end(); 

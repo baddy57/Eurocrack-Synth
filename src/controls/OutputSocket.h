@@ -1,10 +1,10 @@
 #ifndef __OUTPUT_SOCKET_H___
 #define __OUTPUT_SOCKET_H___ 1
 
-#include "Address.h"
-#include "CONTROLS_InputSocket.h"
-#include "CONTROLS_Switch.h"
-#include "HardwareCfg.h"
+#include "../Address.h"
+#include "InputSocket.h"
+#include "Switch.h"
+#include "../HardwareCfg.h"
 
 #include <cstdint>
 #include <Audio.h>
@@ -19,7 +19,7 @@ class OutputSocket {
 	protected:
 		std::list<InputSocket*> attachedInputs;
 		
-		char* name;
+		const char* name;
 		OutputSocketAddress* address;//
 		Switch jackDetector;
 		AudioStream& linkedStream0;

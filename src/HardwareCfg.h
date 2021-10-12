@@ -1,5 +1,5 @@
 #ifndef __HARDWARE_CFG_H__
-#define __HARDWARE_CFG_H__ 1
+#define __HARDWARE_CFG_H__ 
 
 #include <cstdint>
 #include <ILI9341_t3.h>

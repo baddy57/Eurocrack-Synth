@@ -1,8 +1,5 @@
 #include "MidiMono.h"
 
-#include "Module.h"
-#include "Address.h"
-#include "HardwareCfg.h"
 
 #include "../controls/Potentiometer.h"
 #include "../controls/Switch.h"
@@ -12,7 +9,7 @@
 #include "../controls/InputSocket.h"
 
 
-#include <vector>
+//#include <vector>
 #include <Audio.h>
 #include <cstdint>
 #include <MIDI.h>

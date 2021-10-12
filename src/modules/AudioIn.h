@@ -1,8 +1,8 @@
 #ifndef __MODULES_AUDIO_IN_H__
 #define __MODULES_AUDIO_IN_H__ 1
 
-#include "Module.h"
-#include "Address.h"
+#include "../Module.h"
+#include "../Address.h"
 
 class AudioIn : public Module {
 	private:

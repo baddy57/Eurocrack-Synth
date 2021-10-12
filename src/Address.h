@@ -1,5 +1,5 @@
 #ifndef __ADDRESS_H__
-#define __ADDRESS_H__ 1
+#define __ADDRESS_H__
 
 #include "HardwareCfg.h"
 #include <cstdint>

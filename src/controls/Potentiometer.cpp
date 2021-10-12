@@ -1,8 +1,4 @@
-#include "CONTROLS_Potentiometer.h"
-
-#include "Control.h"
-#include "HardwareCfg.h"
-#include "Address.h"
+#include "Potentiometer.h"
 
 #include <Wire.h>
 #include <cstdint>

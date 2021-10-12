@@ -1,14 +1,14 @@
 #ifndef __INPUT_SOCKET_H___
 #define __INPUT_SOCKET_H___ 1
 
-#include "Address.h"
-#include "CONTROLS_Switch.h"
+#include "../Address.h"
+#include "Switch.h"
 
 //#include "PatchCable.h"
 
 #include <cstdint>
 #include <Audio.h>
-#include <list>
+//#include <list>
 #include <functional>
 
 // class OutputSocket;
@@ -31,7 +31,7 @@ class InputSocket{
 		//std::reference_wrapper<AudioStream> linkedStream[POLYPHONY];
 		//...
 		uint_fast8_t index;
-		char* name;
+		const char* name;
 		
 		
 	public:

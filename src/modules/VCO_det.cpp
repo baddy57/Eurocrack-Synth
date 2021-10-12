@@ -1,8 +1,5 @@
 #include "VCO_det.h"
 
-#include "Module.h"
-#include "Address.h"
-
 #include "../controls/Potentiometer.h"
 #include "../controls/Switch.h"
 #include "../controls/Button.h"

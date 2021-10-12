@@ -1,8 +1,4 @@
-#include "CONTROLS_Switch.h"
-
-#include "Control.h"
-#include "HardwareCfg.h"
-#include "Address.h"
+#include "Switch.h"
 
 #include <Wire.h>
 #include <cstdint>

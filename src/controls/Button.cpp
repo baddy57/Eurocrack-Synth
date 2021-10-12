@@ -1,8 +1,4 @@
-#include "CONTROLS_Button.h"
-
-#include "Control.h"
-#include "HardwareCfg.h"
-#include "Address.h"
+#include "Button.h"
 
 #include <cstdint>
 #include <Wire.h>
