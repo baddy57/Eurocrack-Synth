@@ -58,13 +58,15 @@ Maker :: createModules (std::vector<Module*>& vm) {
 	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
 		//vm.push_back(factory(Address(i)));
 		Address slotAddress(i);
+		//ModuleId& moduleId = getModuleID(slotAddress);
 		uint_fast8_t moduleID = getModuleID(slotAddress);
 		uint_fast8_t type = 0;
 		for (int j = 0; j < 8; ++j)
 			bitWrite(type, j, bitRead(moduleID, j));
 
 		bool verbose = true;
-
+		//switch(moduleId.decimal){
+		//switch(getModuleID(slotAddress).decimal){
 		switch (type) {
 		case 0: {
 			//	tft.println("empty" );
