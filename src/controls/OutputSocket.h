@@ -48,10 +48,10 @@ class OutputSocket {
 						uint_fast8_t,
 						const char* = "poly out");
 		uint_fast8_t toInt(){return address->toInt();}; ///////////////2021.01.14
-		uint_fast8_t voices;
+		uint_fast8_t voicesCount;
 		void sendSignal() const;
 		void resetSignal() const;
-		static std::list<OutputSocket*> withJack;
+		static std::list<OutputSocket*> outputsWithJack;
 		void jackConnected();
 		void jackDisconnected();
 		void addAttachedInput(InputSocket*);

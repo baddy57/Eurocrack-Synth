@@ -55,7 +55,7 @@ class InputSocket{
 						const char* = "poly in"	);
 		uint_fast8_t toInt(){return address->toInt();}; ///////////////2021.01.14
 		bool isReceiving() const;
-		static std::list<InputSocket*> withJack;
+		static std::list<InputSocket*> inputsWithJack;
 		void jackConnected();
 		void jackDisconnected();
 		void setAttachedCable(PatchCable* c)	{attachedCable = c;};
@@ -66,7 +66,7 @@ class InputSocket{
 		// uint_fast8_t as_input_port;
 		AudioConnection* p2m_link;
 		AudioMixer4 p2m_mixer; 
-		uint_fast8_t voices;
+		uint_fast8_t voicesCount;
 		bool isReady()							{return !jackDetector.b_read();};
 		bool jackDetectorChanged()				{return jackDetector.wasUpdated();};
 		

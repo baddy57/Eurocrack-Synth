@@ -95,9 +95,9 @@ void loop() {
 	for (auto i = activeModules.begin(),
 		end = activeModules.end();
 		i < end; ++i) {
-		Module::updateConnections();
 		(*i)->updateValues();
 	}
+	Module::updateConnections();
 }
 
 

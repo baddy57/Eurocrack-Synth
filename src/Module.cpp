@@ -18,24 +18,25 @@ Module :: Module(const Address& address) : moduleAddress(address), verbose(false
 
 void
 Module :: updateConnections(){
-	//using std::vector;
 	
 	for(auto i = inputSockets.begin(), 
 		end = inputSockets.end(); 
 		i != end; ++i){
 		
-		if ((*i)->isReady() && (*i)->jackDetectorChanged())
+		if ((*i)->isReady() && (*i)->jackDetectorChanged())//jack has just been plugged
 			(*i)->jackConnected();
-		if (!(*i)->isReady() && (*i)->jackDetectorChanged())
+		else
+		if (!(*i)->isReady() && (*i)->jackDetectorChanged())//jack has just been unplugged
 			(*i)->jackDisconnected();
 	}
 
 	for(auto o = outputSockets.begin(),
 		end = outputSockets.end();
 		o != end; ++o){
-		if ((*o)->isReady() && (*o)->jackDetectorChanged())
+		if ((*o)->isReady() && (*o)->jackDetectorChanged())//jack has just been plugged
 			(*o)->jackConnected();
-		if (!(*o)->isReady() && (*o)->jackDetectorChanged())
+		else
+		if (!(*o)->isReady() && (*o)->jackDetectorChanged())//jack has just been unplugged
 			(*o)->jackDisconnected();
 	}
 	return;

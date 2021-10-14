@@ -8,7 +8,8 @@
 #include <Audio.h>
 extern ILI9341_t3 tft;
 
-std::list<OutputSocket*> OutputSocket :: withJack = {};
+//definition of static member
+std::list<OutputSocket*> OutputSocket :: outputsWithJack = {};
 
 //ctor mono
 OutputSocket :: OutputSocket
@@ -101,7 +102,7 @@ void
 OutputSocket :: jackConnected () {
 	tft.print("     ++OUTPUT: ");
 	tft.println(name);
-	withJack.push_back(this);
+	outputsWithJack.push_back(this);
 	PatchCable :: updateCables();
 	return;
 }
@@ -113,7 +114,7 @@ void
 OutputSocket :: jackDisconnected () {
 	tft.print("        --OUTPUT: ");
 	tft.println(name);
-	withJack.remove(this);//works?
+	outputsWithJack.remove(this);//works?///////////////////////////////////////////////////////////////
 	
 	
 	for (auto i=attachedInputs.begin(),
@@ -121,7 +122,12 @@ OutputSocket :: jackDisconnected () {
 				i!=end; ++i)
 	{
 		(*i)->removeAttachedCable();//202009050026
-		InputSocket::withJack.push_back(*i);
+		//if there was a connection to an input, 
+		//and the cable was removed on the output end, 
+		//then the jack is still plugged into the inputsocket on the other end
+		//so i have to put it back in the list of available inputs
+		//because it was removed when patchcable was built
+		InputSocket::inputsWithJack.push_back(*i); 
 		// tft.println("removed connection to input");
 	}
 	attachedInputs.clear();

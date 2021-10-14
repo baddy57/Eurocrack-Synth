@@ -11,15 +11,17 @@
 #include "HardwareCfg.h"
 extern ILI9341_t3 tft;
 
+//definition of static member
 std::list<PatchCable*> PatchCable :: activeConnections = {}; 
+
 enum connection_type_enum {M2M, M2P, P2M, P2P};
 
 
 //generic constructor
 #ifndef POLYPHONIC
 	PatchCable :: PatchCable (OutputSocket* out, InputSocket* in){
-		// tft.println("PatchCable :: PatchCable");
-		if 		(out->voices==1 && in->voices==1)
+		//begin handling underlying connections
+		if 		(out->voicesCount==1 && in->voicesCount==1)
 		{
 			connectionType = M2M;
 			//in->p2m_off();
@@ -29,7 +31,7 @@ enum connection_type_enum {M2M, M2P, P2M, P2P};
 											0);//getIndex()	);
 		
 		}
-		else if	(out->voices==1 /* && in.voices==POLYPHONY*/)
+		else if	(out->voicesCount==1 && in->voicesCount>1)
 		{
 			connectionType = M2P;
 			for(uint_fast8_t i=0; i<POLYPHONY; ++i)
@@ -38,9 +40,8 @@ enum connection_type_enum {M2M, M2P, P2M, P2P};
 											in->getLinkedStream(), 
 											i);
 		}
-		else if	(/*out.voices==POLYPHONY &&*/ in->voices==1)
+		else if	(out->voicesCount>1 && in->voicesCount==1)
 		{
-			// tft.println("PatchCable :: PatchCable(p2m)");
 			connectionType = P2M;
 			in->p2m_on();
 			for(uint_fast8_t i=0; i<POLYPHONY; ++i)
@@ -49,9 +50,8 @@ enum connection_type_enum {M2M, M2P, P2M, P2P};
 											in->p2m_mixer, 
 											i);
 		}
-		else /*if(out.voices==POLYPHONY && in.voices==POLYPHONY)*/
+		else /*if(out->voicesCount>1 && in->voicesCount>1)*/
 		{
-			// tft.println("PatchCable :: PatchCable(p2p)");
 			connectionType = P2P;
 			for(uint_fast8_t i=0; i<POLYPHONY; ++i)
 				ac[i]=new AudioConnection(	out->getLinkedStream(i), 
@@ -59,11 +59,11 @@ enum connection_type_enum {M2M, M2P, P2M, P2P};
 											in->getLinkedStream(i), 
 											in->getIndex());
 		}
-		
-		// tft.println("PatchCable :: linkSockets");
+		//end
+
 		_out = out;
 		_in = in;
-		in->setAttachedCable(this);
+		in->setAttachedCable(this);//setAttachedOutput //no cross dep
 		out->addAttachedInput(in);
 		
 		tft.print(out->getName());
@@ -187,17 +187,17 @@ PatchCable :: ~PatchCable(){
 
 void
 PatchCable :: updateCables(){
-	for(auto out = OutputSocket::withJack.begin(),
-		end = OutputSocket::withJack.end();
+	for(auto out = OutputSocket::outputsWithJack.begin(),
+		end = OutputSocket::outputsWithJack.end();
 		out != end; ++out){
 			
-		for(auto in = InputSocket::withJack.begin(),
-			end2 = InputSocket::withJack.end();
+		for(auto in = InputSocket::inputsWithJack.begin(),
+			end2 = InputSocket::inputsWithJack.end();
 			in != end2;){
 			
 			if (checkConnection (*out, *in)){
 				activeConnections.push_front(new PatchCable (*out, *in));
-				InputSocket::withJack.erase(in++); ////OK 202009061218
+				InputSocket::inputsWithJack.erase(in++); ////OK 202009061218//elements removed, which are destroyed.
 			 }
 			 else ++in;
 		}

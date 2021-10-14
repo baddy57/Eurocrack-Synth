@@ -21,7 +21,7 @@ class PatchCable {
 		OutputSocket* _out;
 		AudioConnection* ac[POLYPHONY];
 		uint_fast8_t connectionType;
-		void linkSockets(OutputSocket*, InputSocket*);
+		void linkSockets(OutputSocket*, InputSocket*);//constructor?
 	public:
 		//ctor
 		#ifndef POLYPHONIC
@@ -44,7 +44,7 @@ class PatchCable {
 		OutputSocket* getOutputSocket() const {return _out;};
 		
 		static std::list <PatchCable*> activeConnections;
-		static void updateCables();
+		static void updateCables();//search for cables to add
 		static bool checkConnection (const OutputSocket*, const InputSocket*);
 		
 		bool operator==(const PatchCable& other) const {return this->_in==other.getInputSocket()&&this->_out==other.getOutputSocket();};

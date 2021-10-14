@@ -10,7 +10,7 @@
 #include "HardwareCfg.h"
 #include "controls/IdMux.h"
 
-//#include "modules/EmptyModule.h"
+#include "modules/EmptyModule.h"
 #include "modules/AudioOut.h"
 #include "modules/AudioIn.h"
 #include "modules/VCA.h"

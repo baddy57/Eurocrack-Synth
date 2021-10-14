@@ -112,6 +112,9 @@
     <ClInclude Include="src\modules\VCO_det.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\controls\Socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\samples\D_samples.cpp">

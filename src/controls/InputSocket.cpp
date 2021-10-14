@@ -8,7 +8,7 @@ extern ILI9341_t3 tft;
 
 #include "../PatchCable.h"
 
-std::list<InputSocket*> InputSocket :: withJack = {};
+std::list<InputSocket*> InputSocket :: inputsWithJack = {};
 
 
 //ctor MONO ONLY
@@ -82,7 +82,7 @@ void
 InputSocket :: jackConnected () {
 	tft.print("     ++INPUT: ");
 	tft.println(name);
-	withJack.push_back(this);
+	inputsWithJack.push_back(this);
 	PatchCable :: updateCables();
 	return;
 }
@@ -91,7 +91,7 @@ void
 InputSocket :: jackDisconnected () {
 	tft.print("        --INPUT: ");
 	tft.println(name);
-	withJack.remove(this);
+	inputsWithJack.remove(this); ///CALLS INPUTSOCKET DESTRUCTOR!!!!!!!!
 	delete attachedCable; 
 	return;
 }
