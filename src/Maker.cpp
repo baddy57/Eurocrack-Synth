@@ -50,159 +50,121 @@ extern ILI9341_t3 tft;
 //array of pointers to foos(constructors)?
 	//case VCO return new constructors[VCO]
 //no switch case?
-	//return new constructors[type]
-uint_fast8_t connected_modules =0;
+	//return new constructors[moduleType]
+//uint_fast8_t connected_modules =0;
 
 void
 Maker :: createModules (std::vector<Module*>& vm) {	
+	bool verbose = true;
 	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
-		//vm.push_back(factory(Address(i)));
 		Address slotAddress(i);
-		//ModuleId& moduleId = getModuleID(slotAddress);
-		uint_fast8_t moduleID = getModuleID(slotAddress);
-		uint_fast8_t type = 0;
-		for (int j = 0; j < 8; ++j)
-			bitWrite(type, j, bitRead(moduleID, j));
-
-		bool verbose = true;
-		//switch(moduleId.decimal){
-		//switch(getModuleID(slotAddress).decimal){
-		switch (type) {
+		uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
+		switch (moduleType) {
 		case 0: {
-			//	tft.println("empty" );
-			//	tft.println("EMPTY" );
-			//vm.push_back( new EmptyModule(slotAddress));
 			break;
 		}
 
 		case 1: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  AUDIO_OUT");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
 			vm.push_back(new AudioOut(slotAddress));
 			break;
 		}
 		case 2: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  AUDIO_IN");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
 			vm.push_back(new AudioIn(slotAddress));
 			break;
 		}
 		case 3: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  VCF");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
 			vm.push_back(new VCF(slotAddress));
 			break;
 		}
 		case 4: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  VCO_det");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
+			//++connected_modules;
 			vm.push_back(new VCO_det(slotAddress));
 			break;
 		}
 		case 5: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  MIDI MONO");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
+			//++connected_modules;
 			vm.push_back(new MidiMono(slotAddress));
 			break;
 		}
 		case 6: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  ADSR");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
+			//++connected_modules;
 			vm.push_back(new ADSR(slotAddress));
 			break;
 		}
 		case 9: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  MIXER8");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
+			//++connected_modules;
 			vm.push_back(new Mixer8(slotAddress));
 			break;
 		}
 		case 10: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  VCA");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
+			//++connected_modules;
 			vm.push_back(new VCA(slotAddress));
 			break;
 		}
 		case 11: {
 			if (verbose) {
-				tft.print(type);
+				tft.print(moduleType);
 				tft.print("  DRUMZ");
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			++connected_modules;
+			//++connected_modules;
 			vm.push_back(new DrumMachine(slotAddress));
 			break;
 		}
 		default: {
-			// tft.print(type);
-			// tft.print("  unknown" );
-			// tft.print("  @  " );
-			// tft.println(slotAddress.toInt());
-			//vm.push_back(new EmptyModule(slotAddress));
 			break;
 		}
 		};
 
 	}
-	tft.print("total modules connected: ");
-	tft.println(connected_modules);
 }
 
-uint_fast8_t
-Maker :: getModuleID(const Address& moduleAddress) {
-	IdMux idMux(moduleAddress);
-	uint_fast8_t res(idMux.read());
-	// if(res!=0){
-		// tft.print(" - id ");
-		// tft.print(res);
-	// }
-	return res;
-}
-
-//factory method
-Module*
-Maker :: factory (const Address& slotAddress) {
-//	tft.println("Maker :: factory");
-	
-}

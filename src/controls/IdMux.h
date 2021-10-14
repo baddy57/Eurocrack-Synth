@@ -5,22 +5,13 @@
 #include <cstdint>
 #include <Wire.h>
 
-struct ModuleId{
-	uint_fast8_t decimal;
-	char* binaryString;
-	bool binary[8];
-	ModuleId(uint_fast8_t);
-	ModuleId(bool*);
-	ModuleId(char*);
-};
 
 class IdMux {
 	private:
-		IdMuxAddress address;
+		uint_fast8_t moduleId;
 	public:
-		ModuleId moduleId;
 		IdMux(const Address&);
-		uint_fast8_t read()const;
+		inline uint_fast8_t getModuleId()const { return moduleId; }
 };
 
 #endif

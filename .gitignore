@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ADDED BY ME
+__vm/
