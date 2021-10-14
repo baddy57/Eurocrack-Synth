@@ -8,9 +8,8 @@ class EmptyModule : public Module {
 	private:
 	
 	public:
-		EmptyModule(const Address& a) : Module(a) {};
+		//EmptyModule(const Address& a) : Module(a) {};
 		void updateValues()override{return;};
-		void updateConnections()override{return;};
 };
 
 #endif

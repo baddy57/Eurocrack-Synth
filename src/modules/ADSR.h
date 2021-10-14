@@ -1,5 +1,5 @@
 #ifndef __MODULES_ADSR_H__
-#define __MODULES_ADSR_H__ 1
+#define __MODULES_ADSR_H__
 
 #include "../Module.h"
 #include "../Address.h"

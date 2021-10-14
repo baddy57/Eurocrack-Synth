@@ -28,8 +28,8 @@ FX_Multi :: FX_Multi (const Address& a)
 	stream1()
 {
 	
-	outputSocket.push_back(new OutputSocket(a, id___, dectid____, @@stream@@, ___, "name___"));
-	inputSocket.push_back(new InputSocket(a, id___, dectid____, @@stream@@, ___, "name___"));
+	outputSockets.push_back(new OutputSocket(a, id___, dectid____, @@stream@@, ___, "name___"));
+	inputSockets.push_back(new InputSocket(a, id___, dectid____, @@stream@@, ___, "name___"));
 	
 	internalConns.push_back(new AudioConnection(stream0,0, stream1,0));
 }

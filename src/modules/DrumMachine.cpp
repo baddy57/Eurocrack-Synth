@@ -54,9 +54,9 @@ DrumMachine :: DrumMachine (const Address& a)
 	voices.push_back(new Voice(a, _B6));
 	voices.push_back(new Voice(a, _B7));
 	
-	outputSocket.push_back(new OutputSocket(a, OUT_L, OUT_L_D, *mxr[6], 0, "drum left"));
-	outputSocket.push_back(new OutputSocket(a, OUT_R, OUT_R_D, *mxr[7], 0, "drum right"));
-	outputSocket.push_back(new OutputSocket(a, OUT_M, OUT_M_D, *mxr[8], 0, "drum mono"));
+	outputSockets.push_back(new OutputSocket(a, OUT_L, OUT_L_D, *mxr[6], 0, "drum left"));
+	outputSockets.push_back(new OutputSocket(a, OUT_R, OUT_R_D, *mxr[7], 0, "drum right"));
+	outputSockets.push_back(new OutputSocket(a, OUT_M, OUT_M_D, *mxr[8], 0, "drum mono"));
 	
 	// to internal mixer4
 	for(uint_fast8_t i=0; i<4; ++i)

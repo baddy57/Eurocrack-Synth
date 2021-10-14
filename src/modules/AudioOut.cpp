@@ -31,10 +31,10 @@ AudioOut :: AudioOut(const Address& a) :
 	_audioCtrl.volume(0.2);
 	// _audioCtrl.adcHighPassFilterDisable(); //http://prajtm.scripts.mit.edu/projects/portfolio/portable-synth-v1-prototype/
 
-	inputSocket.push_back(new InputSocket (a, ANALOG_OUT_L, ANALOG_OUT_L_D, _analogOut, 0, "ANALOG_OUT_L"));
-	inputSocket.push_back(new InputSocket (a, ANALOG_OUT_R, ANALOG_OUT_R_D, _analogOut, 1, "ANALOG_OUT_R"));
-	inputSocket.push_back(new InputSocket (a, USB_OUT_L, USB_OUT_L_D, _usbOut, 0, "USB_OUT_L"));
-	inputSocket.push_back(new InputSocket (a, USB_OUT_R, USB_OUT_R_D, _usbOut, 1, "USB_OUT_R"));
+	inputSockets.push_back(new InputSocket (a, ANALOG_OUT_L, ANALOG_OUT_L_D, _analogOut, 0, "ANALOG_OUT_L"));
+	inputSockets.push_back(new InputSocket (a, ANALOG_OUT_R, ANALOG_OUT_R_D, _analogOut, 1, "ANALOG_OUT_R"));
+	inputSockets.push_back(new InputSocket (a, USB_OUT_L, USB_OUT_L_D, _usbOut, 0, "USB_OUT_L"));
+	inputSockets.push_back(new InputSocket (a, USB_OUT_R, USB_OUT_R_D, _usbOut, 1, "USB_OUT_R"));
 	
 }
 //#define DIV1023 1/1023
@@ -45,9 +45,3 @@ AudioOut :: updateValues() {
 	}
 	return;
 }
-
-// void
-// AudioOut :: updateConnections() {
-	// tft.println("AudioOut :: updateConnections()");
-	// Module :: updateConnections();
-// }

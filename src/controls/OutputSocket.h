@@ -1,5 +1,5 @@
 #ifndef __OUTPUT_SOCKET_H___
-#define __OUTPUT_SOCKET_H___ 1
+#define __OUTPUT_SOCKET_H___
 
 #include "../Address.h"
 #include "InputSocket.h"

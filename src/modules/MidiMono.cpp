@@ -53,9 +53,9 @@ MidiMono :: MidiMono (const Address& a)
 	// _cv   =	new AudioSynthWaveformDc();
 	// _vel  = new AudioSynthWaveformDc();
 	
-	outputSocket.push_back(new OutputSocket(a, GATE, GATE_D, _gate, 0, "midi gate"));
-	outputSocket.push_back(new OutputSocket(a, CV, CV_D, _cv, 0, "midi cv"));
-	outputSocket.push_back(new OutputSocket(a, VEL, VEL_D, _vel, 0, "midi vel"));
+	outputSockets.push_back(new OutputSocket(a, GATE, GATE_D, _gate, 0, "midi gate"));
+	outputSockets.push_back(new OutputSocket(a, CV, CV_D, _cv, 0, "midi cv"));
+	outputSockets.push_back(new OutputSocket(a, VEL, VEL_D, _vel, 0, "midi vel"));
 	
 //	MIDI_CREATE_DEFAULT_INSTANCE();
 	

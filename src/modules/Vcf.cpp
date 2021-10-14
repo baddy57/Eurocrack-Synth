@@ -25,12 +25,12 @@ VCF :: VCF (const Address& a)
 {
 	
 	//_filter = new AudioFilterStateVariable();
-	inputSocket.push_back(new InputSocket(a, SIG_IN, SIG_IN_D, _filter, 0, "VCF_IN"));
-	inputSocket.push_back(new InputSocket(a, FREQ_CV, FREQ_CV_D, _filter, 1, "VCF_CV"));
+	inputSockets.push_back(new InputSocket(a, SIG_IN, SIG_IN_D, _filter, 0, "VCF_IN"));
+	inputSockets.push_back(new InputSocket(a, FREQ_CV, FREQ_CV_D, _filter, 1, "VCF_CV"));
 	
-	outputSocket.push_back(new OutputSocket(a, LPF, LPF_D, _filter, 0, "LPF"));
-	outputSocket.push_back(new OutputSocket(a, BPF, BPF_D, _filter, 1, "BPF"));
-	outputSocket.push_back(new OutputSocket(a, HPF, HPF_D, _filter, 2, "HPF"));
+	outputSockets.push_back(new OutputSocket(a, LPF, LPF_D, _filter, 0, "LPF"));
+	outputSockets.push_back(new OutputSocket(a, BPF, BPF_D, _filter, 1, "BPF"));
+	outputSockets.push_back(new OutputSocket(a, HPF, HPF_D, _filter, 2, "HPF"));
 }
 
 void

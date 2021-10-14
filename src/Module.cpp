@@ -1,27 +1,27 @@
 #include "Module.h"
 
 #include <Audio.h>
-//#include <vector>
 #include <cstdint>
 
 #include "HardwareCfg.h"
-extern ILI9341_t3 tft;
 #include "controls/InputSocket.h"
 #include "controls/OutputSocket.h"
-#include "Control.h"
-#include "PatchCable.h"
+//#include "Control.h"
+//#include "PatchCable.h"
+
+//definition of static members
+std::vector<InputSocket*> Module::inputSockets;
+std::vector<OutputSocket*> Module::outputSockets;
 
 //ctor
-Module :: Module(const Address& address) : moduleAddress(address), verbose(false){
-	
-}
+Module :: Module(const Address& address) : moduleAddress(address), verbose(false){}
 
 void
 Module :: updateConnections(){
 	//using std::vector;
 	
-	for(auto i = inputSocket.begin(), 
-		end = inputSocket.end(); 
+	for(auto i = inputSockets.begin(), 
+		end = inputSockets.end(); 
 		i != end; ++i){
 		
 		if ((*i)->isReady() && (*i)->jackDetectorChanged())
@@ -30,8 +30,8 @@ Module :: updateConnections(){
 			(*i)->jackDisconnected();
 	}
 
-	for(auto o = outputSocket.begin(),
-		end = outputSocket.end();
+	for(auto o = outputSockets.begin(),
+		end = outputSockets.end();
 		o != end; ++o){
 		if ((*o)->isReady() && (*o)->jackDetectorChanged())
 			(*o)->jackConnected();

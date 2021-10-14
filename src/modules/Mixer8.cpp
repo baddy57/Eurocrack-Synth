@@ -39,18 +39,18 @@ Mixer8 :: Mixer8 (const Address& a)
 	// _stereo_out_l= new AudioAmplifier();
 	// _stereo_out_r= new AudioAmplifier();
 	
-	outputSocket.push_back(new OutputSocket(a, OUT_MONO, OUT_MONO_D, _mono_out, 0, "MIXR_OUT_MONO"));
-	outputSocket.push_back(new OutputSocket(a, OUT_STEREO_L, OUT_STEREO_L_D, _stereo_out_l, 0,"MIXR_OUT_L"));
-	outputSocket.push_back(new OutputSocket(a, OUT_STEREO_R, OUT_STEREO_R_D, _stereo_out_r, 0,"MIXR_OUT_R"));
+	outputSockets.push_back(new OutputSocket(a, OUT_MONO, OUT_MONO_D, _mono_out, 0, "MIXR_OUT_MONO"));
+	outputSockets.push_back(new OutputSocket(a, OUT_STEREO_L, OUT_STEREO_L_D, _stereo_out_l, 0,"MIXR_OUT_L"));
+	outputSockets.push_back(new OutputSocket(a, OUT_STEREO_R, OUT_STEREO_R_D, _stereo_out_r, 0,"MIXR_OUT_R"));
 	
-	inputSocket.push_back(new InputSocket(a, CH0, CH0_D, _channels0_3, 0, "CH0"));
-	inputSocket.push_back(new InputSocket(a, CH1, CH1_D, _channels0_3, 1, "CH1"));
-	inputSocket.push_back(new InputSocket(a, CH2, CH2_D, _channels0_3, 2, "CH2"));
-	inputSocket.push_back(new InputSocket(a, CH3, CH3_D, _channels0_3, 3, "CH3"));
-	inputSocket.push_back(new InputSocket(a, CH4, CH4_D, _channels4_7, 0, "CH4"));
-	inputSocket.push_back(new InputSocket(a, CH5, CH5_D, _channels4_7, 1, "CH5"));
-	inputSocket.push_back(new InputSocket(a, CH6, CH6_D, _channels4_7, 2, "CH6"));
-	inputSocket.push_back(new InputSocket(a, CH7, CH7_D, _channels4_7, 3, "CH7"));
+	inputSockets.push_back(new InputSocket(a, CH0, CH0_D, _channels0_3, 0, "CH0"));
+	inputSockets.push_back(new InputSocket(a, CH1, CH1_D, _channels0_3, 1, "CH1"));
+	inputSockets.push_back(new InputSocket(a, CH2, CH2_D, _channels0_3, 2, "CH2"));
+	inputSockets.push_back(new InputSocket(a, CH3, CH3_D, _channels0_3, 3, "CH3"));
+	inputSockets.push_back(new InputSocket(a, CH4, CH4_D, _channels4_7, 0, "CH4"));
+	inputSockets.push_back(new InputSocket(a, CH5, CH5_D, _channels4_7, 1, "CH5"));
+	inputSockets.push_back(new InputSocket(a, CH6, CH6_D, _channels4_7, 2, "CH6"));
+	inputSockets.push_back(new InputSocket(a, CH7, CH7_D, _channels4_7, 3, "CH7"));
 	
 	internalConns.push_back(new AudioConnection(_channels0_3, 0, _mono_out, 0));
 	internalConns.push_back(new AudioConnection(_channels4_7, 0, _mono_out, 1));

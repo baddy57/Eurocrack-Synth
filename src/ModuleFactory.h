@@ -1,11 +1,16 @@
-#include "Maker.h"
+#ifndef __MAKER_H__
+#define __MAKER_H__
 
-#include "HardwareCfg.h"
-#include "Module.h"
+//#include <vector>
+#include <cstdint>
+#include <vector>
+
 #include "Address.h"
+#include "Module.h"
+#include "HardwareCfg.h"
 #include "controls/IdMux.h"
 
-#include "modules/EmptyModule.h"
+//#include "modules/EmptyModule.h"
 #include "modules/AudioOut.h"
 #include "modules/AudioIn.h"
 #include "modules/VCA.h"
@@ -16,45 +21,38 @@
 #include "modules/Vcf.h"
 #include "modules/ADSR.h"
 
-#include <cstdint>
-#include <vector>
 
 extern const uint_fast8_t MAX_MODULES;
 extern ILI9341_t3 tft;
 
-/* namespace{
-	enum moduleType {
-		zero, 	//0 = 0000 0000
-		AUDIO_OUT,		//1 = 0000 0001
-		AUDIO_IN,		//2 = 0000 0010
-		MIDI_MODULE,	//3 = 0000 0011
-		VCO_ID = 4,			//4 = 0000 0100
-		LFO,
-		FILTER,
-		ADSR,
-		VCA,
-		MIXER8,  //9
-		DISTORTION,
-		REVERB,
-		DELAY,
-		LOOPER,
-		NOISE,
-		FLANGER,
-		AUTOTUNE,
-		DRUMS,
-		INSTRUMENTS,
-		EMPTY_MODULE = 255
-	};
-}; */
+namespace module {
+	namespace types {
+		enum moduleTypeList {
+			zero, 	//0 = 0000 0000
+			AUDIO_OUT,		//1 = 0000 0001
+			AUDIO_IN,		//2 = 0000 0010
+			MIDI_MODULE,	//3 = 0000 0011
+			VCO_ID = 4,			//4 = 0000 0100
+			LFO,
+			FILTER,
+			ADSR,
+			VCA,
+			MIXER8,  //9
+			DISTORTION,
+			REVERB,
+			DELAY,
+			LOOPER,
+			NOISE,
+			FLANGER,
+			AUTOTUNE,
+			DRUMS,
+			INSTRUMENTS,
+			EMPTY_MODULE = 255
+		};
+	}
 
-//array of pointers to foos(constructors)?
-	//case VCO return new constructors[VCO]
-//no switch case?
-	//return new constructors[moduleType]
-//uint_fast8_t connected_modules =0;
 
-void
-Maker :: createModules (std::vector<Module*>& vm) {	
+void factory(std::vector<Module*>& activeModules) {
 	bool verbose = true;
 	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
 		Address slotAddress(i);
@@ -71,7 +69,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			vm.push_back(new AudioOut(slotAddress));
+			activeModules.push_back(new AudioOut(slotAddress));
 			break;
 		}
 		case 2: {
@@ -81,7 +79,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			vm.push_back(new AudioIn(slotAddress));
+			activeModules.push_back(new AudioIn(slotAddress));
 			break;
 		}
 		case 3: {
@@ -91,7 +89,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			vm.push_back(new VCF(slotAddress));
+			activeModules.push_back(new VCF(slotAddress));
 			break;
 		}
 		case 4: {
@@ -101,8 +99,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			//++connected_modules;
-			vm.push_back(new VCO_det(slotAddress));
+			activeModules.push_back(new VCO_det(slotAddress));
 			break;
 		}
 		case 5: {
@@ -112,8 +109,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			//++connected_modules;
-			vm.push_back(new MidiMono(slotAddress));
+			activeModules.push_back(new MidiMono(slotAddress));
 			break;
 		}
 		case 6: {
@@ -123,8 +119,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			//++connected_modules;
-			vm.push_back(new ADSR(slotAddress));
+			activeModules.push_back(new ADSR(slotAddress));
 			break;
 		}
 		case 9: {
@@ -134,8 +129,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			//++connected_modules;
-			vm.push_back(new Mixer8(slotAddress));
+			activeModules.push_back(new Mixer8(slotAddress));
 			break;
 		}
 		case 10: {
@@ -145,8 +139,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			//++connected_modules;
-			vm.push_back(new VCA(slotAddress));
+			activeModules.push_back(new VCA(slotAddress));
 			break;
 		}
 		case 11: {
@@ -156,8 +149,7 @@ Maker :: createModules (std::vector<Module*>& vm) {
 				tft.print("  @  ");
 				tft.println(slotAddress.toInt());
 			}
-			//++connected_modules;
-			vm.push_back(new DrumMachine(slotAddress));
+			activeModules.push_back(new DrumMachine(slotAddress));
 			break;
 		}
 		default: {
@@ -167,4 +159,13 @@ Maker :: createModules (std::vector<Module*>& vm) {
 
 	}
 }
+}; 
 
+
+
+
+
+
+
+
+#endif

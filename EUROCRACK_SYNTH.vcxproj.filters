@@ -55,7 +55,7 @@
     <ClInclude Include="src\HardwareCfg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Maker.h">
+    <ClInclude Include="src\ModuleFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Module.h">
@@ -118,9 +118,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\GateIn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Maker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Module.cpp">

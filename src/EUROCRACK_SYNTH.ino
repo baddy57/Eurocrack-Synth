@@ -12,7 +12,7 @@
 #include "Address.h"
 #include "PatchCable.h"
 #include "HardwareCfg.h"
-#include "Maker.h"
+#include "ModuleFactory.h"
 
 //constants
 extern const uint_fast8_t HIGH_UPDATE_PRIORITY;
@@ -75,7 +75,7 @@ void setup() {
 	myusb.begin();
 
 
-	Maker::createModules(activeModules);
+	module::factory(activeModules);
 
 
 
@@ -95,7 +95,7 @@ void loop() {
 	for (auto i = activeModules.begin(),
 		end = activeModules.end();
 		i < end; ++i) {
-		(*i)->updateConnections();
+		Module::updateConnections();
 		(*i)->updateValues();
 	}
 }

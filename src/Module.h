@@ -6,7 +6,6 @@
 #include "controls/InputSocket.h"
 #include "controls/OutputSocket.h"
 #include <Audio.h>
-//#include "stl_vector.h"
 #include <vector>
 
 
@@ -15,15 +14,15 @@ class Module{
 				
 	protected:
 		Address moduleAddress;
-		std :: vector <InputSocket*> inputSocket;
-		std :: vector <OutputSocket*> outputSocket;
 		std :: vector <AudioConnection*> internalConns;
 		bool verbose;
 	public:
 		Module(const Address&);
+		static std :: vector <InputSocket*> inputSockets;
+		static std :: vector <OutputSocket*> outputSockets;
 		
-		virtual void updateConnections();
 		virtual void updateValues()=0; 
+		static void updateConnections();
 };
 
 #endif
