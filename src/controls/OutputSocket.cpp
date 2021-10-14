@@ -4,16 +4,12 @@
 #include "../PatchCable.h"
 
 #include <list>
-#include <cstdint>
 #include <Audio.h>
 extern ILI9341_t3 tft;
 
-//definition of static member
-std::list<OutputSocket*> OutputSocket :: outputsWithJack = {};
 
 //ctor mono
-OutputSocket :: OutputSocket
-(
+OutputSocket :: OutputSocket (
 	const Address& slotAddress, 
 	uint_fast8_t id,
 	uint_fast8_t detectorId,
@@ -22,27 +18,17 @@ OutputSocket :: OutputSocket
 	const char* n="mono out"	
 )
 :
-	address(new OutputSocketAddress(slotAddress, id)), 
-	jackDetector(slotAddress, detectorId), 
-	index(i),
-	name(n),
-	voices(1),
-	linkedStream0(as)
+	Socket(slotAddress, detectorId, as, i, n),
+	address(new OutputSocketAddress(slotAddress, id))
 {
 	attachedInputs={};
 }
 
-
-
-
-
 //ctor poly
-OutputSocket :: OutputSocket
-(
+OutputSocket :: OutputSocket (
 	const Address& slotAddress, 
 	uint_fast8_t id,
 	uint_fast8_t detectorId,
-	//std::reference_wrapper<AudioStream>* ass,
 	AudioStream& as0,
 	AudioStream& as1,
 	AudioStream& as2,
@@ -51,15 +37,8 @@ OutputSocket :: OutputSocket
 	const char* n="poly out"	
 )
 :
-	address(new OutputSocketAddress(slotAddress, id)), 
-	jackDetector(slotAddress, detectorId), 
-	index(i),
-	name(n),
-	voices(POLYPHONY),
-	linkedStream0(as0),
-	linkedStream1(as1),
-	linkedStream2(as2),
-	linkedStream3(as3)
+	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n),
+	address(new OutputSocketAddress(slotAddress, id))
 {
 	// for(uint_fast8_t j=0;j<POLYPHONY; ++j)
 		// linkedStream[j]=ass[j], 
@@ -127,7 +106,7 @@ OutputSocket :: jackDisconnected () {
 		//then the jack is still plugged into the inputsocket on the other end
 		//so i have to put it back in the list of available inputs
 		//because it was removed when patchcable was built
-		InputSocket::inputsWithJack.push_back(*i); 
+		inputsWithJack.push_back(*i); 
 		// tft.println("removed connection to input");
 	}
 	attachedInputs.clear();
@@ -135,13 +114,13 @@ OutputSocket :: jackDisconnected () {
 }
 
 void
-OutputSocket :: addAttachedInput (InputSocket* i) {
+OutputSocket :: addAttachedInput (Socket* i) {
 	attachedInputs.push_back(i);
 	return;
 }
 
 void
-OutputSocket :: removeAttachedInput (InputSocket* i) {
+OutputSocket :: removeAttachedInput (Socket* i) {
 	attachedInputs.remove(i); //could cause problems
 	return;
 }

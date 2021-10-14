@@ -8,7 +8,6 @@ extern ILI9341_t3 tft;
 
 #include "../PatchCable.h"
 
-std::list<InputSocket*> InputSocket :: inputsWithJack = {};
 
 
 //ctor MONO ONLY
@@ -20,16 +19,11 @@ InputSocket :: InputSocket
 	AudioStream& as,
 	uint_fast8_t i,
 	const char* n="mono in"
-//	uint_fast8_t v = 1,
 )
 :	//init list
-	address(new ControlAddress(slotAddress, id)), 
-	jackDetector(slotAddress, detectorId),
-	index(i), 
-	attachedCable(NULL),
-	voices(1),
-	name(n),
-	linkedStream0(as)
+	Socket(slotAddress, detectorId, as, i, n),
+	address(new ControlAddress(slotAddress, id)),
+	attachedCable(NULL)
 {	//def
 	p2m_status=false;
 	p2m_on();
@@ -41,31 +35,18 @@ InputSocket :: InputSocket
 	const Address& slotAddress, 
 	uint_fast8_t id,
 	uint_fast8_t detectorId,
-	
-	//std::reference_wrapper<AudioStream>* ass,
 	AudioStream& as0,
 	AudioStream& as1,
 	AudioStream& as2,
 	AudioStream& as3,
 	uint_fast8_t i,
 	const char* n="poly in"
-//	uint_fast8_t v = 1,
 )
 :	//init list
+	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n),
 	address(new ControlAddress(slotAddress, id)), 
-	jackDetector(slotAddress, detectorId),
-	index(i), 
-	attachedCable(NULL),
-	voices(POLYPHONY),
-	name(n),
-	linkedStream0(as0),
-	linkedStream1(as1),
-	linkedStream2(as2),
-	linkedStream3(as3)
-{	//def
-	// for(uint_fast8_t j=0; j<POLYPHONY; ++j)
-		// linkedStream[j] = ass[j];
-	
+	attachedCable(NULL)
+{	
 	p2m_status=false;
 	p2m_on();
 }
