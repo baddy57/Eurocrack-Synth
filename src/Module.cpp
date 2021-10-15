@@ -1,43 +1,44 @@
 #include "Module.h"
 
-#include <Audio.h>
 #include <cstdint>
 
 #include "HardwareCfg.h"
-#include "controls/InputSocket.h"
-#include "controls/OutputSocket.h"
-//#include "Control.h"
-//#include "PatchCable.h"
+#include "PatchCable.h"
 
 //definition of static members
-std::vector<InputSocket*> Module::inputSockets;
-std::vector<OutputSocket*> Module::outputSockets;
+std::vector<std::shared_ptr<InputSocket>> Module::inputSockets;
+std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
 
 //ctor
 Module :: Module(const Address& address) : moduleAddress(address), verbose(false){}
 
 void
 Module :: updateConnections(){
-	
+	//for each input
 	for(auto i = inputSockets.begin(), 
 		end = inputSockets.end(); 
-		i != end; ++i){
-		
-		if ((*i)->isReady() && (*i)->jackDetectorChanged())//jack has just been plugged
-			(*i)->jackConnected();
-		else
-		if (!(*i)->isReady() && (*i)->jackDetectorChanged())//jack has just been unplugged
-			(*i)->jackDisconnected();
-	}
+		i != end; ++i)
+	{
+		//if jack has just been plugged
+		if ((*i)->isReady() && (*i)->jackDetectorChanged())
+			PatchCable::addFromInput(*i);
 
+		//if jack has just been unplugged
+		else if (!(*i)->isReady() && (*i)->jackDetectorChanged())			
+			PatchCable::deleteFromInput(*i);
+	}
+	//for each output
 	for(auto o = outputSockets.begin(),
 		end = outputSockets.end();
-		o != end; ++o){
-		if ((*o)->isReady() && (*o)->jackDetectorChanged())//jack has just been plugged
-			(*o)->jackConnected();
-		else
-		if (!(*o)->isReady() && (*o)->jackDetectorChanged())//jack has just been unplugged
-			(*o)->jackDisconnected();
+		o != end; ++o)
+	{
+		//if jack has just been plugged
+		if ((*o)->isReady() && (*o)->jackDetectorChanged())
+			PatchCable::addFromOutput(*o);
+
+		//if jack has just been unplugged
+		else if (!(*o)->isReady() && (*o)->jackDetectorChanged())
+			PatchCable::deleteFromOutput(*o);
 	}
 	return;
 }

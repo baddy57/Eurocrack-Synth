@@ -17,11 +17,9 @@ OutputSocket :: OutputSocket (
 	uint_fast8_t i,
 	const char* n="mono out"	
 )
-:
-	Socket(slotAddress, detectorId, as, i, n),
-	address(new OutputSocketAddress(slotAddress, id))
+	:	Socket(slotAddress, detectorId, as, i, n)
+	,	address(new OutputSocketAddress(slotAddress, id))
 {
-	attachedInputs={};
 }
 
 //ctor poly
@@ -36,13 +34,9 @@ OutputSocket :: OutputSocket (
 	uint_fast8_t i,
 	const char* n="poly out"	
 )
-:
-	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n),
-	address(new OutputSocketAddress(slotAddress, id))
+	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
+	,	address(new OutputSocketAddress(slotAddress, id))
 {
-	// for(uint_fast8_t j=0;j<POLYPHONY; ++j)
-		// linkedStream[j]=ass[j], 
-	attachedInputs={};
 }
 
 
@@ -77,20 +71,23 @@ OutputSocket :: resetSignal() const {
 	return;
 }
 
+/*
 void
-OutputSocket :: jackConnected () {
+OutputSocket::jackConnected() {}
 	tft.print("     ++OUTPUT: ");
 	tft.println(name);
 	outputsWithJack.push_back(this);
 	PatchCable :: updateCables();
 	return;
 }
+								*/
 
 
 //removes OS from withjack and frees any attached IS
 //PatchCable :: updateCables() will handle everything else (deleting connections etc)
+/*
 void
-OutputSocket :: jackDisconnected () {
+OutputSocket::jackDisconnected() {}
 	tft.print("        --OUTPUT: ");
 	tft.println(name);
 	outputsWithJack.remove(this);//works?///////////////////////////////////////////////////////////////
@@ -112,7 +109,8 @@ OutputSocket :: jackDisconnected () {
 	attachedInputs.clear();
 	return;
 }
-
+*/
+/*
 void
 OutputSocket :: addAttachedInput (Socket* i) {
 	attachedInputs.push_back(i);
@@ -124,3 +122,4 @@ OutputSocket :: removeAttachedInput (Socket* i) {
 	attachedInputs.remove(i); //could cause problems
 	return;
 }
+*/

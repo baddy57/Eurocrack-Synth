@@ -7,6 +7,9 @@
 #include "controls/OutputSocket.h"
 #include <Audio.h>
 #include <vector>
+#include <memory>
+#include <list>
+extern ILI9341_t3 tft;
 
 
 class Module{
@@ -18,9 +21,9 @@ class Module{
 		bool verbose;
 	public:
 		Module(const Address&);
-		static std :: vector <InputSocket*> inputSockets;
-		static std :: vector <OutputSocket*> outputSockets;
-		
+		static std::vector<std::shared_ptr<InputSocket>> inputSockets;
+		static std::vector<std::shared_ptr<OutputSocket>> outputSockets;
+
 		virtual void updateValues()=0; 
 		static void updateConnections();
 };

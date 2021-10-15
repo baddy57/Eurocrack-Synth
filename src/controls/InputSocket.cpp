@@ -1,7 +1,5 @@
 #include "InputSocket.h"
 
-extern ILI9341_t3 tft;
-
 #include <list>
 #include <functional>
 #include <cstdint>
@@ -20,11 +18,10 @@ InputSocket :: InputSocket
 	uint_fast8_t i,
 	const char* n="mono in"
 )
-:	//init list
-	Socket(slotAddress, detectorId, as, i, n),
-	address(new ControlAddress(slotAddress, id)),
-	attachedCable(NULL)
-{	//def
+		//init list
+	:	Socket(slotAddress, detectorId, as, i, n)
+	,	address(new ControlAddress(slotAddress, id))
+{	
 	p2m_status=false;
 	p2m_on();
 }
@@ -42,10 +39,9 @@ InputSocket :: InputSocket
 	uint_fast8_t i,
 	const char* n="poly in"
 )
-:	//init list
-	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n),
-	address(new ControlAddress(slotAddress, id)), 
-	attachedCable(NULL)
+	//init list
+	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
+	,	address(new ControlAddress(slotAddress, id))
 {	
 	p2m_status=false;
 	p2m_on();
@@ -58,25 +54,6 @@ InputSocket :: isReceiving() const {
 	address->setForReading();
 	return !digitalRead(address->getPin());
 }
-
-void
-InputSocket :: jackConnected () {
-	tft.print("     ++INPUT: ");
-	tft.println(name);
-	inputsWithJack.push_back(this);
-	PatchCable :: updateCables();
-	return;
-}
-
-void
-InputSocket :: jackDisconnected () {
-	tft.print("        --INPUT: ");
-	tft.println(name);
-	inputsWithJack.remove(this); ///CALLS INPUTSOCKET DESTRUCTOR!!!!!!!!
-	delete attachedCable; 
-	return;
-}
-
 
 void 
 InputSocket :: p2m_on(){

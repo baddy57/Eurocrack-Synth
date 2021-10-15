@@ -1,53 +1,42 @@
 #ifndef __PATCH_CABLE_H__
 #define __PATCH_CABLE_H__
 
-// #include "CONTROLS_InputSocket_POLY.h"
-// #include "CONTROLS_OutputSocket_POLY.h"
 #include "controls/InputSocket.h"
 #include "controls/OutputSocket.h"
 #include "HardwareCfg.h"
 
 #include <Audio.h>
-//#include <list>
-
-// class OutputSocket;
-// class InputSocket;
-// class OutputSocket_POLY;
-// class InputSocket_POLY;
+#include <list>
+#include <memory>
 
 class PatchCable {
 	private:
-		InputSocket* _in;
-		OutputSocket* _out;
+		std::shared_ptr<InputSocket> _in;
+		std::shared_ptr<OutputSocket> _out;
 		AudioConnection* ac[POLYPHONY];
 		uint_fast8_t connectionType;
-		void linkSockets(OutputSocket*, InputSocket*);//constructor?
+		static std::list<std::shared_ptr<InputSocket>> inputsWithJack;
+		static std::list<std::shared_ptr<OutputSocket>> outputsWithJack;
+		static std::list <PatchCable*> activeConnections;
+		static void searchForCablesToAdd();
 	public:
 		//ctor
-		#ifndef POLYPHONIC
-			PatchCable(OutputSocket*, InputSocket*);
-		#endif
-		#ifdef POLYPHONIC
-			//ctor MONO TO MONO
-			PatchCable(OutputSocket*, InputSocket*);
-			//ctor MONO TO POLY
-			PatchCable(OutputSocket*, InputSocket_POLY*);
-			//ctor POLY TO MONO
-			PatchCable(OutputSocket_POLY*, InputSocket*);
-			//ctor POLY TO POLY
-			PatchCable(OutputSocket_POLY*, InputSocket_POLY*);
-		#endif
+		PatchCable(std::shared_ptr<OutputSocket>, std::shared_ptr<InputSocket>);
+		
 		//dtor
 		~PatchCable();
 		
-		InputSocket* getInputSocket() const {return _in;};
-		OutputSocket* getOutputSocket() const {return _out;};
+		std::shared_ptr<InputSocket> getInputSocket() const {return _in;};
+		std::shared_ptr<OutputSocket> getOutputSocket() const {return _out;};
+
+		static bool checkConnection (const std::shared_ptr<OutputSocket>, const std::shared_ptr<InputSocket>);
 		
-		static std::list <PatchCable*> activeConnections;
-		static void updateCables();//search for cables to add
-		static bool checkConnection (const OutputSocket*, const InputSocket*);
-		
-		bool operator==(const PatchCable& other) const {return this->_in==other.getInputSocket()&&this->_out==other.getOutputSocket();};
+		static void addFromInput(std::shared_ptr<InputSocket>);
+		static void addFromOutput(std::shared_ptr<OutputSocket>);
+		static void deleteFromInput(std::shared_ptr<InputSocket>);
+		static void deleteFromOutput(std::shared_ptr<OutputSocket>);
+
+		bool operator==(std::shared_ptr<PatchCable> other) const {return this->_in==other->getInputSocket()&&this->_out==other->getOutputSocket();};
 };
 
 #endif

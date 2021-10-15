@@ -24,8 +24,8 @@ Reverb :: Reverb (const Address& a)
 		_rev()
 	{
 	
-	outputSockets.push_back(new OutputSocket(a, OUT,99, _rev, 0));
-	inputSockets.push_back(new InputSocket(a, IN,99, _rev, 0));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT,99, _rev, 0));
+	inputSockets.push_back(std::make_shared<InputSocket>(a, IN,99, _rev, 0));
 }
 
 void

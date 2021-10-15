@@ -60,13 +60,13 @@ VCO_det :: VCO_det (const Address& a)
 	// _amp0 = new	AudioAmplifier();
 	// _amp1 = new	AudioAmplifier();
 	
-	outputSockets.push_back(new OutputSocket(a, SIN_OUT, SIN_OUT_D, _sin, 0, "SIN"));
-	outputSockets.push_back(new OutputSocket(a, TRI_OUT, TRI_OUT_D, _tri, 0, "TRI"));
-	outputSockets.push_back(new OutputSocket(a, SAW_OUT, SAW_OUT_D, _saw, 0, "SAW"));
-	outputSockets.push_back(new OutputSocket(a, SQR_OUT, SQR_OUT_D, _sqr, 0, "SQR"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, SIN_OUT, SIN_OUT_D, _sin, 0, "SIN"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, TRI_OUT, TRI_OUT_D, _tri, 0, "TRI"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, SAW_OUT, SAW_OUT_D, _saw, 0, "SAW"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, SQR_OUT, SQR_OUT_D, _sqr, 0, "SQR"));
 	
-	inputSockets.push_back(new InputSocket(a, FREQ_PHASE_CV, FREQ_PHASE_CV_D, _amp0, 0, "FREQ_PHASE_CV"));
-	inputSockets.push_back(new InputSocket(a, SHAPE_CV, SHAPE_CV_D, _amp1, 0, "SHAPE_CV"));
+	inputSockets.push_back(std::make_shared<InputSocket>(a, FREQ_PHASE_CV, FREQ_PHASE_CV_D, _amp0, 0, "FREQ_PHASE_CV"));
+	inputSockets.push_back(std::make_shared<InputSocket>(a, SHAPE_CV, SHAPE_CV_D, _amp1, 0, "SHAPE_CV"));
 	
 	//double waveforms to mixers
 	internalConns.push_back(new AudioConnection(_sin0,0, _sin,0));

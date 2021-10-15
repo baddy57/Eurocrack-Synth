@@ -25,10 +25,10 @@ AudioIn :: AudioIn(const Address& a)
 {
 	//MIC TODO
 	
-	outputSockets.push_back(new OutputSocket(a, LINE_IN_L, LINE_IN_L_D, _lineIn, 0, "LINE_IN_L"));
-	outputSockets.push_back(new OutputSocket(a, LINE_IN_R, LINE_IN_R_D, _lineIn, 1, "LINE_IN_R"));
-	outputSockets.push_back(new OutputSocket(a, USB_IN_L, USB_IN_L_D, _usbIn, 0, "USB_IN_L"));
-	outputSockets.push_back(new OutputSocket(a, USB_IN_R, USB_IN_R_D, _usbIn, 1, "USB_IN_R"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, LINE_IN_L, LINE_IN_L_D, _lineIn, 0, "LINE_IN_L"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, LINE_IN_R, LINE_IN_R_D, _lineIn, 1, "LINE_IN_R"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, USB_IN_L, USB_IN_L_D, _usbIn, 0, "USB_IN_L"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, USB_IN_R, USB_IN_R_D, _usbIn, 1, "USB_IN_R"));
 }		
 
 void AudioIn :: updateValues() {

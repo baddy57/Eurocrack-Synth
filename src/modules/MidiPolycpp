@@ -34,8 +34,8 @@ MidiPoly :: MidiPoly (const Address& a)
 	//	_note1()
 		{
 	
-	outputSockets.push_back(new OutputSocket(a, NOTE_CH1,99, _note1, 0));
-	outputSockets.push_back(new OutputSocket(a, GATE_CH1,99, _gate1, 0));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, NOTE_CH1,99, _note1, 0));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, GATE_CH1,99, _gate1, 0));
 	
 //	MIDI_CREATE_DEFAULT_INSTANCE();
 	

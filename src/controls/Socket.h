@@ -5,6 +5,9 @@
 #include "Switch.h"
 #include <Audio.h>
 #include <list>
+#include <memory>
+#include <cassert>
+
 class Socket {
 protected:
 	Switch jackDetector;
@@ -14,7 +17,7 @@ protected:
 	AudioStream& linkedStream1;
 	AudioStream& linkedStream2;
 	AudioStream& linkedStream3;
-	uint_fast8_t index;
+	uint_fast8_t audioStream_port;
 public:
 	//mono
 	Socket(
@@ -35,25 +38,22 @@ public:
 		const char*);
 
 	uint_fast8_t voicesCount;
-	virtual void jackConnected() =0;
-	virtual void jackDisconnected() =0;
 	inline bool isReady() { return !jackDetector.b_read(); };
 	inline bool jackDetectorChanged() { return jackDetector.wasUpdated(); };
 	inline AudioStream& getLinkedStream(uint_fast8_t i = 0) {
+		assert(i < 4);
 		switch (i) {
 		case 0: return linkedStream0;
 		case 1: return linkedStream1;
 		case 2: return linkedStream2;
 		case 3: return linkedStream3;
-			return linkedStream0;
 		};
+		return linkedStream0;
 	}
 
-	inline uint_fast8_t getIndex()const { return index; };
+	inline uint_fast8_t getIndex()const { return audioStream_port; };
 	inline const char* getName()const { return name; };
-	static std::list<Socket*> inputsWithJack;
-	static std::list<Socket*> outputsWithJack;
-	virtual void removeAttachedCable()=0;
+
 };
 
 #endif // !__SOCKET_H__

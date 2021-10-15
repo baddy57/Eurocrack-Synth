@@ -4,24 +4,15 @@
 #include "Address.h"
 #include <cstdint>
 
-
-
-
 class Control{
 	protected:
 		ControlAddress address;
 		bool _wasUpdated;
 	public:
 		Control() = delete;
-		Control(const Address& a, uint_fast8_t id) : address(/* new ControlAddress( */a, id), _wasUpdated(true){};
-		Control(uint_fast8_t pin) : address(pin), _wasUpdated(true){};
-		
-	//	virtual uint_fast8_t 	i_read(){}; //integer read
-	//	virtual float 	f_read(){}; //float read
-	//	virtual bool 	b_read(){}; //boolean read
-	//	virtual void 	update()=0; //20200822_0702
-		
-		// bool wasUpdated() {update(); return _wasUpdated;};
+		Control(const Address& a, uint_fast8_t id) : address(/* new ControlAddress( */a, id), _wasUpdated(true), uid(address._id){};
+		Control(uint_fast8_t pin) : address(pin),_wasUpdated(true),uid(address._id){};
+		const unsigned int& uid;
 };
 
 #endif

@@ -14,7 +14,6 @@
 #include <cstdint>
 #include <MIDI.h>
 
-extern ILI9341_t3 tft;
 extern USBHost myusb;
 extern MIDIDevice midi1;
 
@@ -53,9 +52,9 @@ MidiMono :: MidiMono (const Address& a)
 	// _cv   =	new AudioSynthWaveformDc();
 	// _vel  = new AudioSynthWaveformDc();
 	
-	outputSockets.push_back(new OutputSocket(a, GATE, GATE_D, _gate, 0, "midi gate"));
-	outputSockets.push_back(new OutputSocket(a, CV, CV_D, _cv, 0, "midi cv"));
-	outputSockets.push_back(new OutputSocket(a, VEL, VEL_D, _vel, 0, "midi vel"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, GATE, GATE_D, _gate, 0, "midi gate"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, CV, CV_D, _cv, 0, "midi cv"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, VEL, VEL_D, _vel, 0, "midi vel"));
 	
 //	MIDI_CREATE_DEFAULT_INSTANCE();
 	

@@ -45,9 +45,11 @@ ADSR :: ADSR (const Address& a)
 	_envelope.delay(0);
 	_envelope.hold(0);
 
-	inputSockets.push_back(new InputSocket(a, GATE, GATE_D, _gate, 0, "ADSR_GATE"));
+	inputSockets.push_back(std::make_shared<InputSocket>(a, GATE, GATE_D, _gate, 0, "ADSR_GATE"));
+	//sharedInputSockets.push_back(std::make_shared<InputSocket>(a, GATE, GATE_D, _gate, 0, "ADSR_GATE"));
 	
-	outputSockets.push_back(new OutputSocket(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT"));
+	//sharedOutputSockets.push_back(std::make_shared<OutputSocket>(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT"));
 	
 	internalConns.push_back(new AudioConnection(_signal, 0, _envelope, 0));
 	_gate.begin();
