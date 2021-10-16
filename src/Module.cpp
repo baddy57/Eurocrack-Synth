@@ -24,9 +24,10 @@ Module :: updateConnections(){
 			PatchCable::addFromInput(*i);
 
 		//if jack has just been unplugged
-		else if (!(*i)->isReady() && (*i)->jackDetectorChanged())			
+		if (!(*i)->isReady() && (*i)->jackDetectorChanged())			
 			PatchCable::deleteFromInput(*i);
 	}
+
 	//for each output
 	for(auto o = outputSockets.begin(),
 		end = outputSockets.end();
@@ -37,7 +38,7 @@ Module :: updateConnections(){
 			PatchCable::addFromOutput(*o);
 
 		//if jack has just been unplugged
-		else if (!(*o)->isReady() && (*o)->jackDetectorChanged())
+		if (!(*o)->isReady() && (*o)->jackDetectorChanged())
 			PatchCable::deleteFromOutput(*o);
 	}
 	return;

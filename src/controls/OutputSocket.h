@@ -25,6 +25,7 @@ public:
 					const char* = "poly out");
 	void sendSignal() const;
 	void resetSignal() const;
+	unsigned int socket_uid;
 };
 
 

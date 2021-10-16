@@ -31,6 +31,7 @@ public:
 	bool p2m_status;
 	AudioConnection* p2m_link;
 	AudioMixer4 p2m_mixer;
+	unsigned int socket_uid;
 };
 
 

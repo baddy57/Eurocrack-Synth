@@ -11,7 +11,6 @@ extern const uint_fast8_t POT_READS;
 
 void
 Potentiometer :: update() {
-//	tft.println("Potentiometer :: update()");
 	address.setForReading();
 	int r_sum =0;
 	uint_fast8_t p = address.getPin();
@@ -19,11 +18,6 @@ Potentiometer :: update() {
 		r_sum +=analogRead(p);
 	int avg = r_sum / POT_READS;
 	if (avg > (value+3)/*POT_DEADZONE*/ || avg < (value-3)/*POT_DEADZONE*/) {
-		// tft.print(avg);
-		// tft.print(" != ");
-		// tft.println(value);
-		//tft.print(" +- ");
-		//tft.println(POT_DEADZONE);
 		_wasUpdated = true;
 		value = avg;
 		return;

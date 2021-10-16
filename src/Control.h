@@ -12,7 +12,7 @@ class Control{
 		Control() = delete;
 		Control(const Address& a, uint_fast8_t id) : address(/* new ControlAddress( */a, id), _wasUpdated(true), uid(address._id){};
 		Control(uint_fast8_t pin) : address(pin),_wasUpdated(true),uid(address._id){};
-		const unsigned int& uid;
+		const unsigned int uid;
 };
 
 #endif

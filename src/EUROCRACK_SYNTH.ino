@@ -87,7 +87,7 @@ void setup() {
 	  // rainbow(5);
 
 
-	tft.print("----------------------------------------");
+	tft.println("----------------------------------------");
 }
 
 void loop() {
@@ -98,6 +98,7 @@ void loop() {
 		(*i)->updateValues();
 	}
 	Module::updateConnections();
+	
 }
 
 

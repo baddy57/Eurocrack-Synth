@@ -21,7 +21,8 @@ InputSocket :: InputSocket
 		//init list
 	:	Socket(slotAddress, detectorId, as, i, n)
 	,	address(new ControlAddress(slotAddress, id))
-{	
+	, socket_uid(address->_id)
+{
 	p2m_status=false;
 	p2m_on();
 }
@@ -42,7 +43,8 @@ InputSocket :: InputSocket
 	//init list
 	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
 	,	address(new ControlAddress(slotAddress, id))
-{	
+	, socket_uid(address->_id)
+{
 	p2m_status=false;
 	p2m_on();
 }

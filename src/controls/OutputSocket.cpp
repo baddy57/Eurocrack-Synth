@@ -19,6 +19,7 @@ OutputSocket :: OutputSocket (
 )
 	:	Socket(slotAddress, detectorId, as, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
+	,   socket_uid(address->_id)
 {
 }
 
@@ -36,6 +37,7 @@ OutputSocket :: OutputSocket (
 )
 	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
+	,   socket_uid(address->_id)
 {
 }
 

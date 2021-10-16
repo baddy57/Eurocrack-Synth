@@ -56,7 +56,6 @@ PatchCable :: PatchCable (std::shared_ptr<OutputSocket> out, std::shared_ptr<Inp
 
 	_out = out;
 	_in = in;
-		
 	tft.print(out->getName());
 	tft.print(" >>> ");
 	tft.print(in->getName());
@@ -121,7 +120,7 @@ PatchCable::addFromOutput(std::shared_ptr<OutputSocket> o) {
 }
 void 
 PatchCable::searchForCablesToAdd() {
-
+	if(!inputsWithJack.empty() && !outputsWithJack.empty())
 	for (auto out = outputsWithJack.begin(),
 		end = outputsWithJack.end();
 		out != end; ++out) {
@@ -132,12 +131,14 @@ PatchCable::searchForCablesToAdd() {
 
 			if (checkConnection(*out, *in)) {
 				activeConnections.push_front(new PatchCable(*out, *in));
-				inputsWithJack.erase(in++); ////OK 202009061218//elements removed, which are destroyed.
+				//inputsWithJack.erase(in++); ////OK 202009061218//elements removed, which are destroyed.
+				//inputsWithJack.remove(*in);//prova
+				++in;
 			}
 			else ++in;
 		}
-
 	}
+	
 }
 
 bool
@@ -156,18 +157,31 @@ PatchCable :: checkConnection (std::shared_ptr<OutputSocket> out, std::shared_pt
 void 
 PatchCable::deleteFromInput(std::shared_ptr<InputSocket> input) {
 	inputsWithJack.remove(input);
+
+	if(!activeConnections.empty())
 	for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ++c) 
-		if 	((*c)->getInputSocket() == input) {
+		if 	((*c)->getInputSocket()->socket_uid == input->socket_uid) {
 			activeConnections.remove(*c);
 			return; //i have to destroy only one cable
 		}
+
 }
 
 void 
 PatchCable::deleteFromOutput(std::shared_ptr<OutputSocket>output) {
 	outputsWithJack.remove(output);
-	for (auto c = activeConnections.begin(), end = activeConnections.end();	c != end; ++c)
-		if ((*c)->getOutputSocket() == output)
-			activeConnections.remove(*c);
+
+	if (!activeConnections.empty())
+		for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ) {
+		if ((*c)->getOutputSocket()->socket_uid == output->socket_uid) {
+			delete (*c);
+			activeConnections.erase(c);
+
+			--end;
+			if (activeConnections.empty()) break;
+		}
+		else ++c;
+	}
+
 	return;
 }
