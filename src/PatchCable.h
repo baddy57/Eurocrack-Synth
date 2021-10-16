@@ -17,7 +17,7 @@ class PatchCable {
 		uint_fast8_t connectionType;
 		static std::list<std::shared_ptr<InputSocket>> inputsWithJack;
 		static std::list<std::shared_ptr<OutputSocket>> outputsWithJack;
-		static std::list <PatchCable*> activeConnections;
+		static std::list <std::unique_ptr<PatchCable>> activeConnections;
 		static void searchForCablesToAdd();
 	public:
 		//ctor

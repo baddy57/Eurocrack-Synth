@@ -3,7 +3,7 @@
 extern ILI9341_t3 tft;
 
 //definition of static member
-std::list<PatchCable*> PatchCable :: activeConnections = {};
+std::list<std::unique_ptr<PatchCable>> PatchCable::activeConnections;
 std::list<std::shared_ptr<OutputSocket>> PatchCable::outputsWithJack;
 std::list<std::shared_ptr<InputSocket>> PatchCable::inputsWithJack;
 
@@ -130,9 +130,7 @@ PatchCable::searchForCablesToAdd() {
 			in != end2;) {
 
 			if (checkConnection(*out, *in)) {
-				activeConnections.push_front(new PatchCable(*out, *in));
-				//inputsWithJack.erase(in++); ////OK 202009061218//elements removed, which are destroyed.
-				//inputsWithJack.remove(*in);//prova
+				activeConnections.push_front(std::make_unique<PatchCable>(*out, *in));
 				++in;
 			}
 			else ++in;
@@ -161,7 +159,8 @@ PatchCable::deleteFromInput(std::shared_ptr<InputSocket> input) {
 	if(!activeConnections.empty())
 	for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ++c) 
 		if 	((*c)->getInputSocket()->socket_uid == input->socket_uid) {
-			activeConnections.remove(*c);
+
+			activeConnections.erase(c);
 			return; //i have to destroy only one cable
 		}
 
@@ -174,7 +173,7 @@ PatchCable::deleteFromOutput(std::shared_ptr<OutputSocket>output) {
 	if (!activeConnections.empty())
 		for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ) {
 		if ((*c)->getOutputSocket()->socket_uid == output->socket_uid) {
-			delete (*c);
+			//delete (*c);
 			activeConnections.erase(c);
 
 			--end;
