@@ -18,7 +18,7 @@ InputSocket :: InputSocket
 	uint_fast8_t detectorId,
 	AudioStream& as,
 	uint_fast8_t i,
-	const char* n="mono in"
+	const char* n
 )
 		//init list
 	:	Socket(slotAddress, detectorId, as, i, n)
@@ -42,7 +42,7 @@ InputSocket :: InputSocket
 	AudioStream& as2,
 	AudioStream& as3,
 	uint_fast8_t i,
-	const char* n="poly in"
+	const char* n
 )
 	//init list
 	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
@@ -65,7 +65,7 @@ InputSocket :: isReceiving() const {
 void 
 InputSocket :: p2m_on(){
 	if(p2m_status) return;
-	p2m_link = new AudioConnection(*p2m_mixer,0,linkedStream0,index); 
+	p2m_link = new AudioConnection(*p2m_mixer,0,linkedStream0, audioStream_port);
 	p2m_status=true;
 	return;
 }
@@ -84,6 +84,7 @@ void InputSocket::removeFromAvailable() {
 	for (auto i = availableInputs.begin(), end = availableInputs.end(); i != end; ++i)
 		if ((*i)->socket_uid == this->socket_uid)
 			availableInputs.erase(i);
+
 }
 
 //ok
@@ -91,6 +92,7 @@ void InputSocket::removeFromBusy() {
 	for (auto i = busyInputs.begin(), end = busyInputs.end(); i != end; ++i)
 		if ((*i)->socket_uid == this->socket_uid)
 			busyInputs.erase(i);
+
 }
 
 typedef std::shared_ptr<InputSocket> is_ptr;
@@ -98,11 +100,13 @@ typedef std::shared_ptr<InputSocket> is_ptr;
 //ok
 void InputSocket::connect() {
 	availableInputs.push_back(is_ptr(this));
+
 }
 
 void InputSocket::setAvailable() {
 	availableInputs.push_back(is_ptr(this));
 	this->removeFromBusy();
+
 	return;
 }
 
@@ -110,5 +114,6 @@ void InputSocket::setAvailable() {
 void InputSocket::setBusy() {
 	busyInputs.push_back(is_ptr(this));
 	this->removeFromAvailable();
+
 	return;
 }

@@ -12,11 +12,11 @@ extern const uint_fast8_t POT_READS;
 void
 Potentiometer :: update() {
 	address.setForReading();
-	int r_sum =0;
+	unsigned int r_sum =0;
 	uint_fast8_t p = address.getPin();
-	for(int i=0; i<POT_READS; ++i)
+	for(unsigned int i=0; i<POT_READS; ++i)
 		r_sum +=analogRead(p);
-	int avg = r_sum / POT_READS;
+	unsigned int avg = r_sum / POT_READS;
 	if (avg > (value+3)/*POT_DEADZONE*/ || avg < (value-3)/*POT_DEADZONE*/) {
 		_wasUpdated = true;
 		value = avg;

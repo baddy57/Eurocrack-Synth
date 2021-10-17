@@ -18,7 +18,7 @@ OutputSocket :: OutputSocket (
 	uint_fast8_t detectorId,
 	AudioStream& as,
 	uint_fast8_t i,
-	const char* n="mono out"	
+	const char* n	
 )
 	:	Socket(slotAddress, detectorId, as, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
@@ -36,7 +36,7 @@ OutputSocket :: OutputSocket (
 	AudioStream& as2,
 	AudioStream& as3,
 	uint_fast8_t i,
-	const char* n="poly out"	
+	const char* n	
 )
 	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
@@ -62,6 +62,7 @@ void OutputSocket :: resetSignal() const {
 //ok
 void OutputSocket::setAvailable(){
 	availableOutputs.push_back(os_ptr(this));
+
 }
 
 //ok
@@ -72,4 +73,5 @@ void OutputSocket::disconnect() {
 			break;
 		}
 	}
+
 }

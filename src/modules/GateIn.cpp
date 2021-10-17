@@ -23,4 +23,5 @@ GateIn :: read(){
 		}
 		clear();
 	}
+	return true; //////////added randomly 20211018 to fix a warning
 }

@@ -171,6 +171,7 @@ void PatchCable::deleteFromInput(is_ptr input) {
 
 void 
 PatchCable::deleteFromOutput(os_ptr output) {
+
 	if (!activeConnections.empty()) {
 		for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ) {
 			if ((*c)->outputSocket_uid == output->socket_uid) {
