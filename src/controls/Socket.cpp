@@ -9,14 +9,14 @@ Socket::Socket(
 ):
 	jackDetector(slotAddress, detectorId),
 	name(n),
-	voicesCount(1),
-	audioStream_port(i),
 	linkedStream0(as),
 	linkedStream1(as),//references need to be initialized
 	linkedStream2(as),
 	linkedStream3(as)
 
 {
+	voicesCount = 1;
+	audioStream_port = i;
 }
 
 Socket::Socket(
@@ -31,11 +31,11 @@ Socket::Socket(
 ) :
 	jackDetector(slotAddress, detectorId),
 	name(n),
-	voicesCount(POLYPHONY),
-	audioStream_port(i),
 	linkedStream0(as0),
 	linkedStream1(as1),
 	linkedStream2(as2),
 	linkedStream3(as3)
 {
+	voicesCount = POLYPHONY;
+	audioStream_port = i;
 }

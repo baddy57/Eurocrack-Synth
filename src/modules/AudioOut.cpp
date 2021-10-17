@@ -23,9 +23,9 @@ namespace {
 AudioOut :: AudioOut(const Address& a) : 
 		Module(a), 
 		_audioCtrl(),
-		_volume_pot0(pins::VOLUME),
 		_analogOut(),
-		_usbOut()
+		_usbOut(),
+		_volume_pot0(pins::VOLUME)
 {
 	_audioCtrl.enable();
 	_audioCtrl.volume(0.2);

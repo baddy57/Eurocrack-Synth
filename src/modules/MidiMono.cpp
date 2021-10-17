@@ -38,10 +38,11 @@ namespace {
 //ctor
 MidiMono :: MidiMono (const Address& a) 
 	:	Module(a),
-		MIDI((HardwareSerial&)Serial1),
 		source_sw0(a, USBSW),
 		chplus_btn0(a, CHPLUS),
-		chminus_btn1(a, CHMINUS)/*,
+		chminus_btn1(a, CHMINUS),
+		MIDI((HardwareSerial&)Serial1)
+	/*,
 		_gate(),
 		_cv(),
 		_vel()*/

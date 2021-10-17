@@ -7,6 +7,9 @@
 #include <Audio.h>
 extern ILI9341_t3 tft;
 
+typedef std::shared_ptr<OutputSocket> os_ptr;
+
+std::list<os_ptr> OutputSocket::availableOutputs;
 
 //ctor mono
 OutputSocket :: OutputSocket (
@@ -41,20 +44,6 @@ OutputSocket :: OutputSocket (
 {
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void 
 OutputSocket :: sendSignal() const {
 	resetSignal();
@@ -64,64 +53,23 @@ OutputSocket :: sendSignal() const {
 	return;
 }
 
-void 
-OutputSocket :: resetSignal() const {
-	//address.setForWriting();
+void OutputSocket :: resetSignal() const {
+	//address.setForWriting(); is already set
 	digitalWrite(WRITE_PIN/*address->getPin()*/, HIGH); 
-	//address->getPin() caused crash 202009052133 
-	//because OutputSocket was initialized with the wrong constructor 202009060159
 	return;
 }
 
-/*
-void
-OutputSocket::jackConnected() {}
-	tft.print("     ++OUTPUT: ");
-	tft.println(name);
-	outputsWithJack.push_back(this);
-	PatchCable :: updateCables();
-	return;
+//ok
+void OutputSocket::setAvailable(){
+	availableOutputs.push_back(os_ptr(this));
 }
-								*/
 
-
-//removes OS from withjack and frees any attached IS
-//PatchCable :: updateCables() will handle everything else (deleting connections etc)
-/*
-void
-OutputSocket::jackDisconnected() {}
-	tft.print("        --OUTPUT: ");
-	tft.println(name);
-	outputsWithJack.remove(this);//works?///////////////////////////////////////////////////////////////
-	
-	
-	for (auto i=attachedInputs.begin(),
-				end=attachedInputs.end();
-				i!=end; ++i)
-	{
-		(*i)->removeAttachedCable();//202009050026
-		//if there was a connection to an input, 
-		//and the cable was removed on the output end, 
-		//then the jack is still plugged into the inputsocket on the other end
-		//so i have to put it back in the list of available inputs
-		//because it was removed when patchcable was built
-		inputsWithJack.push_back(*i); 
-		// tft.println("removed connection to input");
+//ok
+void OutputSocket::disconnect() {
+	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
+		if ((*o)->socket_uid == this->socket_uid) {
+			availableOutputs.erase(o);
+			break;
+		}
 	}
-	attachedInputs.clear();
-	return;
 }
-*/
-/*
-void
-OutputSocket :: addAttachedInput (Socket* i) {
-	attachedInputs.push_back(i);
-	return;
-}
-
-void
-OutputSocket :: removeAttachedInput (Socket* i) {
-	attachedInputs.remove(i); //could cause problems
-	return;
-}
-*/

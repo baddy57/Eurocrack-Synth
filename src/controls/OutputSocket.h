@@ -26,6 +26,9 @@ public:
 	void sendSignal() const;
 	void resetSignal() const;
 	unsigned int socket_uid;
+	static std::list< std::shared_ptr<OutputSocket>> availableOutputs;
+	void setAvailable();
+	void disconnect();
 };
 
 

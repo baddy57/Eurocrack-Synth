@@ -12,19 +12,15 @@ std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
 //ctor
 Module :: Module(const Address& address) : moduleAddress(address), verbose(false){}
 
-void
-Module :: updateConnections(){
+//ok
+void Module :: updateConnections(){
 	//for each input
-	for(auto i = inputSockets.begin(), 
-		end = inputSockets.end(); 
-		i != end; ++i)
+	for(auto i = inputSockets.begin(), end = inputSockets.end(); i != end; ++i)
 	{
-		//if jack has just been plugged
-		if ((*i)->isReady() && (*i)->jackDetectorChanged())
+		if ((*i)->jackJustPlugged())
 			PatchCable::addFromInput(*i);
 
-		//if jack has just been unplugged
-		if (!(*i)->isReady() && (*i)->jackDetectorChanged())			
+		if ((*i)->jackJustUnplugged())
 			PatchCable::deleteFromInput(*i);
 	}
 
@@ -33,12 +29,10 @@ Module :: updateConnections(){
 		end = outputSockets.end();
 		o != end; ++o)
 	{
-		//if jack has just been plugged
-		if ((*o)->isReady() && (*o)->jackDetectorChanged())
+		if ((*o)->jackJustPlugged())
 			PatchCable::addFromOutput(*o);
 
-		//if jack has just been unplugged
-		if (!(*o)->isReady() && (*o)->jackDetectorChanged())
+		if ((*o)->jackJustUnplugged())
 			PatchCable::deleteFromOutput(*o);
 	}
 	return;

@@ -40,6 +40,8 @@ public:
 	uint_fast8_t voicesCount;
 	inline bool isReady() { return !jackDetector.b_read(); };
 	inline bool jackDetectorChanged() { return jackDetector.wasUpdated(); };
+	inline bool jackJustPlugged() { return (isReady() && jackDetectorChanged()); }
+	inline bool jackJustUnplugged() { return (!isReady() && jackDetectorChanged()); }
 	inline AudioStream& getLinkedStream(uint_fast8_t i = 0) {
 		assert(i < 4);
 		switch (i) {

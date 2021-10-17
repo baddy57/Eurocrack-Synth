@@ -4,23 +4,18 @@ extern ILI9341_t3 tft;
 
 //definition of static member
 std::list<std::unique_ptr<PatchCable>> PatchCable::activeConnections;
-std::list<std::shared_ptr<OutputSocket>> PatchCable::outputsWithJack;
-std::list<std::shared_ptr<InputSocket>> PatchCable::inputsWithJack;
 
 enum connection_type_enum {M2M, M2P, P2M, P2P};
-
-
-//constructor
-
-PatchCable :: PatchCable (std::shared_ptr<OutputSocket> out, std::shared_ptr<InputSocket> in){
+//constructor ok
+PatchCable :: PatchCable (os_ptr out, is_ptr in){
 	//begin handling underlying connections
 	if 		(out->voicesCount==1 && in->voicesCount==1)
 	{
 		connectionType = M2M;
-		//in->p2m_off();
+		in->p2m_off();
 		ac[0] = new AudioConnection (	out->getLinkedStream(),
 										out->getIndex(),
-										in->p2m_mixer,//getLinkedStream(),
+										in->getLinkedStream(), //getLinkedStream(),
 										0);//getIndex()	);
 		
 	}
@@ -40,7 +35,7 @@ PatchCable :: PatchCable (std::shared_ptr<OutputSocket> out, std::shared_ptr<Inp
 		for(uint_fast8_t i=0; i<POLYPHONY; ++i)
 			ac[i]=new AudioConnection(	out->getLinkedStream(i), 
 										out->getIndex(), 
-										in->p2m_mixer, 
+										*(in->p2m_mixer), 
 										i);
 	}
 	else /*if(out->voicesCount>1 && in->voicesCount>1)*/
@@ -54,8 +49,13 @@ PatchCable :: PatchCable (std::shared_ptr<OutputSocket> out, std::shared_ptr<Inp
 	}
 	//end
 
-	_out = out;
-	_in = in;
+	inputSocket_uid = in->socket_uid;
+	outputSocket_uid = out->socket_uid;
+
+	//in cannot accept any other connections until this one is deleted
+	in->setBusy();
+
+	/*
 	tft.print(out->getName());
 	tft.print(" >>> ");
 	tft.print(in->getName());
@@ -66,6 +66,7 @@ PatchCable :: PatchCable (std::shared_ptr<OutputSocket> out, std::shared_ptr<Inp
 		case P2M: tft.println(" P2M"); break;
 		case P2P: tft.println(" P2P");
 	}
+	*/
 }
 
 //dtor
@@ -73,114 +74,115 @@ PatchCable :: ~PatchCable(){
 	switch (connectionType)
 	{
 		case M2M:{
-		//	ac[0]->disconnect();
+			ac[0]->disconnect();
 			delete ac[0];
 			break;
 		}
 		case M2P:{
 			for(uint_fast8_t i=0; i<POLYPHONY; ++i){
-			//	ac[i]->disconnect();
+				ac[i]->disconnect();
 				delete ac[i];
 			}
 			break;
 		}
 		case P2M:{
 			for(uint_fast8_t i=0; i<POLYPHONY; ++i){
-			//	ac[i]->disconnect();
+				ac[i]->disconnect();
 				delete ac[i];
 			}
-			_in->p2m_off();
+			////////////////////////////////////_in->p2m_off();
 			break;
 		}
 		case P2P:{
 			for(uint_fast8_t i=0; i<POLYPHONY; ++i){
-			//	ac[i]->disconnect();
+				ac[i]->disconnect();
 				delete ac[i];
 			}
 			break;
 		}
 	}
+	/*
 	tft.print(_out->getName());
 	tft.print(" XXX ");
 	tft.println(_in->getName());
+	*/
 }
 
+//ok
+void PatchCable ::addFromInput(is_ptr i){
+	i->connect();
 
-void
-PatchCable ::addFromInput(std::shared_ptr<InputSocket> i){
-	inputsWithJack.push_front(i);
 	searchForCablesToAdd();
-	return;
 }
-void
-PatchCable::addFromOutput(std::shared_ptr<OutputSocket> o) {
-	outputsWithJack.push_front(o);
+
+//ok
+void PatchCable::addFromOutput(os_ptr o) {
+	o->setAvailable();
 	searchForCablesToAdd();
-	return;
 }
-void 
-PatchCable::searchForCablesToAdd() {
-	if(!inputsWithJack.empty() && !outputsWithJack.empty())
-	for (auto out = outputsWithJack.begin(),
-		end = outputsWithJack.end();
-		out != end; ++out) {
 
-		for (auto in = inputsWithJack.begin(),
-			end2 = inputsWithJack.end();
-			in != end2;) {
-
+//ok
+void PatchCable::searchForCablesToAdd() {
+	//if there are at least 1 in AND 1 out available
+	if(!OutputSocket::availableOutputs.empty() && !InputSocket::availableInputs.empty())
+	
+	//check connection for every possible couple (out,in)	
+	for (auto out = OutputSocket::availableOutputs.begin(), end = OutputSocket::availableOutputs.end(); out != end; ++out) {
+		for (auto in = InputSocket::availableInputs.begin(), end2 = InputSocket::availableInputs.end(); in != end2;++in) {
 			if (checkConnection(*out, *in)) {
-				activeConnections.push_front(std::make_unique<PatchCable>(*out, *in));
-				++in;
+				//if (out,in) are connected, instantiate a patchcable
+				activeConnections.push_back(std::make_unique<PatchCable>(*out, *in));
 			}
-			else ++in;
 		}
 	}
-	
 }
 
-bool
-PatchCable :: checkConnection (std::shared_ptr<OutputSocket> out, std::shared_ptr<InputSocket> in) {
+//ok
+bool PatchCable::checkConnection (os_ptr out, is_ptr in) {
 	out->sendSignal();
+
 	if (in->isReceiving()){
+
 		out->resetSignal();
 		return true;
 	}
-	else{
-		out->resetSignal();
-		return false;
-	}
+
+	//else
+	out->resetSignal();
+	return false;
+	
 }
 
-void 
-PatchCable::deleteFromInput(std::shared_ptr<InputSocket> input) {
-	inputsWithJack.remove(input);
-
+//ok
+void PatchCable::deleteFromInput(is_ptr input) {
+	//destroy the patchcable that was disconnected from the socket
 	if(!activeConnections.empty())
 	for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ++c) 
-		if 	((*c)->getInputSocket()->socket_uid == input->socket_uid) {
-
+		if 	((*c)->inputSocket_uid == input->socket_uid) {
 			activeConnections.erase(c);
-			return; //i have to destroy only one cable
+			break; //i have to destroy only one cable
 		}
-
+	//if input was part of a patchcable, remove input from busy
+	//if input was not part of a patchcable, remove input from available
+	//input->disconnect handles both cases
+	input->disconnect();
+	return;
 }
 
 void 
-PatchCable::deleteFromOutput(std::shared_ptr<OutputSocket>output) {
-	outputsWithJack.remove(output);
-
-	if (!activeConnections.empty())
+PatchCable::deleteFromOutput(os_ptr output) {
+	if (!activeConnections.empty()) {
 		for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ) {
-		if ((*c)->getOutputSocket()->socket_uid == output->socket_uid) {
-			//delete (*c);
-			activeConnections.erase(c);
-
-			--end;
-			if (activeConnections.empty()) break;
+			if ((*c)->outputSocket_uid == output->socket_uid) {
+				activeConnections.erase(c);
+				if (activeConnections.empty()) break;
+				else --end;
+			}
+			else ++c;
 		}
-		else ++c;
-	}
-
+  	}
+	output->disconnect();
 	return;
 }
+
+

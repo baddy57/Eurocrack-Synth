@@ -5,6 +5,8 @@
 class InputSocket : public Socket {
 protected:
 	ControlAddress* address;
+	void removeFromAvailable();
+	void removeFromBusy();
 		
 public:
 	//mono ctor
@@ -30,8 +32,16 @@ public:
 
 	bool p2m_status;
 	AudioConnection* p2m_link;
-	AudioMixer4 p2m_mixer;
+	AudioMixer4* p2m_mixer;
 	unsigned int socket_uid;
+
+	static std::list<std::shared_ptr<InputSocket>> busyInputs;
+	static std::list<std::shared_ptr<InputSocket>> availableInputs;
+
+	void connect();
+	void setAvailable();
+	void setBusy();
+	inline void disconnect() { this->removeFromAvailable(); this->removeFromBusy(); };
 };
 
 
