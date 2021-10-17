@@ -23,6 +23,7 @@ public:
 					AudioStream&,
 					uint_fast8_t,
 					const char* = "poly out");
+	~OutputSocket();
 	void sendSignal() const;
 	void resetSignal() const;
 	unsigned int socket_uid;

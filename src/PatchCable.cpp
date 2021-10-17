@@ -110,14 +110,16 @@ PatchCable :: ~PatchCable(){
 
 //ok
 void PatchCable ::addFromInput(is_ptr i){
+	
 	i->connect();
-
 	searchForCablesToAdd();
 }
 
 //ok
 void PatchCable::addFromOutput(os_ptr o) {
+
 	o->setAvailable();
+
 	searchForCablesToAdd();
 }
 
@@ -182,7 +184,9 @@ PatchCable::deleteFromOutput(os_ptr output) {
 			else ++c;
 		}
   	}
+
 	output->disconnect();
+
 	return;
 }
 

@@ -27,11 +27,16 @@ void Module :: updateConnections(){
 	//for each output
 	for(auto o = outputSockets.begin(),	end = outputSockets.end(); o != end; ++o)
 	{
-		if ((*o)->jackJustPlugged())
-			PatchCable::addFromOutput(*o);
+		if ((*o)->jackJustPlugged()) {
 
-		if ((*o)->jackJustUnplugged())
+			PatchCable::addFromOutput(*o);
+		}
+
+		if ((*o)->jackJustUnplugged()) {
+
 			PatchCable::deleteFromOutput(*o);
+
+		}
 	}
 	return;
 }

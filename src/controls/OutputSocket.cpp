@@ -24,6 +24,7 @@ OutputSocket :: OutputSocket (
 	,	address(new OutputSocketAddress(slotAddress, id))
 	,   socket_uid(address->_id)
 {
+
 }
 
 //ctor poly
@@ -42,6 +43,10 @@ OutputSocket :: OutputSocket (
 	,	address(new OutputSocketAddress(slotAddress, id))
 	,   socket_uid(address->_id)
 {
+}
+
+OutputSocket::~OutputSocket() {
+
 }
 
 void 
@@ -67,6 +72,7 @@ void OutputSocket::setAvailable(){
 
 //ok
 void OutputSocket::disconnect() {
+
 	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
 		if ((*o)->socket_uid == this->socket_uid) {
 			availableOutputs.erase(o);
