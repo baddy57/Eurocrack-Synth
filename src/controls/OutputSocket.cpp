@@ -65,18 +65,18 @@ void OutputSocket :: resetSignal() const {
 }
 
 //ok
-void OutputSocket::setAvailable(){
-	availableOutputs.push_back(os_ptr(this));
+void OutputSocket::setAvailable(os_ptr& o){
+	availableOutputs.push_back(os_ptr(o));
 
 }
 
 //ok
-void OutputSocket::disconnect() {
+void OutputSocket::disconnect(os_ptr& out) {
 
 	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
-		if ((*o)->socket_uid == this->socket_uid) {
+		if ((*o)->socket_uid == out->socket_uid) {
 			availableOutputs.erase(o);
-			break;
+			return;
 		}
 	}
 

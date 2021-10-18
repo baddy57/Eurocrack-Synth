@@ -28,8 +28,8 @@ public:
 	void resetSignal() const;
 	unsigned int socket_uid;
 	static std::list< std::shared_ptr<OutputSocket>> availableOutputs;
-	void setAvailable();
-	void disconnect();
+	static void setAvailable(std::shared_ptr<OutputSocket>&);
+	static void disconnect(std::shared_ptr<OutputSocket>&);
 };
 
 

@@ -54,6 +54,7 @@ namespace module {
 
 void factory(std::vector<Module*>& activeModules) {
 	bool verbose = true;
+	while (activeModules.size() == 0) {
 	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
 		Address slotAddress(i);
 		uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
@@ -157,6 +158,7 @@ void factory(std::vector<Module*>& activeModules) {
 		}
 		};
 
+	}
 	}
 }
 }; 

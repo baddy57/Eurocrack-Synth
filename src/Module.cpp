@@ -28,8 +28,8 @@ void Module :: updateConnections(){
 	for(auto o = outputSockets.begin(),	end = outputSockets.end(); o != end; ++o)
 	{
 		if ((*o)->jackJustPlugged()) {
-
 			PatchCable::addFromOutput(*o);
+
 		}
 
 		if ((*o)->jackJustUnplugged()) {

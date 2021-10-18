@@ -82,37 +82,51 @@ InputSocket :: p2m_off(){
 typedef std::shared_ptr<InputSocket> is_ptr;
 
 //ok
-void InputSocket::removeFromAvailable(is_ptr i) {
+void InputSocket::removeFromAvailable(is_ptr& i) {
 	for (auto it = availableInputs.begin(), end = availableInputs.end(); it != end; ++it)
-		if ((*it)->socket_uid == i->socket_uid)
+		if ((*it)->socket_uid == i->socket_uid) {
 			availableInputs.erase(it);
+			return;
+		}
 
 }
 
 //ok
-void InputSocket::removeFromBusy(is_ptr i) {
+void InputSocket::removeFromBusy(is_ptr& i) {
 	for (auto it = busyInputs.begin(), end = busyInputs.end(); it != end; ++it)
-		if ((*it)->socket_uid == i->socket_uid)
+		if ((*it)->socket_uid == i->socket_uid) {
 			busyInputs.erase(it);
+			return;
+		}
 
 }
 
 //ok
-void InputSocket::connect(is_ptr i) {
+void InputSocket::connect(is_ptr& i) {
 	availableInputs.push_back(is_ptr(i));
 
 }
 
-void InputSocket::setAvailable(is_ptr i) {
+void InputSocket::setAvailable(is_ptr& i) {
 	availableInputs.push_back(is_ptr(i));
 	removeFromBusy(i);
-
 	return;
 }
 
+void InputSocket::setAvailable(unsigned int uid) {
+	for (auto i = busyInputs.begin(), end = busyInputs.end(); i != end; ++i) {
+		if ((*i)->socket_uid == uid) {
+			availableInputs.push_back(is_ptr(*i));
+			busyInputs.erase(i++);
+			return;
+		}
+	}
+}
+
 //ok
-void InputSocket::setBusy(is_ptr i) {
+void InputSocket::setBusy(is_ptr& i) {
 	busyInputs.push_back(is_ptr(i));
+
 	removeFromAvailable(i);
 
 	return;

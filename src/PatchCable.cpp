@@ -9,10 +9,12 @@ enum connection_type_enum {M2M, M2P, P2M, P2P};
 //constructor ok
 PatchCable :: PatchCable (os_ptr out, is_ptr in){
 	//begin handling underlying connections
+
 	if 		(out->voicesCount==1 && in->voicesCount==1)
 	{
 		connectionType = M2M;
 		in->p2m_off();
+
 		ac[0] = new AudioConnection (	out->getLinkedStream(),
 										out->getIndex(),
 										in->getLinkedStream(), //getLinkedStream(),
@@ -51,11 +53,11 @@ PatchCable :: PatchCable (os_ptr out, is_ptr in){
 
 	inputSocket_uid = in->socket_uid;
 	outputSocket_uid = out->socket_uid;
-
 	//in cannot accept any other connections until this one is deleted
 	InputSocket::setBusy(in);
 
-	/*
+
+	
 	tft.print(out->getName());
 	tft.print(" >>> ");
 	tft.print(in->getName());
@@ -66,7 +68,7 @@ PatchCable :: PatchCable (os_ptr out, is_ptr in){
 		case P2M: tft.println(" P2M"); break;
 		case P2P: tft.println(" P2P");
 	}
-	*/
+	
 }
 
 //dtor
@@ -101,11 +103,11 @@ PatchCable :: ~PatchCable(){
 			break;
 		}
 	}
-	/*
-	tft.print(_out->getName());
-	tft.print(" XXX ");
-	tft.println(_in->getName());
-	*/
+	
+	//tft.print(_out->getName());
+	//tft.print(" XXX ");
+	//tft.println(_in->getName());
+	
 }
 
 //ok
@@ -118,7 +120,7 @@ void PatchCable ::addFromInput(is_ptr i){
 //ok
 void PatchCable::addFromOutput(os_ptr o) {
 
-	o->setAvailable();
+	OutputSocket::setAvailable(o);
 
 	searchForCablesToAdd();
 }
@@ -133,7 +135,9 @@ void PatchCable::searchForCablesToAdd() {
 		for (auto in = InputSocket::availableInputs.begin(), end2 = InputSocket::availableInputs.end(); in != end2;++in) {
 			if (checkConnection(*out, *in)) {
 				//if (out,in) are connected, instantiate a patchcable
-				activeConnections.push_back(std::make_unique<PatchCable>(*out, *in));
+				//post increment the iterator because *in will be removed from available inputs
+				activeConnections.push_back(std::make_unique<PatchCable>(*out, *(in++)));
+				break; //provvisorio, permette la creazione di un solo cavo per volta --> dangling
 			}
 		}
 	}
@@ -177,15 +181,19 @@ PatchCable::deleteFromOutput(os_ptr output) {
 	if (!activeConnections.empty()) {
 		for (auto c = activeConnections.begin(), end = activeConnections.end(); c != end; ) {
 			if ((*c)->outputSocket_uid == output->socket_uid) {
-				activeConnections.erase(c);
-				if (activeConnections.empty()) break;
-				else --end;
+
+				//the inputs that were connected to this output must be set available again!
+				InputSocket::setAvailable((*c)->inputSocket_uid);
+
+				activeConnections.erase(c++);
+				//if (activeConnections.empty()) break;
+				//else --end;
 			}
 			else ++c;
 		}
   	}
 
-	output->disconnect();
+	OutputSocket::disconnect(output);
 
 	return;
 }
