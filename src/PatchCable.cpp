@@ -53,7 +53,7 @@ PatchCable :: PatchCable (os_ptr out, is_ptr in){
 	outputSocket_uid = out->socket_uid;
 
 	//in cannot accept any other connections until this one is deleted
-	in->setBusy();
+	InputSocket::setBusy(in);
 
 	/*
 	tft.print(out->getName());
@@ -111,7 +111,7 @@ PatchCable :: ~PatchCable(){
 //ok
 void PatchCable ::addFromInput(is_ptr i){
 	
-	i->connect();
+	InputSocket::connect(i);
 	searchForCablesToAdd();
 }
 
@@ -167,7 +167,7 @@ void PatchCable::deleteFromInput(is_ptr input) {
 	//if input was part of a patchcable, remove input from busy
 	//if input was not part of a patchcable, remove input from available
 	//input->disconnect handles both cases
-	input->disconnect();
+	InputSocket::disconnect(input);
 	return;
 }
 

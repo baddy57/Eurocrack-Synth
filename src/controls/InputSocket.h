@@ -5,8 +5,8 @@
 class InputSocket : public Socket {
 protected:
 	ControlAddress* address;
-	void removeFromAvailable();
-	void removeFromBusy();
+	static void removeFromAvailable(std::shared_ptr<InputSocket>);
+	static void removeFromBusy(std::shared_ptr<InputSocket>);
 		
 public:
 	//mono ctor
@@ -38,10 +38,10 @@ public:
 	static std::list<std::shared_ptr<InputSocket>> busyInputs;
 	static std::list<std::shared_ptr<InputSocket>> availableInputs;
 
-	void connect();
-	void setAvailable();
-	void setBusy();
-	inline void disconnect() { this->removeFromAvailable(); this->removeFromBusy(); };
+	static void connect(std::shared_ptr<InputSocket>);
+	static void setAvailable(std::shared_ptr<InputSocket>);
+	static void setBusy(std::shared_ptr<InputSocket>);
+	static inline void disconnect(std::shared_ptr<InputSocket> i ) { removeFromAvailable(i); removeFromBusy(i); };
 };
 
 
