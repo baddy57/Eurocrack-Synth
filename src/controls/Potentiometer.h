@@ -5,23 +5,23 @@
 #include "../Address.h"
 #include <cstdint>
 
-#define DIV1023 1/1023
+#define DIV1023 0.0009775
 
 class Potentiometer : public Control {
 	private:
 		/*inherited
 		ControlAddress address
 		bool _wasUpdated; */
-		unsigned int value;
-		float minval = 0;// , maxval = 1023;
-		float range = 1;
+		float value = -10.f;
+		float minval = 0.f;// , maxval = 1023;
+		float range = 1.f;
 	public:
-		Potentiometer(const Address& a, uint_fast8_t id, uint pullup_res = 0) : Control(a, id), value(0) { setRange(pullup_res); };
+		Potentiometer(const Address& a, uint_fast8_t id, float pullup_res = 0.f) : Control(a, id), value(0) { setRange(pullup_res); };
 		Potentiometer(uint_fast8_t pin) : Control(pin), value(0){};
 		void setRange(float);
-		float f_read(){return (((float)value)*DIV1023);};
-		float half_f_read(){return (((float)value-200)*DIV1023);};
-		unsigned int i_read(){return value;};
+		float f_read(){return (value*DIV1023);};
+		float half_f_read(){return ((value-200)*DIV1023);};
+		float i_read(){return value;};
 		void update();
 		bool wasUpdated() {update(); return _wasUpdated;};
 };

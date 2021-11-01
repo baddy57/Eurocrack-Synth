@@ -31,8 +31,9 @@ AudioOut :: AudioOut(const Address& a) :
 {
 
 	_audioCtrl.enable();
-	// _audioCtrl.adcHighPassFilterDisable(); //http://prajtm.scripts.mit.edu/projects/portfolio/portable-synth-v1-prototype/
-	//bool x = _audioCtrl.inputSelect(AUDIO_INPUT_MIC);
+	_audioCtrl.adcHighPassFilterDisable(); //http://prajtm.scripts.mit.edu/projects/portfolio/portable-synth-v1-prototype/
+	_audioCtrl.lineInLevel(2);
+										   //bool x = _audioCtrl.inputSelect(AUDIO_INPUT_MIC);
 
 	_audioCtrl.volume(0.5);
 

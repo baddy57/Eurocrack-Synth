@@ -10,7 +10,7 @@ extern ILI9341_t3 tft;
 extern const uint_fast8_t POT_READS;
 
 void Potentiometer::setRange(float pullup){
-	if (pullup == 0)return;
+	if (pullup == 0.f)return;
 	minval = pullup / 9.78f;
 	range = 1023.f / (990.f-minval);
 	return;
@@ -19,7 +19,7 @@ void Potentiometer::setRange(float pullup){
 void
 Potentiometer :: update() {
 	address.setForReading();
-	unsigned int r_sum =0;
+	int r_sum =0;
 	uint_fast8_t p = address.getPin();
 
 	for (uint i = 0; i < POT_READS; ++i)
@@ -28,18 +28,12 @@ Potentiometer :: update() {
 	float avg = r_sum / POT_READS;
 	avg -= minval;
 	avg *= range;
-
-	if (avg > (value+4)/*POT_DEADZONE*/ || avg < (value-4)/*POT_DEADZONE*/) {
-		_wasUpdated = true;
-		if (avg < 0.f) {
-			value = 0;
-			return;
-		}
-		if (avg > 1023.f) {
-			value = 1023;
-			return;
-		}
+	if(avg < 0.f) avg = 0.f;
+	if (avg > 1023.f) avg = 1023.f;
+	
+	if (avg > (value+5.f)/*POT_DEADZONE*/ || avg < (value-5.f)/*POT_DEADZONE*/) {
 		value = avg;
+		_wasUpdated = true;
 		return;
 	}
 	else //if the value is the same as before 

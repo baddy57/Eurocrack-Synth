@@ -23,8 +23,8 @@ namespace {
 //ctor
 VCO_det :: VCO_det (const Address& a)
 	:	Module(a),
-		_coarse_pot0	(a, 8), //8
-		_fine_pot1		(a, 10), //10
+		_coarse_pot0	(a, 8, 3200.f), //8
+		_fine_pot1		(a, 10, 3200.f), //10
 		_freqmodcv_pot2	(a, 11), 
 		_phasemodcv_pot3(a, 12), //12
 		_amp_pot4		(a, 15),
@@ -111,14 +111,16 @@ VCO_det :: updateValues() {
 	//update frequency
 	if(_coarse_pot0.wasUpdated() || _fine_pot1.wasUpdated()){
 		float c = _coarse_pot0.i_read();
+
 		float f = _fine_pot1.i_read();
-		if(f>256){
-			_freq0 = c*c*c/1000000 + (f-256)/10;
+
+		if(f>256.f){
+			_freq0 = c*c*c/1000000 + (f-256.f)/10.f;
 			_freq1 = _freq0;
 		}
 		else{
 			_freq0 = c*c*c/1000000;
-			_freq1 = c*c*c/1000000 - (256-f)/10;
+			_freq1 = c*c*c/1000000 - (256.f-f)/10.f;
 		}
 		
 		_sin0.frequency(_freq0);

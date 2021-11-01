@@ -24,7 +24,7 @@ AudioIn :: AudioIn(const Address& a)
 	:	Module(a)
 	,	_lineIn()
 	,	_usbIn()
-	, _micGain(a, 16)
+	, _micGain(a, 16, 4700)
 {
 	//MIC TODO
 	//_audioCtrl.inputSelect(AUDIO_INPUT_LINEIN);

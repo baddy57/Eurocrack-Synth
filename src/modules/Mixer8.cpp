@@ -41,20 +41,18 @@ Mixer8 :: Mixer8 (const Address& a)
 	,	GAIN5(Module::fix(34))
 	,	GAIN6(Module::fix(33))
 	,	GAIN7(Module::fix(32))*/
-	,	_gain_pot0	(a, GAIN0, 4700)
-	,	_gain_pot1	(a, GAIN1, 4700)
-	,	_gain_pot2	(a, GAIN2, 4700)
-	,	_gain_pot3	(a, GAIN3, 4700)
-	,	_gain_pot4	(a, GAIN4, 4700)
-	,	_gain_pot5	(a, GAIN5, 4700)
-	,	_gain_pot6	(a, GAIN6, 4700)
-	,	_gain_pot7	(a, GAIN7, 4700)
+	,	_gain_pot0	(a, GAIN0, 4700.f)
+	,	_gain_pot1	(a, GAIN1, 4700.f)
+	,	_gain_pot2	(a, GAIN2, 4700.f)
+	,	_gain_pot3	(a, GAIN3, 4700.f)
+	,	_gain_pot4	(a, GAIN4, 4700.f)
+	,	_gain_pot5	(a, GAIN5, 4700.f)
+	,	_gain_pot6	(a, GAIN6, 4700.f)
+	,	_gain_pot7	(a, GAIN7, 4700.f)
 {
 
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_MONO, OUT_MONO_D, _mono_out, 0, "MIXR_OUT_MONO"));
-	//outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_STEREO_L, OUT_STEREO_L_D, _stereo_out_l, 0, "MIXR_OUT_L"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_STEREO_L, OUT_STEREO_L_D, _channels0_3, 0,"MIXR_OUT_L"));
-	//outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_STEREO_R, OUT_STEREO_R_D, _stereo_out_r, 0, "MIXR_OUT_R"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_STEREO_R, OUT_STEREO_R_D, _channels4_7, 0,"MIXR_OUT_R"));
 	
 	inputSockets.push_back(std::make_shared<InputSocket>(a, CH0, CH0_D, _channels0_3, 0, "CH0"));
@@ -68,10 +66,15 @@ Mixer8 :: Mixer8 (const Address& a)
 	
 	internalConns.push_back(new AudioConnection(_channels0_3, 0, _mono_out, 0));
 	internalConns.push_back(new AudioConnection(_channels4_7, 0, _mono_out, 1));
-	//internalConns.push_back(new AudioConnection(_channels0_3, 0, _stereo_out_l, 0));
-	//internalConns.push_back(new AudioConnection(_channels4_7, 0, _stereo_out_r, 0));
-	
-	//verbose = true;
+
+	_channels0_3.gain(0, 0);
+	_channels0_3.gain(1, 0);
+	_channels0_3.gain(2, 0);
+	_channels0_3.gain(3, 0);
+	_channels4_7.gain(0, 0);
+	_channels4_7.gain(1, 0);
+	_channels4_7.gain(2, 0);
+	_channels4_7.gain(3, 0);
 }
 
 void
