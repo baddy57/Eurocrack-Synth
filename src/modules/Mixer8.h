@@ -17,18 +17,25 @@ class Mixer8 : public Module {
 		std :: vector <Socket> outputSocket;//[8];
 		std :: vector <AudioConnection*> internalConns;//if any;
 	*/
-		Potentiometer 	_gain_pot0, 
-						_gain_pot1,
-						_gain_pot2,
-						_gain_pot3,
-						_gain_pot4,
-						_gain_pot5,
-						_gain_pot6,
-						_gain_pot7;
+		//uint_fast8_t GAIN0, GAIN1, GAIN2, GAIN3, GAIN4, GAIN5, GAIN6, GAIN7;
+		Potentiometer 	
+			_gain_pot0, 
+			_gain_pot1,
+			_gain_pot2,
+			_gain_pot3,
+			_gain_pot4,
+			_gain_pot5,
+			_gain_pot6,
+			_gain_pot7;
 		
-		AudioMixer4 _channels0_3, _channels4_7, _mono_out;
-		AudioAmplifier _stereo_out_l, _stereo_out_r;
-//		
+		AudioMixer4 
+			_channels0_3, 
+			_channels4_7,
+			_mono_out;
+
+		//AudioAmplifier 
+			//_stereo_out_l, 
+			//_stereo_out_r;
 		
 	public:
 		Mixer8 () = delete;

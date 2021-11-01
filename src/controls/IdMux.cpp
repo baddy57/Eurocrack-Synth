@@ -16,8 +16,8 @@ IdMux :: IdMux(const Address& a){
 		digitalWrite(pins::RJ, bitRead(i, 0));
 		digitalWrite(pins::RK, bitRead(i, 1));
 		digitalWrite(pins::RL, bitRead(i, 2));
-		delayMicroseconds(MUX_DELAY);
-		bool x(digitalRead(READ_PIN));
-		bitWrite(moduleId, i, x);
+		delay(MUX_DELAY);
+		bool digit(digitalRead(READ_PIN));
+		bitWrite(moduleId, i, digit);
 	}
 }

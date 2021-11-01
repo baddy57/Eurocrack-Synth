@@ -39,8 +39,10 @@ VCF :: updateValues() {
 		float c = _freq_pot0.i_read();
 		_filter.frequency(c*c*c/100000);
 	}
-	if(_res_pot1.wasUpdated())
-		_filter.resonance(_res_pot1.f_read()*4.3+0.7);
+	if (_res_pot1.wasUpdated()) {
+		float r = _res_pot1.f_read() * 4.3 + 0.7;
+		_filter.resonance(r);
+	}
 	if(_oct_pot2.wasUpdated())
 		_filter.octaveControl(_oct_pot2.f_read()*7);
 }

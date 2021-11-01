@@ -1,6 +1,10 @@
 #ifndef __HARDWARE_CFG_H__
 #define __HARDWARE_CFG_H__ 
 
+
+#define FIX_BIG_MODULE_PIN(x) 
+
+
 #include <cstdint>
 #include <ILI9341_t3.h>
 //#include <font_Arial.h> // from ILI9341_t3

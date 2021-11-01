@@ -36,6 +36,7 @@ MIDIDevice midi1(myusb);
 #define POLYPHONIC
 
 
+
 void setup() {
 
 	pinMode(pins::RA, OUTPUT);
@@ -64,6 +65,7 @@ void setup() {
 	pinMode(pins::VOLUME, INPUT);
 	pinMode(pins::RGB1_3, OUTPUT);
 	pinMode(pins::RGB0_3, OUTPUT);
+
 	AudioMemory(500);
 	delay(2000);
 
@@ -87,7 +89,6 @@ void setup() {
 	  // rainbow(5);
 
 
-	tft.println("----------------------------------------");
 }
 
 void loop() {

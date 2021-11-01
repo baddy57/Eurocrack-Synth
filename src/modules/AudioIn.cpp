@@ -7,10 +7,12 @@
 #include "../controls/OutputSocket.h"
 #include "../controls/InputSocket.h"
 
-//#include <vector>
 #include <Audio.h>
 #include <cstdint>
-extern ILI9341_t3 tft;
+
+#include "AudioOut.h"
+//AudioControlSGTL5000 AudioOut::_audioCtrl;
+
 
 namespace {
 	enum _inputs {MIC_GAIN=16, MIC_IN_D, SW, LINE_IN_L_D, LINE_IN_R_D, USB_IN_L_D, USB_IN_R_D=23};
@@ -19,12 +21,14 @@ namespace {
 
 
 AudioIn :: AudioIn(const Address& a) 
-	:	Module(a),
-	_lineIn(),// = new AudioInputI2S();
-	_usbIn()// = new AudioInputUSB();
+	:	Module(a)
+	,	_lineIn()
+	,	_usbIn()
+	, _micGain(a, 16)
 {
 	//MIC TODO
-	
+	//_audioCtrl.inputSelect(AUDIO_INPUT_LINEIN);
+
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, LINE_IN_L, LINE_IN_L_D, _lineIn, 0, "LINE_IN_L"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, LINE_IN_R, LINE_IN_R_D, _lineIn, 1, "LINE_IN_R"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, USB_IN_L, USB_IN_L_D, _usbIn, 0, "USB_IN_L"));
@@ -32,6 +36,9 @@ AudioIn :: AudioIn(const Address& a)
 }		
 
 void AudioIn :: updateValues() {
+	//_audioCtrl.inputSelect(AUDIO_INPUT_LINEIN);
+	//_audioCtrl.inputSelect(AUDIO_INPUT_MIC);
+	
 	//todo mic gain
 	return;
 }

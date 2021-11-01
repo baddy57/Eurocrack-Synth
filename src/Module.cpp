@@ -9,8 +9,21 @@
 std::vector<std::shared_ptr<InputSocket>> Module::inputSockets;
 std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
 
+/*unsigned int Module::fix(const unsigned int i)
+{
+	if (i >= 32 && i % 16 >= 8)
+		return i;
+	if (i >= 32)
+		return i - 24;
+	if (i % 16 >= 8)
+		return i + 24;
+	return i;
+}*/
+
 //ctor
-Module :: Module(const Address& address) : moduleAddress(address), verbose(false){}
+Module :: Module(const Address& address) : moduleAddress(address), verbose(false){
+	//_audioCtrl.enable();
+}
 
 //ok
 void Module :: updateConnections(){

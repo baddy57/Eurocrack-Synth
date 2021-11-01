@@ -21,9 +21,11 @@ class Module{
 		bool verbose;
 	public:
 		Module(const Address&);
+
 		static std::vector<std::shared_ptr<InputSocket>> inputSockets;
 		static std::vector<std::shared_ptr<OutputSocket>> outputSockets;
 
+		//static unsigned int fix(const unsigned int);
 		virtual void updateValues()=0; 
 		static void updateConnections();
 };

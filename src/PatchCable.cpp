@@ -18,7 +18,8 @@ PatchCable :: PatchCable (os_ptr out, is_ptr in){
 		ac[0] = new AudioConnection (	out->getLinkedStream(),
 										out->getIndex(),
 										in->getLinkedStream(), //getLinkedStream(),
-										0);//getIndex()	);
+										in->getIndex());
+										//0);//getIndex()	);
 		
 	}
 	else if	(out->voicesCount==1 && in->voicesCount>1)
@@ -76,7 +77,7 @@ PatchCable :: ~PatchCable(){
 	switch (connectionType)
 	{
 		case M2M:{
-			ac[0]->disconnect();
+			//ac[0]->disconnect();
 			delete ac[0];
 			break;
 		}

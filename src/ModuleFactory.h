@@ -54,111 +54,118 @@ namespace module {
 
 void factory(std::vector<Module*>& activeModules) {
 	bool verbose = true;
+	
+	Serial.println("init modules");
+
+
 	while (activeModules.size() == 0) {
-	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
-		Address slotAddress(i);
-		uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
-		switch (moduleType) {
-		case 0: {
-			break;
-		}
+	//while(true){
+		for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
+			Address slotAddress(i);
+			uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
+			Serial.println(moduleType);
+			switch (moduleType) {
+			case 0: {
+				break;
+			}
 
-		case 1: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  AUDIO_OUT");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 1: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  AUDIO_OUT");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new AudioOut(slotAddress));
+				break;
 			}
-			activeModules.push_back(new AudioOut(slotAddress));
-			break;
-		}
-		case 2: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  AUDIO_IN");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 2: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  AUDIO_IN");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new AudioIn(slotAddress));
+				break;
 			}
-			activeModules.push_back(new AudioIn(slotAddress));
-			break;
-		}
-		case 3: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  VCF");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 3: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  VCF");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new VCF(slotAddress));
+				break;
 			}
-			activeModules.push_back(new VCF(slotAddress));
-			break;
-		}
-		case 4: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  VCO_det");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 4: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  VCO_det");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new VCO_det(slotAddress));
+				break;
 			}
-			activeModules.push_back(new VCO_det(slotAddress));
-			break;
-		}
-		case 5: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  MIDI MONO");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 5: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  MIDI MONO");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new MidiMono(slotAddress));
+				break;
 			}
-			activeModules.push_back(new MidiMono(slotAddress));
-			break;
-		}
-		case 6: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  ADSR");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 6: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  ADSR");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new ADSR(slotAddress));
+				break;
 			}
-			activeModules.push_back(new ADSR(slotAddress));
-			break;
-		}
-		case 9: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  MIXER8");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 9: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  MIXER8");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new Mixer8(slotAddress));
+				break;
 			}
-			activeModules.push_back(new Mixer8(slotAddress));
-			break;
-		}
-		case 10: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  VCA");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 10: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  VCA");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new VCA(slotAddress));
+				break;
 			}
-			activeModules.push_back(new VCA(slotAddress));
-			break;
-		}
-		case 11: {
-			if (verbose) {
-				tft.print(moduleType);
-				tft.print("  DRUMZ");
-				tft.print("  @  ");
-				tft.println(slotAddress.toInt());
+			case 11: {
+				if (verbose) {
+					tft.print(moduleType);
+					tft.print("  DRUMZ");
+					tft.print("  @  ");
+					tft.println(slotAddress.toInt());
+				}
+				activeModules.push_back(new DrumMachine(slotAddress));
+				break;
 			}
-			activeModules.push_back(new DrumMachine(slotAddress));
-			break;
-		}
-		default: {
-			break;
-		}
-		};
+			default: {
+				break;
+			}
+			};
 
-	}
+		}
+		tft.println("----------------------------------------");
 	}
 }
 }; 
