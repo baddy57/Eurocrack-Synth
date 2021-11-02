@@ -1,24 +1,9 @@
 #include "AudioIn.h"
 
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
-
-#include <Audio.h>
-#include <cstdint>
-
-#include "AudioOut.h"
-//AudioControlSGTL5000 AudioOut::_audioCtrl;
-
-
 namespace {
 	enum _inputs {MIC_GAIN=16, MIC_IN_D, SW, LINE_IN_L_D, LINE_IN_R_D, USB_IN_L_D, USB_IN_R_D=23};
 	enum _outputs {LINE_IN_L=2, MIC_IN, LINE_IN_R, USB_IN_L, USB_IN_R=7};
 };
-
 
 AudioIn :: AudioIn(const Address& a) 
 	:	Module(a)
@@ -26,6 +11,9 @@ AudioIn :: AudioIn(const Address& a)
 {
 	//MIC TODO
 	//_audioCtrl.inputSelect(AUDIO_INPUT_LINEIN);
+	_audioCtrl.adcHighPassFilterDisable(); //http://prajtm.scripts.mit.edu/projects/portfolio/portable-synth-v1-prototype/
+	_audioCtrl.lineInLevel(1);
+	//bool x = _audioCtrl.inputSelect(AUDIO_INPUT_MIC);
 
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, LINE_IN_L, LINE_IN_L_D, _preamp, 0, "LINE_IN_L"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, LINE_IN_R, LINE_IN_R_D, _lineIn, 1, "LINE_IN_R"));

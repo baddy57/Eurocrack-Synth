@@ -8,6 +8,7 @@
 //definition of static members
 std::vector<std::shared_ptr<InputSocket>> Module::inputSockets;
 std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
+AudioControlSGTL5000 Module::_audioCtrl;
 
 /*unsigned int Module::fix(const unsigned int i)
 {

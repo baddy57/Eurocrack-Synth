@@ -25,6 +25,8 @@ class Module{
 	public:
 		Module(const Address&);
 
+		static AudioControlSGTL5000 _audioCtrl;
+
 		static std::vector<std::shared_ptr<InputSocket>> inputSockets;
 		static std::vector<std::shared_ptr<OutputSocket>> outputSockets;
 
