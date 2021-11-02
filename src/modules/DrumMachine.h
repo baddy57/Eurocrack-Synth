@@ -1,15 +1,8 @@
 #ifndef __MODULES_DrumMachine_H__
-#define __MODULES_DrumMachine_H__ 1
+#define __MODULES_DrumMachine_H__
 
 #include "../Module.h"
-#include "../Address.h"
-#include <Audio.h>
-#include <cstdint>
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
 #include "GateIn.h"
-
 #include <MIDI.h>
 #include "../samples/D_samples.h"
 

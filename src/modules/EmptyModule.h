@@ -2,7 +2,6 @@
 #define __EMPTY_MODULE_H__
 
 #include "../Module.h"
-#include "../Address.h"
 
 class EmptyModule : public Module {
 	private:

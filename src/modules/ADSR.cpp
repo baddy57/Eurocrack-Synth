@@ -1,15 +1,5 @@
 #include "ADSR.h"
 
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
-
-#include <vector>
-#include <Audio.h>
-#include <cstdint>
-
 namespace {
 	enum _inputs {	
 		ATT_CV=8, ATT_CV_D, 
@@ -46,10 +36,7 @@ ADSR :: ADSR (const Address& a)
 	_envelope.hold(0);
 
 	inputSockets.push_back(std::make_shared<InputSocket>(a, GATE, GATE_D, _gate, 0, "ADSR_GATE"));
-	//sharedInputSockets.push_back(std::make_shared<InputSocket>(a, GATE, GATE_D, _gate, 0, "ADSR_GATE"));
-	
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT"));
-	//sharedOutputSockets.push_back(std::make_shared<OutputSocket>(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT"));
 	
 	internalConns.push_back(new AudioConnection(_signal, 0, _envelope, 0));
 	_gate.begin();

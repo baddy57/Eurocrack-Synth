@@ -1,19 +1,5 @@
 #include "MidiMono.h"
 
-
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
-
-
-//#include <vector>
-#include <Audio.h>
-#include <cstdint>
-#include <MIDI.h>
-
 extern USBHost myusb;
 extern MIDIDevice midi1;
 

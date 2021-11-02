@@ -1,22 +1,10 @@
 #ifndef __MODULES_VCO_H__
-#define __MODULES_VCO_H__ 1
+#define __MODULES_VCO_H__
 
 #include "Module.h"
-#include "Address.h"
-#include <Audio.h>
-#include <cstdint>
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
 
 class VCO : public Module {
 	private:
-	/*inherited
-		Address moduleAddress;
-		std :: vector <Socket> inputSocket; //[8];
-		std :: vector <Socket> outputSocket;//[8];
-		std :: vector <AudioConnection> internalConns;
-	*/
 		Potentiometer 	_coarse_pot0,
 						_fine_pot1,
 						_freqmodcv_pot2,

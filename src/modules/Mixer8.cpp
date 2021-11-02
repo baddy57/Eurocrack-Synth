@@ -1,17 +1,7 @@
 #include "Mixer8.h"
 
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
-
-//#include <vector>
-#include <Audio.h>
-#include <cstdint>
-
 extern ILI9341_t3 tft;
+
 namespace {
 	enum FIXED_inputs {	GAIN7=8, GAIN6, GAIN5, GAIN4, GAIN3, GAIN2, GAIN1, GAIN0,//32-39
 					CH0_D=16, CH1_D, CH2_D, CH3_D, CH4_D, CH5_D, CH6_D, CH7_D, //16-23
