@@ -1,11 +1,5 @@
-#include "FX_Reverb.h"
+#include "Reverb.h"
 
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
 
 namespace {
 	enum _inputs { BYPASS_SW = 16, POT0, POT1, IN_D, OUT_D, IN=23 };
@@ -27,7 +21,7 @@ Reverb :: Reverb (const Address& a)
 void
 Reverb :: updateValues() {
 	if (_bypass.wasUpdated()) {
-		if (_bypass.b_read()) {
+		if (!_bypass.b_read()) {
 			_rev.roomsize(0);
 			_rev.damping(0);
 			return;

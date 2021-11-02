@@ -191,10 +191,10 @@
     <None Include="src\arduino folders read me.txt">
     </None>
     <None Include="src\EUROCRACK_SYNTH.ino" />
-    <None Include="src\modules\FX_Multi_cpp" />
-    <None Include="src\modules\FX_Multi_h" />
-    <None Include="src\modules\FX_Reverb.cpp" />
-    <None Include="src\modules\FX_Reverb.h" />
+    <None Include="src\modules\fx\FX_Multi_cpp" />
+    <None Include="src\modules\fx\FX_Multi_h" />
+    <None Include="src\modules\fx\Reverb.cpp" />
+    <None Include="src\modules\fx\Reverb.h" />
     <None Include="src\modules\MidiPolycpp" />
     <None Include="src\modules\MidiPolyh" />
     <None Include="src\modules\VCOcpp" />
@@ -203,6 +203,8 @@
     <None Include="src\modules\WaveTable_h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\modules\fx\Distortion_amp.h" />
+    <ClInclude Include="src\modules\fx\Distortion_bc.h" />
     <ClInclude Include="src\Address.h" />
     <ClInclude Include="src\Control.h" />
     <ClInclude Include="src\controls\Button.h" />
@@ -231,6 +233,8 @@
     <ClInclude Include="__vm\.EUROCRACK_SYNTH.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\modules\fx\Distortion_amp.cpp" />
+    <ClCompile Include="src\modules\fx\Distortion_bc.cpp" />
     <ClCompile Include="src\Address.cpp" />
     <ClCompile Include="src\controls\Button.cpp" />
     <ClCompile Include="src\controls\IdMux.cpp" />

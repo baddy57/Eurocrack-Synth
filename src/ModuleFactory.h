@@ -20,7 +20,9 @@
 #include "modules/DrumMachine.h"
 #include "modules/Vcf.h"
 #include "modules/ADSR.h"
-#include "modules/FX_Reverb.h"
+#include "modules/fx/Reverb.h"
+#include "modules/fx/Distortion_amp.h"
+#include "modules/fx/Distortion_bc.h"
 
 
 extern const uint_fast8_t MAX_MODULES;
@@ -163,6 +165,22 @@ void factory(std::vector<Module*>& activeModules) {
 				break;
 			}
 			case 12: {
+				Serial.print(moduleType);
+				Serial.print("  DISTORTION_amp");
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
+				activeModules.push_back(new Distortion_amp(slotAddress));
+				break;
+			}
+			case 13: {
+				Serial.print(moduleType);
+				Serial.print("  DISTORTION_bc");
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
+				activeModules.push_back(new Distortion_bc(slotAddress));
+				break;
+			}
+			case 14: {
 				Serial.print(moduleType);
 				Serial.print("  REVERB");
 				Serial.print("  @  ");

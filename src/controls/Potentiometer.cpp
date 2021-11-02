@@ -4,7 +4,6 @@
 #include <cstdint>
 
 extern const uint_fast8_t POT_DEADZONE;
-#define DIV1023 1/1023
 
 extern ILI9341_t3 tft;
 extern const uint_fast8_t POT_READS;

@@ -8,6 +8,7 @@
 class AudioIn : public Module {
 	private:
 		AudioInputI2S _lineIn;
+		AudioAmplifier _preamp;
 		AudioInputUSB _usbIn;
 		Potentiometer _micGain;
 	public:

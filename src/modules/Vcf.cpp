@@ -18,10 +18,10 @@ namespace {
 
 //ctor
 VCF :: VCF (const Address& a) 
-	:	Module(a),
-		_freq_pot0	(a, POT0),
-		_res_pot1	(a, POT1),
-		_oct_pot2	(a, POT2)
+	:	Module(a)
+	,	_freq_pot0	(a, POT0, 3200)
+	,	_res_pot1	(a, POT1, 3200)
+	,	_oct_pot2	(a, POT2, 3200)
 {
 	
 	//_filter = new AudioFilterStateVariable();

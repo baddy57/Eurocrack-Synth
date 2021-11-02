@@ -5,6 +5,9 @@
 #include "Control.h"
 #include "controls/InputSocket.h"
 #include "controls/OutputSocket.h"
+#include "controls/Potentiometer.h"
+#include "controls/Button.h"
+#include "controls/Switch.h"
 #include <Audio.h>
 #include <vector>
 #include <memory>
