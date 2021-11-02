@@ -20,10 +20,11 @@
 #include "modules/DrumMachine.h"
 #include "modules/Vcf.h"
 #include "modules/ADSR.h"
+#include "modules/FX_Reverb.h"
 
 
 extern const uint_fast8_t MAX_MODULES;
-extern ILI9341_t3 tft;
+//extern ILI9341_t3 Serial;
 
 namespace module {
 	namespace types {
@@ -37,9 +38,9 @@ namespace module {
 			FILTER,
 			ADSR,
 			VCA,
-			MIXER8,  //9
+			MIXER8,  //9 = 00001001
 			DISTORTION,
-			REVERB,
+			REVERB, //11 = 00001011
 			DELAY,
 			LOOPER,
 			NOISE,
@@ -63,109 +64,122 @@ void factory(std::vector<Module*>& activeModules) {
 		for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
 			Address slotAddress(i);
 			uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
-			Serial.println(moduleType);
+			//Serial.println(moduleType);
 			switch (moduleType) {
 			case 0: {
+				//Serial.print("---");
+				//Serial.println(slotAddress.toInt());
 				break;
 			}
 
 			case 1: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  AUDIO_OUT");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  AUDIO_OUT");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new AudioOut(slotAddress));
 				break;
 			}
 			case 2: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  AUDIO_IN");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  AUDIO_IN");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new AudioIn(slotAddress));
 				break;
 			}
 			case 3: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  VCF");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  VCF");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new VCF(slotAddress));
 				break;
 			}
 			case 4: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  VCO_det");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  VCO_det");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new VCO_det(slotAddress));
 				break;
 			}
 			case 5: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  MIDI MONO");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  MIDI MONO");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new MidiMono(slotAddress));
 				break;
 			}
 			case 6: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  ADSR");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  ADSR");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new ADSR(slotAddress));
 				break;
 			}
 			case 9: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  MIXER8");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  MIXER8");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new Mixer8(slotAddress));
 				break;
 			}
 			case 10: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  VCA");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  VCA");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new VCA(slotAddress));
 				break;
 			}
 			case 11: {
 				if (verbose) {
-					tft.print(moduleType);
-					tft.print("  DRUMZ");
-					tft.print("  @  ");
-					tft.println(slotAddress.toInt());
+					Serial.print(moduleType);
+					Serial.print("  DRUMZ");
+					Serial.print("  @  ");
+					Serial.println(slotAddress.toInt());
 				}
 				activeModules.push_back(new DrumMachine(slotAddress));
 				break;
 			}
+			case 12: {
+				Serial.print(moduleType);
+				Serial.print("  REVERB");
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
+				activeModules.push_back(new Reverb(slotAddress));
+				break;
+			}
 			default: {
+				Serial.print(moduleType);
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
 				break;
 			}
 			};
-
+			if (slotAddress.toInt() % 16 == 15) Serial.println("----------------------");
 		}
-		tft.println("----------------------------------------");
+		Serial.println("----------------------------------------");
 	}
 }
 }; 

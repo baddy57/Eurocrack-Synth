@@ -26,8 +26,8 @@
     </None>
     <None Include="src\modules\FX_Multi_cpp" />
     <None Include="src\modules\FX_Multi_h" />
-    <None Include="src\modules\FX_Reverbcpp" />
-    <None Include="src\modules\FX_Reverbh" />
+    <None Include="src\modules\FX_Reverb.cpp" />
+    <None Include="src\modules\FX_Reverb.h" />
     <None Include="src\modules\MidiPolycpp" />
     <None Include="src\modules\MidiPolyh" />
     <None Include="src\modules\VCOcpp" />

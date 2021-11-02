@@ -17,10 +17,14 @@ class Reverb : public Module {
 		std :: vector <Socket> outputSocket;//[8];
 		std :: vector <AudioConnection*> internalConns;//if any;
 	*/
-		Potentiometer 	_roomsize_pot0, 
-						_damping_pot1;
-				
-		AudioEffectFreeverb* _rev;
+		Potentiometer 	
+			_roomsize_pot0, 
+			_damping_pot1;
+		Switch
+			_bypass;
+
+
+		AudioEffectFreeverb _rev;
 		
 	public:
 		Reverb () = delete;

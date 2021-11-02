@@ -5,9 +5,6 @@
 #include "../controls/OutputSocket.h"
 #include "../controls/InputSocket.h"
 
-extern ILI9341_t3 tft;
-
-//#include <vector>
 #include <Audio.h>
 #include <cstdint>
 
@@ -24,9 +21,6 @@ AudioControlSGTL5000 AudioOut::_audioCtrl;
 //CONSTRUCTOR
 AudioOut :: AudioOut(const Address& a) : 
 		Module(a), 
-		//_audioCtrl(),
-		//_analogOut(),
-		//_usbOut(),
 		_volume_pot0(pins::VOLUME)
 {
 
