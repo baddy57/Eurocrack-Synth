@@ -9,7 +9,6 @@ namespace {
 Distortion_amp::Distortion_amp(const Address& a)
 	: Module(a)
 	, _gain_pot0(a, POT0, 4700)
-	//, _sampleRate_pot1(a, POT1, 4700)
 	, _bypass(a, BYPASS_SW)
 {
 

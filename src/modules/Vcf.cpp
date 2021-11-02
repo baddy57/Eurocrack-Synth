@@ -1,13 +1,5 @@
 #include "Vcf.h"
 
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
-
-
 namespace {
 	enum _inputs {	POT0=16, POT1, POT2,
 					SIG_IN_D=25, SIG_IN,

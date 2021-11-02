@@ -1,23 +1,11 @@
 #ifndef __MODULES_MIXER8_H__
-#define __MODULES_MIXER8_H__ 1
+#define __MODULES_MIXER8_H__ 
 
 #include "../Module.h"
-#include "../Address.h"
-#include <Audio.h>
-#include <cstdint>
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
+
 
 class Mixer8 : public Module {
 	private:
-	/*inherited
-		Address moduleAddress;
-		std :: vector <Socket> inputSocket; //[8];
-		std :: vector <Socket> outputSocket;//[8];
-		std :: vector <AudioConnection*> internalConns;//if any;
-	*/
-		//uint_fast8_t GAIN0, GAIN1, GAIN2, GAIN3, GAIN4, GAIN5, GAIN6, GAIN7;
 		Potentiometer 	
 			_gain_pot0, 
 			_gain_pot1,

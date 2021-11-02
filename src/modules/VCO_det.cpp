@@ -1,15 +1,5 @@
 #include "VCO_det.h"
 
-#include "../controls/Potentiometer.h"
-#include "../controls/Switch.h"
-#include "../controls/Button.h"
-
-#include "../controls/OutputSocket.h"
-#include "../controls/InputSocket.h"
-
-#include <vector>
-#include <Audio.h>
-#include <cstdint>
 extern ILI9341_t3 tft;
 
 namespace {
@@ -22,44 +12,15 @@ namespace {
 
 //ctor
 VCO_det :: VCO_det (const Address& a)
-	:	Module(a),
-		_coarse_pot0	(a, 8, 3200.f), //8
-		_fine_pot1		(a, 10, 3200.f), //10
-		_freqmodcv_pot2	(a, 11), 
-		_phasemodcv_pot3(a, 12), //12
-		_amp_pot4		(a, 15),
-		
-		_freq_phase_sw4	(a, 9) //, //9
-		
-		//_sin0(AudioSynthWaveformModulated())
-		// _tri0(),
-		// _saw0(),
-		// _sqr0(),
-		// _sin1(),
-		// _tri1(),
-		// _saw1(),
-		// _sqr1(),
-		// _sin(),
-		// _tri(),
-		// _saw(),
-		// _sqr()
+	:	Module(a)
+	,	_coarse_pot0	(a, 8, 3200.f)
+	,	_fine_pot1		(a, 10, 3200.f)
+	,	_freqmodcv_pot2	(a, 11)
+	,	_phasemodcv_pot3(a, 12)
+	,	_amp_pot4		(a, 15)
+	,	_freq_phase_sw4	(a, 9)
 
 {
-	//_sin0 = new AudioSynthWaveformModulated();
-	// _tri0 = new AudioSynthWaveformModulated();
-	// _saw0 = new AudioSynthWaveformModulated(); 
-	// _sqr0 = new AudioSynthWaveformModulated();
-	// _sin1 = new AudioSynthWaveformModulated(); 
-	// _tri1 = new AudioSynthWaveformModulated(); 
-	// _saw1 = new AudioSynthWaveformModulated(); 
-	// _sqr1 = new AudioSynthWaveformModulated();
-	// _sin  = new AudioMixer4(); 
-	// _tri  = new AudioMixer4(); 
-	// _saw  = new AudioMixer4(); 
-	// _sqr  = new AudioMixer4();
-	// _amp0 = new	AudioAmplifier();
-	// _amp1 = new	AudioAmplifier();
-	
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, SIN_OUT, SIN_OUT_D, _sin, 0, "SIN"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, TRI_OUT, TRI_OUT_D, _tri, 0, "TRI"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, SAW_OUT, SAW_OUT_D, _saw, 0, "SAW"));
@@ -131,8 +92,6 @@ VCO_det :: updateValues() {
 		_tri1.frequency(_freq1);
 		_saw1.frequency(_freq1);
 		_sqr1.frequency(_freq1);
-		// tft.print("freq (Hz)= ");
-		// tft.println(_freq);
 	}
 	
 	if(_amp_pot4.wasUpdated()){
@@ -145,12 +104,9 @@ VCO_det :: updateValues() {
 		_tri1.amplitude(_amplitude);
 		_saw1.amplitude(_amplitude);
 		_sqr1.amplitude(_amplitude);
-		// tft.print("...b:");
-		// tft.println(_amplitude);
 	}
 	
 	_freq_phase_sw4.update();
-//		tft.print("uuuuuuuuuu");//updates sw internal variable
 	
 	if(_freq_phase_sw4.b_read()){ //if switch is set to frequency mod
 		if(_freqmodcv_pot2.wasUpdated()){
@@ -163,8 +119,6 @@ VCO_det :: updateValues() {
 			_tri1.frequencyModulation(_freqmodcv);
 			_saw1.frequencyModulation(_freqmodcv);
 			_sqr1.frequencyModulation(_freqmodcv);
-			// tft.print("...c...");
-			// tft.println(_freqmodcv);
 		}
 	}
 	else{ //if switch is set to phase modulation
@@ -178,9 +132,6 @@ VCO_det :: updateValues() {
 			_tri1.phaseModulation(_phasemodcv);
 			_saw1.phaseModulation(_phasemodcv);
 			_sqr1.phaseModulation(_phasemodcv);
-			
-			// tft.print("...d: ");
-			// tft.print(_phasemodcv);
 		}
 	}
 }
