@@ -15,8 +15,6 @@ VCF :: VCF (const Address& a)
 	,	_res_pot1	(a, POT1, 3200)
 	,	_oct_pot2	(a, POT2, 3200)
 {
-	
-	//_filter = new AudioFilterStateVariable();
 	inputSockets.push_back(std::make_shared<InputSocket>(a, SIG_IN, SIG_IN_D, _filter, 0, "VCF_IN"));
 	inputSockets.push_back(std::make_shared<InputSocket>(a, FREQ_CV, FREQ_CV_D, _filter, 1, "VCF_CV"));
 	

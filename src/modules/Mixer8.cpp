@@ -3,34 +3,26 @@
 extern ILI9341_t3 tft;
 
 namespace {
-	enum FIXED_inputs {	GAIN7=8, GAIN6, GAIN5, GAIN4, GAIN3, GAIN2, GAIN1, GAIN0,//32-39
+	enum FIXED_inputs {	//GAIN7=8, GAIN6, GAIN5, GAIN4, GAIN3, GAIN2, GAIN1, GAIN0,//32-39
 					CH0_D=16, CH1_D, CH2_D, CH3_D, CH4_D, CH5_D, CH6_D, CH7_D, //16-23
 					CH7 =24, CH6, CH5, CH4, CH3, CH2, CH1, CH0, //48-53 fixed 202009061944
 					OUT_STEREO_L_D=32, OUT_STEREO_R_D, SW, OUT_MONO_D //8-11
 					};
-	/*uint_fast8_t
-		GAIN0(Module::fix(39)),
-		GAIN1(Module::fix(38)),
-		GAIN2(Module::fix(37)),
-		GAIN3(Module::fix(36)),
-		GAIN4(Module::fix(35)),
-		GAIN5(Module::fix(34)),
-		GAIN6(Module::fix(33)),
-		GAIN7(Module::fix(32));*/
+	const uint_fast8_t
+		GAIN0(fix(39)),
+		GAIN1(fix(38)),
+		GAIN2(fix(37)),
+		GAIN3(fix(36)),
+		GAIN4(fix(35)),
+		GAIN5(fix(34)),
+		GAIN6(fix(33)),
+		GAIN7(fix(32));
 	enum _outputs {OUT_MONO, OUT_STEREO_L, OUT_STEREO_R};
 };
 
 //ctor
 Mixer8 :: Mixer8 (const Address& a)
 	:	Module(a)
-	/*,	GAIN0(Module::fix(39))
-	,	GAIN1(Module::fix(38))
-	,	GAIN2(Module::fix(37))
-	,	GAIN3(Module::fix(36))
-	,	GAIN4(Module::fix(35))
-	,	GAIN5(Module::fix(34))
-	,	GAIN6(Module::fix(33))
-	,	GAIN7(Module::fix(32))*/
 	,	_gain_pot0	(a, GAIN0, 4700.f)
 	,	_gain_pot1	(a, GAIN1, 4700.f)
 	,	_gain_pot2	(a, GAIN2, 4700.f)

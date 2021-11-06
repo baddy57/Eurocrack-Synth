@@ -121,6 +121,9 @@
     <ClInclude Include="src\modules\fx\Distortion_amp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\modules\fx\Delay_single.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\samples\D_samples.cpp">
@@ -190,6 +193,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\fx\Distortion_amp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\fx\Delay_single.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

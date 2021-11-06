@@ -104,6 +104,15 @@ const uint_fast8_t POLYPHONY = 10;
 //XPT2046_Touchscreen ts(CS_PIN, TIRQ_PIN); // Param 2 - Touch IRQ Pin - interrupt enabled polling
 
 
+//fix big module address
+#define fix(x)                  \
+    (x)>32 && (x)%16>=8 ?       \
+        (x) :                   \
+    ((x>=32) ?                  \
+        (x-24) :                \
+    ((x%16)>=8 ?                \
+        (x+24) :                \
+        (x)))
 
 
 #endif

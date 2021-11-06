@@ -14,6 +14,7 @@
 #include <list>
 extern ILI9341_t3 tft;
 
+#define FIX (x)
 
 class Module{
 	private:

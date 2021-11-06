@@ -23,7 +23,7 @@
 #include "modules/fx/Reverb.h"
 #include "modules/fx/Distortion_amp.h"
 #include "modules/fx/Distortion_bc.h"
-
+#include "modules/fx/Delay_single.h"
 
 extern const uint_fast8_t MAX_MODULES;
 //extern ILI9341_t3 Serial;
@@ -166,10 +166,10 @@ void factory(std::vector<Module*>& activeModules) {
 			}
 			case 12: {
 				Serial.print(moduleType);
-				Serial.print("  DISTORTION_amp");
+				Serial.print("  Delay_single");
 				Serial.print("  @  ");
 				Serial.println(slotAddress.toInt());
-				activeModules.push_back(new Distortion_amp(slotAddress));
+				activeModules.push_back(new Delay_single(slotAddress));
 				break;
 			}
 			case 13: {
@@ -188,6 +188,15 @@ void factory(std::vector<Module*>& activeModules) {
 				activeModules.push_back(new Reverb(slotAddress));
 				break;
 			}
+			case 15: {
+				Serial.print(moduleType);
+				Serial.print("  DISTORTION_amp");
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
+				activeModules.push_back(new Distortion_amp(slotAddress));
+				break;
+			}
+			
 			default: {
 				Serial.print(moduleType);
 				Serial.print("  @  ");
