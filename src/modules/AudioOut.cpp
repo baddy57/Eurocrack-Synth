@@ -27,7 +27,7 @@ AudioOut :: AudioOut(const Address& a) :
 void
 AudioOut :: updateValues() {
 	if(_volume_pot0.wasUpdated()){
-		_audioCtrl.volume(_volume_pot0.f_read());
+		_audioCtrl.volume(_volume_pot0.read(0, 0.8));
 	}
 	return;
 }

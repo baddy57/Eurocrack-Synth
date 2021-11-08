@@ -32,6 +32,8 @@ Delay_single::Delay_single(const Address& a)
 
 void Delay_single::updateValues() {
 	if (pot0.wasUpdated()) {
-		delay.delay(0, pot0.i_read());
+		float r = pot0.i_read();
+
+		delay.delay(0, r);
 	}
 }

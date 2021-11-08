@@ -6,7 +6,6 @@
 
 //#include libraries
 #include <vector>
-#include <Audio.h>
 
 //include my classes
 #include "Module.h"
@@ -67,7 +66,7 @@ void setup() {
 	pinMode(pins::RGB1_3, OUTPUT);
 	pinMode(pins::RGB0_3, OUTPUT);
 
-	AudioMemory(1500);
+	AudioMemory(1000);
 	delay(2000);
 
 

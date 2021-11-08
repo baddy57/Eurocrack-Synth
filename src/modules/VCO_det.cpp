@@ -1,5 +1,4 @@
 #include "VCO_det.h"
-
 extern ILI9341_t3 tft;
 
 namespace {

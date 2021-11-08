@@ -1,8 +1,8 @@
 {
   "configurations": [
     {
-      "name": "Visual Micro",
-      "intelliSenseMode": "windows-msvc-x86"
+      "intelliSenseMode": "windows-msvc-x64",
+      "name": "Visual Micro"
     }
   ]
 }
