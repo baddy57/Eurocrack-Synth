@@ -2,17 +2,33 @@
 
 #include <Wire.h>
 #include <cstdint>
+#include <math.h>
 
 extern const uint_fast8_t POT_DEADZONE;
 
 extern ILI9341_t3 tft;
 extern const uint_fast8_t POT_READS;
 
+
 void Potentiometer::setRange(float pullup){
 	if (pullup == 0.f)return;
 	minval = pullup / 9.78f;
 	range = 1023.f / (990.f-minval);
 	return;
+}
+
+float Potentiometer::read(float min, float max, uint scaleType) {
+	switch (scaleType) {
+	case LIN:
+		return value / 1023.f * (max - min) + min;
+	case EXP:
+		return pow(2, (uint)value / 8) / pow(2, 127) * (max - min) + min;
+	case LOG:
+		return 0;
+	default:
+		return -1;
+	}
+
 }
 
 void

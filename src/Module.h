@@ -1,6 +1,11 @@
 #ifndef __MODULE_H__
 #define __MODULE_H__
 
+#include <memory>
+#include <vector>
+#include <cstdint>
+#include <Audio.h>
+#include <list>
 #include "Address.h"
 #include "Control.h"
 #include "controls/InputSocket.h"
@@ -8,10 +13,6 @@
 #include "controls/Potentiometer.h"
 #include "controls/Button.h"
 #include "controls/Switch.h"
-#include <Audio.h>
-#include <vector>
-#include <memory>
-#include <list>
 extern ILI9341_t3 tft;
 
 #define FIX (x)

@@ -102,7 +102,14 @@
     <IncludePath>C:\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\arm-none-eabi\bits;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>C:\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36;C:\Program Files\Arduino\hardware\teensy\avr\libraries\WS2812Serial;C:\Program Files\Arduino\hardware\teensy\avr\libraries\ILI9341_t3;C:\Program Files\Arduino\hardware\teensy\avr\libraries\Wire;C:\Program Files\Arduino\hardware\teensy\avr\libraries\Audio;C:\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\arm-none-eabi\bits;C:\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1;C:\Users\cristian\source\repos\SYNTH\EUROCRACK_SYNTH\src</IncludePath>
+    <IncludePath>C:\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36;C:\Program Files\Arduino\hardware\teensy\avr\libraries\WS2812Serial;C:\Program Files\Arduino\hardware\teensy\avr\libraries\ILI9341_t3;C:\Program Files\Arduino\hardware\teensy\avr\libraries\Wire;C:\Program Files\Arduino\hardware\teensy\avr\libraries\Audio;C:\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1;C:\Users\cristian\source\repos\SYNTH\EUROCRACK_SYNTH\src</IncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath />
+    <SourcePath />
+    <ExecutablePath />
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryWPath />
+    <ExcludePath />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,12 +131,12 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\ILI9341_t3;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SPI;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\XPT2046_Touchscreen;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Audio;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\SD\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SerialFlash;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Wire;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\MIDI\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\avr;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\debug;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\util;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\lib\gcc\arm-none-eabi\5.4.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\tr1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\bits;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\arm-none-eabi;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\ILI9341_t3;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SPI;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\XPT2046_Touchscreen;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Audio;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SerialFlash;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Wire;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\avr;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\debug;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\util;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\lib\gcc\arm-none-eabi\5.4.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)..\__vm\.EUROCRACK_SYNTH.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__HARDWARE_imxrt1062__;__HARDWARE_IMXRT1062__;_VMDEBUG=1;__IMXRT1062__;TEENSYDUINO=155;ARDUINO=108015;ARDUINO_TEENSY41;F_CPU=600000000;USB_MIDI_AUDIO_SERIAL;LAYOUT_US_ENGLISH;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <PreprocessorDefinitions>__HARDWARE_imxrt1062__;__HARDWARE_IMXRT1062__;_VMDEBUG=1;__IMXRT1062__;TEENSYDUINO=155;ARDUINO=108015;ARDUINO_TEENSY41;F_CPU=600000000;USB_MIDI_AUDIO_SERIAL;LAYOUT_US_ENGLISH;__cplusplus=201103L;_VMICRO_INTELLISENSE</PreprocessorDefinitions>
+      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -160,7 +167,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\ILI9341_t3;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SPI;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\XPT2046_Touchscreen;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Audio;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\SD\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SerialFlash;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Wire;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\MIDI\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36\utility;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Audio\utility;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\SD\src\utility;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Wire\utility;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\avr;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\debug;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\util;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\lib\gcc\arm-none-eabi\5.4.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\tr1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\bits;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\arm-none-eabi;$(ProjectDir)..\EUROCR~1\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Audio;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SPI;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\SerialFlash;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\SD\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\ILI9341_t3;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\XPT2046_Touchscreen;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\USBHost_t36;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\libraries\Wire;$(ProjectDir)..\..\..\..\OneDrive\Private\Arduino\libraries\MIDI\src;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\avr;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\debug;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy\avr\cores\teensy4\util;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\lib\gcc\arm-none-eabi\5.4.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\tr1;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\bits;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\tools\arm\arm-none-eabi\include\c++\5.4.1\arm-none-eabi;$(ProjectDir)..\..\..\..\..\..\Program Files\Arduino\hardware\teensy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)..\__vm\.EUROCRACK_SYNTH.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>__HARDWARE_imxrt1062__;__HARDWARE_IMXRT1062__;__IMXRT1062__;TEENSYDUINO=155;ARDUINO=108015;ARDUINO_TEENSY41;F_CPU=600000000;USB_MIDI_AUDIO_SERIAL;LAYOUT_US_ENGLISH;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -191,6 +198,7 @@
     <None Include="src\arduino folders read me.txt">
     </None>
     <None Include="src\EUROCRACK_SYNTH.ino" />
+    <None Include="src\modules\fx\EUROCRACK_SYNTH.ino" />
     <None Include="src\modules\fx\FX_Multi_cpp" />
     <None Include="src\modules\fx\FX_Multi_h" />
     <None Include="src\modules\fx\Reverb.cpp" />
@@ -203,6 +211,7 @@
     <None Include="src\modules\WaveTable_h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\modules\fx\Delay_multi.h" />
     <ClInclude Include="src\modules\fx\Delay_single.h">
       <SubType>
       </SubType>
@@ -237,6 +246,7 @@
     <ClInclude Include="__vm\.EUROCRACK_SYNTH.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\modules\fx\Delay_multi.cpp" />
     <ClCompile Include="src\modules\fx\Delay_single.cpp">
       <SubType>
       </SubType>

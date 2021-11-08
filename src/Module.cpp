@@ -1,6 +1,5 @@
 #include "Module.h"
-
-#include <cstdint>
+#include <vector>
 
 #include "HardwareCfg.h"
 #include "PatchCable.h"
