@@ -15,21 +15,21 @@ any output socket can be connected to multiple inputs using 3.5mm mono jacks and
 the signal that flows in these cables is not an audio signal, but just a digital signal sent from the outputs, that, if received by any inputs, lets the code know that an audioconnection object must be created.
 
 similarities to real eurorack synths:
-	module size, which is 128.5 x 5.08*n mm
-	m3 screws used to attach the modules to the rack
-	3.5mm cables
-	fpc16 cables
+	module size, which is 128.5 x 5.08*n mm<br>
+	m3 screws used to attach the modules to the rack<br>
+	3.5mm <br>
+	fpc16 cables<br>
 
 other features: 
-	analog audio in/out, thanks to the teensy audio board \n
-	usb audio in/out \n
-	midi in/out
-	usb midi in/out
-	a touch screen display (used mainly for debugging purposes at the moment)
+	analog audio in/out, thanks to the teensy audio board <br>
+	usb audio in/out <br>
+	midi in/out <br>
+	usb midi in/out <br>
+	a touch screen display (used mainly for debugging purposes at the moment) <br>
 	of course, rgb leds (i still need to fix them)
 
 special thanks to:
-	Paul Stoffregen and anybody who has worked on the audio library
-	everyone on the pjrc forum
-	youtube channel notes and volts
-	again mattybrad for sharing his code
+	Paul Stoffregen and anybody who has worked on the audio library <br>
+	everyone on the pjrc forum<br>
+	youtube channel notes and volts<br>
+	again mattybrad for sharing his code<br>
