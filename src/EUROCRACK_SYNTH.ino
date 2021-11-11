@@ -7,6 +7,8 @@
 //#include libraries
 #include <vector>
 #include <Audio.h>
+#include <SD.h>
+#include <SPI.h>
 
 //include my classes
 #include "Module.h"
@@ -70,7 +72,6 @@ void setup() {
 	AudioMemory(1500);
 	delay(2000);
 
-
 	tft.begin();
 	tft.setRotation(4);
 	tft.fillScreen(ILI9341_BLUE);
@@ -80,7 +81,8 @@ void setup() {
 
 	module::factory(activeModules);
 
-
+	SD.begin(BUILTIN_SDCARD);
+	Serial.println("sd started");
 
 
 	// strip.begin();

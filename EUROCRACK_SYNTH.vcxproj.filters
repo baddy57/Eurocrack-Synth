@@ -20,18 +20,22 @@
     </None>
     <None Include="src\EUROCRACK_SYNTH.ino" />
     <None Include=".gitignore" />
-    <None Include="src\modules\fx\FX_Multi_cpp" />
-    <None Include="src\modules\fx\FX_Multi_h" />
     <None Include="src\modules\fx\Reverb.cpp" />
     <None Include="src\modules\fx\Reverb.h" />
+    <None Include="README.md" />
+    <None Include=".gitattributes" />
+    <None Include="CppProperties.json">
+      <Filter>Misc Files</Filter>
+    </None>
+    <None Include="src\modules\fx\EUROCRACK_SYNTH.ino" />
+    <None Include="src\modules\fx\FX_Multi_cpp" />
+    <None Include="src\modules\fx\FX_Multi_h" />
     <None Include="src\modules\MidiPolycpp" />
     <None Include="src\modules\MidiPolyh" />
     <None Include="src\modules\VCOcpp" />
     <None Include="src\modules\VCOh" />
     <None Include="src\modules\WaveTable_cpp" />
     <None Include="src\modules\WaveTable_h" />
-    <None Include="README.md" />
-    <None Include="src\modules\fx\EUROCRACK_SYNTH.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PatchCable.h">
@@ -119,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\modules\fx\Delay_multi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.EUROCRACK_SYNTH.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

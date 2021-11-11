@@ -1,5 +1,5 @@
 #include "DrumMachine.h"
-
+#include <HardwareSerial.h>
 #define DIV127 1/127
 
 uint_fast8_t DrumMachine::_channel;

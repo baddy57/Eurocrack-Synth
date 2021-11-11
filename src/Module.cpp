@@ -1,6 +1,4 @@
 #include "Module.h"
-#include <vector>
-
 #include "HardwareCfg.h"
 #include "PatchCable.h"
 

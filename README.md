@@ -17,7 +17,7 @@ the signal that flows in these cables is not an audio signal, but just a digital
 similarities to real eurorack synths:<br>
 	module size, which is 128.5 x 5.08*n mm<br>
 	m3 screws used to attach the modules to the rack<br>
-	3.5mm <br>
+	3.5mm mono jacks<br>
 	fpc16 cables<br>
 
 other features: <br>
