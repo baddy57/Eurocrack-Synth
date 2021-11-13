@@ -108,13 +108,13 @@
     <ClInclude Include="src\samples\D_samples.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.EUROCRACK SYNTH.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\controls\Button2t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\modules\Looper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.EUROCRACK SYNTH.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
