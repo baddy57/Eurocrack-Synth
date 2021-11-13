@@ -2,7 +2,6 @@
 #define __MODULES_Looper_H__
 
 #include "../Module.h"
-#define MS_TO_BYTES
 
 struct LoopTrack {
 	AudioPlaySdRaw player;
@@ -33,9 +32,6 @@ private:
 public:
 	Looper (const Address&);
 	void updateValues();
-		
-protected:
-	
 };
 
 #endif

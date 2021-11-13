@@ -124,7 +124,9 @@ Looper :: updateValues() {
 			queuedCount++;
 			playingCount--;
 		}
-
+		//////////////////
+		///known issue: if the longest track is deleted, all the others remain stuck in the queue and cannot be deleted
+		//////////////////
 #ifdef disable
 		//sync tracks
 		if (queuedCount > 0) {

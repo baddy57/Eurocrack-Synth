@@ -9,9 +9,9 @@ bool Button2t::tap()
 {
 	if (wasUpdated() && state) {
 		delay(DOUBLE_TAP_DELAY);
-		if (!isPressed) {
+		if (!isPressed()) {
 			delay(DOUBLE_TAP_DELAY);
-			if (isPressed) {
+			if (isPressed()) {
 				doubleTapDetected++;
 				return false;
 			}

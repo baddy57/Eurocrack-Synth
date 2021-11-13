@@ -13,7 +13,8 @@ bool Button::tap()
 {
 	if (wasUpdated() && state) {
 		delay(BOUNCE_DELAY);
-		if(!isPressed) return true;
+		if(!isPressed()) 
+			return true;
 	}
 	return false;
 }
