@@ -59,15 +59,15 @@ PatchCable :: PatchCable (os_ptr out, is_ptr in){
 
 
 	
-	tft.print(out->getName());
-	tft.print(" >>> ");
-	tft.print(in->getName());
+	Serial.print(out->getName());
+	Serial.print(" >>> ");
+	Serial.print(in->getName());
 	switch (connectionType)
 	{
-		case M2M: tft.println(" M2M"); break;
-		case M2P: tft.println(" M2P"); break;
-		case P2M: tft.println(" P2M"); break;
-		case P2P: tft.println(" P2P");
+		case M2M: Serial.println(" M2M"); break;
+		case M2P: Serial.println(" M2P"); break;
+		case P2M: Serial.println(" P2M"); break;
+		case P2P: Serial.println(" P2P");
 	}
 	
 }
@@ -105,10 +105,10 @@ PatchCable :: ~PatchCable(){
 		}
 	}
 	
-	//tft.print(_out->getName());
-	//tft.print(" XXX ");
-	//tft.println(_in->getName());
-	
+	/*Serial.print(_out->getName());
+	Serial.print(" XXX ");
+	Serial.println(_in->getName());
+	*/
 }
 
 //ok

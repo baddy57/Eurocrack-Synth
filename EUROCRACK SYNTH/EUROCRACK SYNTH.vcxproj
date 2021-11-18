@@ -178,6 +178,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\controls\SelectorMulti.h" />
     <ClInclude Include="src\Address.h" />
     <ClInclude Include="src\controls\Button2t.h" />
     <ClInclude Include="src\Control.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="src\modules\Looper.h" />
     <ClInclude Include="src\modules\MidiMono.h" />
     <ClInclude Include="src\modules\Mixer8.h" />
+    <ClInclude Include="src\modules\LFO.h" />
     <ClInclude Include="src\modules\VCA.h" />
     <ClInclude Include="src\modules\Vcf.h" />
     <ClInclude Include="src\modules\VCO_det.h" />
@@ -213,6 +215,7 @@
     <ClInclude Include="__vm\.EUROCRACK SYNTH.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\controls\SelectorMulti.cpp" />
     <ClCompile Include="src\Address.cpp" />
     <ClCompile Include="src\controls\Button2t.cpp" />
     <ClCompile Include="src\controls\Button.cpp" />
@@ -236,6 +239,7 @@
     <ClCompile Include="src\modules\Looper.cpp" />
     <ClCompile Include="src\modules\MidiMono.cpp" />
     <ClCompile Include="src\modules\Mixer8.cpp" />
+    <ClCompile Include="src\modules\LFO.cpp" />
     <ClCompile Include="src\modules\VCA.cpp" />
     <ClCompile Include="src\modules\Vcf.cpp" />
     <ClCompile Include="src\modules\VCO_det.cpp" />

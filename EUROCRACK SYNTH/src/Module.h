@@ -16,6 +16,7 @@
 #include "controls/Button.h"
 #include "controls/Button2t.h"
 #include "controls/Switch.h"
+#include "controls/SelectorMulti.h"
 
 extern ILI9341_t3 tft;
 

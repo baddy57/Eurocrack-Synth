@@ -15,12 +15,14 @@
 #include "modules/AudioOut.h"
 #include "modules/AudioIn.h"
 #include "modules/VCA.h"
+#include "modules/LFO.h"
 #include "modules/VCO_det.h"
 #include "modules/Mixer8.h"
 #include "modules/MidiMono.h"
 #include "modules/DrumMachine.h"
 #include "modules/Vcf.h"
 #include "modules/ADSR.h"
+#include "modules/Looper.h"
 #include "modules/fx/Reverb.h"
 #include "modules/fx/Distortion_amp.h"
 #include "modules/fx/Distortion_bc.h"
@@ -207,6 +209,24 @@ void factory(std::vector<Module*>& activeModules) {
 				activeModules.push_back(new Delay_single(slotAddress));
 				break;
 			}
+
+			case 17: {
+				Serial.print(moduleType);
+				Serial.print("  Looper");
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
+				activeModules.push_back(new Looper(slotAddress));
+				break;
+			}
+			case 18 : {
+				Serial.print(moduleType);
+				Serial.print("  LFO");
+				Serial.print("  @  ");
+				Serial.println(slotAddress.toInt());
+				activeModules.push_back(new LFO(slotAddress));
+				break;
+			}
+
 			default: {
 				Serial.print(moduleType);
 				Serial.print("  @  ");
