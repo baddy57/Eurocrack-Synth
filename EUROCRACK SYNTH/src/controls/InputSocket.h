@@ -3,6 +3,10 @@
 
 #include "Socket.h"
 
+//no #define Input(a, id, did, as, p, n) Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, did, as, p, n))
+
+
+
 class InputSocket : public Socket {
 protected:
 	ControlAddress* address;

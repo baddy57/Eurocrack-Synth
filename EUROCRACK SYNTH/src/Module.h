@@ -40,4 +40,53 @@ class Module{
 		static void updateConnections();
 };
 
+struct Input {
+	inline  Input(const Address& a,
+		uint_fast8_t id,
+		uint_fast8_t detectorId,
+		AudioStream& as,
+		uint_fast8_t port,
+		const char* name = "mono in")
+	{
+		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as, port));
+	}
+
+	inline Input(const Address& a,
+		uint_fast8_t id,
+		uint_fast8_t detectorId,
+		AudioStream& as0,
+		AudioStream& as1,
+		AudioStream& as2,
+		AudioStream& as3,
+		uint_fast8_t port,
+		const char* name = "poly in")
+	{
+		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port));
+	}
+};
+
+struct Output {
+	inline  Output(const Address& a,
+		uint_fast8_t id,
+		uint_fast8_t detectorId,
+		AudioStream& as,
+		uint_fast8_t port,
+		const char* name = "mono out")
+	{
+		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as, port));
+	}
+
+	inline Output(const Address& a,
+		uint_fast8_t id,
+		uint_fast8_t detectorId,
+		AudioStream& as0,
+		AudioStream& as1,
+		AudioStream& as2,
+		AudioStream& as3,
+		uint_fast8_t port,
+		const char* name = "poly out")
+	{
+		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as0, as1, as2, as3, port));
+	}
+};
 #endif

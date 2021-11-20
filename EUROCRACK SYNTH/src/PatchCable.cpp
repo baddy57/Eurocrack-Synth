@@ -1,4 +1,5 @@
 #include "PatchCable.h"
+#include <memory>
 
 extern ILI9341_t3 tft;
 

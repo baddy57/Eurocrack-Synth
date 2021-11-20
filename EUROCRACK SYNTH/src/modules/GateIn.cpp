@@ -10,9 +10,12 @@ GateIn :: GateIn(): AudioRecordQueue(){
 bool
 GateIn :: read(){
 	if(this->available()>0){
+		//AudioRecordQueue::available()>0
 		int16_t queue[128];
 		memcpy(queue, this->readBuffer(), 256);
+		//AudioRecordQueue::readBuffer()
 		this->freeBuffer();
+		//maybe AudioRecordQueue::freeBuffer();
 		bool newGateReading = (queue[0]>0);
 		if(newGateReading != _isOpen) {
 			_isOpen = newGateReading;
@@ -23,5 +26,6 @@ GateIn :: read(){
 		}
 		clear();
 	}
-	return true; //////////added randomly 20211018 to fix a warning
+	//return true; //////////added randomly 20211018 to fix a warning
+	return false;
 }

@@ -182,9 +182,6 @@
     <ClCompile Include="src\controls\IdMux.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\controls\InputSocket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\controls\OutputSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -213,6 +210,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\LFO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\InputSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

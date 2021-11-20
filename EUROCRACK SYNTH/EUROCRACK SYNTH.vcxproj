@@ -215,12 +215,12 @@
     <ClInclude Include="__vm\.EUROCRACK SYNTH.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\controls\InputSocket.cpp" />
     <ClCompile Include="src\controls\SelectorMulti.cpp" />
     <ClCompile Include="src\Address.cpp" />
     <ClCompile Include="src\controls\Button2t.cpp" />
     <ClCompile Include="src\controls\Button.cpp" />
     <ClCompile Include="src\controls\IdMux.cpp" />
-    <ClCompile Include="src\controls\InputSocket.cpp" />
     <ClCompile Include="src\controls\OutputSocket.cpp" />
     <ClCompile Include="src\controls\Potentiometer.cpp" />
     <ClCompile Include="src\controls\Socket.cpp" />

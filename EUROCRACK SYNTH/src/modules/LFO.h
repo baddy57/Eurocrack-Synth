@@ -2,16 +2,20 @@
 #define __MODULES_LFO_H__
 
 #include "../Module.h"
+#include "GateIn.h"
 
 class LFO : public Module {
 	private:
 		SelectorMulti waveShapeSel;
 		Potentiometer freqPot;
 		Potentiometer cvPot;
-		Switch	rangeSw;
 
+		Input syncIn;
+		Input cvIn;
+		Output out;
+
+		GateIn sync;
 		int currentWave = -1;
-		int maxRange = -1;
 		float freq = 10;
 
 		AudioSynthWaveformModulated wave;

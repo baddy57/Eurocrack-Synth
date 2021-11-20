@@ -29,4 +29,5 @@ class Potentiometer : public Control {
 		bool wasUpdated() {update(); return _wasUpdated;};
 };
 
+typedef Potentiometer Fader;
 #endif
