@@ -18,7 +18,9 @@ int LoopTrack::longest = 0;
 
 //ctor
 Looper::Looper(const Address& a)
-	: Module(a)
+	:	Module(a)
+	,	in(a, IN, IN_D, recorder, 0, "LOOPER IN")
+	,	out(a, OUT, OUT_D, masterMixer, 0, "LOOPER OUT")
 {
 	for (int i = 0; i < TRACKS_COUNT; ++i) {
 		buttons[i] = new Button2t(a, _BTN[i]);
@@ -35,10 +37,6 @@ Looper::Looper(const Address& a)
 		loops[i].filename[9] = '\0';
 		loops[i].state = IDLE;
 	}
-	
-	inputSockets.push_back(std::make_shared<InputSocket>(a, IN, IN_D, recorder, 0, "LOOPER IN"));
-	
-	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT, OUT_D, masterMixer, 0, "LOOPER OUT"));
 
 	internalConns.push_back(new AudioConnection(loops[0].player, 0, mixer_a, 0));
 	internalConns.push_back(new AudioConnection(loops[1].player, 0, mixer_a, 1));

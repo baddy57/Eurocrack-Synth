@@ -22,13 +22,16 @@ namespace {
 
 //ctor
 DrumMachine :: DrumMachine (const Address& a)
-	:	Module(a),
-		MIDI((HardwareSerial&)Serial1),
-		s0(a, S0), s1(a, S0), s2(a, S2), s3(a, S3),
-		chplus(a, CHPLUS),
-		chminus(a, CHMINUS),
-		pan_pot(a, PAN),
-		gain_pot(a, GAIN)
+	:	Module(a)
+	,	MIDI((HardwareSerial&)Serial1)
+	,	s0(a, S0), s1(a, S0), s2(a, S2), s3(a, S3)
+	,	chplus(a, CHPLUS)
+	,	chminus(a, CHMINUS)
+	,	pan_pot(a, PAN)
+	,	gain_pot(a, GAIN)
+	,	left(a, OUT_L, OUT_L_D, *mxr[6], 0, "drum left")
+	,	right(a, OUT_R, OUT_R_D, *mxr[7], 0, "drum right")
+	,	mono(a, OUT_M, OUT_M_D, *mxr[8], 0, "drum mono")
 {
 	for(uint_fast8_t i=0; i<9; ++i)
 		mxr[i] = new AudioMixer4();
@@ -42,10 +45,10 @@ DrumMachine :: DrumMachine (const Address& a)
 	voices.push_back(new Voice(a, _B5));
 	voices.push_back(new Voice(a, _B6));
 	voices.push_back(new Voice(a, _B7));
-	
+	/*
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_L, OUT_L_D, *mxr[6], 0, "drum left"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_R, OUT_R_D, *mxr[7], 0, "drum right"));
-	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_M, OUT_M_D, *mxr[8], 0, "drum mono"));
+	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_M, OUT_M_D, *mxr[8], 0, "drum mono"));*/
 	
 	// to internal mixer4
 	for(uint_fast8_t i=0; i<4; ++i)
@@ -83,6 +86,8 @@ DrumMachine :: DrumMachine (const Address& a)
 	
 	MIDI.begin(_channel);
 	
+	pan_pot.setRange(0, 1, LIN);
+	gain_pot.setRange(0, 1, EXP);
 }
 
 void
@@ -108,12 +113,12 @@ DrumMachine :: updateValues() {
 		if(voices[i]->b.isPressed()){ //while i'm pressing one of b0,b7
 			if(pan_pot.wasUpdated()){
 				float g=voices[i]->gain;
-				float r=pan_pot.f_read();
+				float r=pan_pot.read();
 				mxr[x]->gain(i%4, g*(1.0-r));
 				mxr[x+2]->gain(i%4, g*r);
 			}
 			if(gain_pot.wasUpdated()){
-				voices[i]->setGain(gain_pot.f_read());
+				voices[i]->setGain(gain_pot.read());
 				mxr[x+4]->gain(i%4, voices[i]->gain);
 			}
 			//bank --

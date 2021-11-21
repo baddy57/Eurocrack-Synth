@@ -32,7 +32,12 @@ class VCO_det : public Module {
 			_tri, 
 			_saw, 
 			_sqr;
-
+		Input freqCv;
+		Input shapeCv;
+		Output sine;
+		Output triangle;
+		Output sawtooth;
+		Output square;
 		float 	
 			_freq0,
 			_freq1,

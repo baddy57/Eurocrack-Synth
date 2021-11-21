@@ -16,46 +16,43 @@ namespace {
 
 //ctor
 ADSR :: ADSR (const Address& a)
-:	//init list
-	Module(a),
-//	_del_pot0(a, 0),
-	_att_pot1(a, ATT),
-//	_hol_pot2(a, 2),
-	_sus_pot3(a, SUS),
-	_dec_pot4(a, _DEC),
-	_rel_pot5(a, _REL)//,
+:	Module(a)
+,	_att_pot1(a, ATT, 4700)
+,	_sus_pot3(a, SUS, 4700)
+,	_dec_pot4(a, _DEC, 4700)
+,	_rel_pot5(a, _REL, 4700)
+,	gateIn(a, GATE, GATE_D, _gate, 0, "ADSR_GATE")
+,	out(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT")
 {
-	// _envelope = new AudioEffectEnvelope();
-	// _gate     = new AudioRecordQueue();
-	// _signal   = new AudioSynthWaveformDc();
-	
 	_signal.amplitude(1);
 	_envelope.attack(100);
 	_envelope.release(2000);
 	_envelope.delay(0);
 	_envelope.hold(0);
 
-	inputSockets.push_back(std::make_shared<InputSocket>(a, GATE, GATE_D, _gate, 0, "ADSR_GATE"));
-	outputSockets.push_back(std::make_shared<OutputSocket>(a, SIGNAL_OUT, SIGNAL_OUT_D, _envelope, 0, "ADSR_OUT"));
-	
 	internalConns.push_back(new AudioConnection(_signal, 0, _envelope, 0));
+
 	_gate.begin();
+
+	_att_pot1.setRange(0, 10000, EXP);
+	_dec_pot4.setRange(0, 10000, EXP);
+	_sus_pot3.setRange(0, 1, EXP);
+	_rel_pot5.setRange(0, 10000, EXP);
 }
 
 void
 ADSR :: updateValues() {
-	// if(_del_pot0.wasUpdated())
-		// _envelope.delay(_del_pot0.f_read()*1000);
 	if(_att_pot1.wasUpdated())
-		_envelope.attack(_att_pot1.half_f_read()*1000);
-	// if(_hol_pot2.wasUpdated())
-		// _envelope.hold(_hol_pot2.f_read()*10000);
+		_envelope.attack(_att_pot1.read());
+
 	if(_sus_pot3.wasUpdated())
-		_envelope.sustain(_sus_pot3.half_f_read());
+		_envelope.sustain(_sus_pot3.read());
+
 	if(_dec_pot4.wasUpdated())
-		_envelope.decay(_dec_pot4.half_f_read()*1000);
+		_envelope.decay(_dec_pot4.read());
+
 	if(_rel_pot5.wasUpdated())
-		_envelope.release(_rel_pot5.half_f_read()*1000);
+		_envelope.release(_rel_pot5.read());
 	
 	if(_gate.available()>0){
 		int16_t xxx[128];

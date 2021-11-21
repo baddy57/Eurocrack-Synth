@@ -28,11 +28,13 @@ Delay_single::Delay_single(const Address& a)
 	delay.disable(5);
 	delay.disable(6);
 	delay.disable(7);
+
+	pot0.setRange(0, 2000, EXP);
 }
 
 void Delay_single::updateValues() {
 	if (pot0.wasUpdated()) {
-		float r = pot0.i_read();
+		float r = pot0.read();
 
 		delay.delay(0, r);
 	}

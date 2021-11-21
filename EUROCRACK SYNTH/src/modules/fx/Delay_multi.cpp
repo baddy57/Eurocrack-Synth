@@ -41,11 +41,12 @@ Delay_multi::Delay_multi(const Address& a)
 	intmixer1.gain(3, 0.005);
 	outmix.gain(0, 0.6);
 	outmix.gain(1, 0.6);
+	pot0.setRange(0, 2000, EXP);
 }
 
 void Delay_multi::updateValues() {
 	if (pot0.wasUpdated()) {
-		float r = pot0.i_read();
+		float r = pot0.read();
 		delay.delay(0, r);
 		//delay.delay(1, r*2);
 		//delay.delay(2, r*3);

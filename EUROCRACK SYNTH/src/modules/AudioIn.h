@@ -9,6 +9,10 @@ class AudioIn : public Module {
 		AudioAmplifier _preamp;
 		AudioInputUSB _usbIn;
 		Potentiometer _micGain;
+		Output lineInL;
+		Output lineInR;
+		Output usbInL;
+		Output usbInR;
 	public:
 		AudioIn(const Address&);		
 		void updateValues() override;

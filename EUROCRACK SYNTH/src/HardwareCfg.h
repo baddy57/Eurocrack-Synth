@@ -81,7 +81,7 @@ const bool ID_MUX_LOCATION [3] = {0, 0, 0}; //IN_SEL2[0, 1, 2] --->pins::RG, pin
 
 
 #define MUX_DELAY 5
-const uint_fast8_t POT_DEADZONE = 3;
+const float POT_DEADZONE = 5.f;
 const uint_fast8_t POT_READS = 5;
 
 const uint_fast8_t MAX_MODULES = 64;

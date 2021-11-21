@@ -57,46 +57,55 @@ Mixer8 :: Mixer8 (const Address& a)
 	_channels4_7.gain(1, 0);
 	_channels4_7.gain(2, 0);
 	_channels4_7.gain(3, 0);
+
+	_gain_pot0.setRange(0, 1, EXP);
+	_gain_pot1.setRange(0, 1, EXP);
+	_gain_pot2.setRange(0, 1, EXP);
+	_gain_pot3.setRange(0, 1, EXP);
+	_gain_pot4.setRange(0, 1, EXP);
+	_gain_pot5.setRange(0, 1, EXP);
+	_gain_pot6.setRange(0, 1, EXP);
+	_gain_pot7.setRange(0, 1, EXP);
 }
 
 void
 Mixer8 :: updateValues() {
 	if(_gain_pot0.wasUpdated()){
-		float g = _gain_pot0.read(0, 1, LIN);
+		float g = _gain_pot0.read();
 
 		_channels0_3.gain(0, g);
 	}
 	if(_gain_pot1.wasUpdated()){
-		float g = _gain_pot1.read(0, 1);
+		float g = _gain_pot1.read();
 
 		_channels0_3.gain(1, g);
 
 	}		
 	if(_gain_pot2.wasUpdated()){
-		float g = _gain_pot2.read(0, 1);
+		float g = _gain_pot2.read();
 		_channels0_3.gain(2, g);
 
 	}
 	if(_gain_pot3.wasUpdated()){
-		float g = _gain_pot3.read(0, 1);
+		float g = _gain_pot3.read();
 		_channels0_3.gain(3, g);
 
 	}
 	if(_gain_pot4.wasUpdated()){
-		float g = _gain_pot4.read(0, 1);
+		float g = _gain_pot4.read();
 		_channels4_7.gain(4, g);
 
 	}
 	if(_gain_pot5.wasUpdated()){
-		float g = _gain_pot5.read(0, 1);
+		float g = _gain_pot5.read();
 		_channels4_7.gain(5, g);
 	}
 	if(_gain_pot6.wasUpdated()){
-		float g = _gain_pot6.read(0, 1);
+		float g = _gain_pot6.read();
 		_channels4_7.gain(6, g);
 	}
 	if(_gain_pot7.wasUpdated()){
-		float g = _gain_pot7.read(0, 1);
+		float g = _gain_pot7.read();
 		_channels4_7.gain(7, g);
 	}
 }

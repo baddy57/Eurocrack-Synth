@@ -16,6 +16,9 @@ Reverb :: Reverb (const Address& a)
 	
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT,OUT_D, _rev, 0, "REVERB OUT"));
 	inputSockets.push_back(std::make_shared<InputSocket>(a, IN,IN_D, _rev, 0, "REVERB IN"));
+
+	_roomsize_pot0.setRange(0, 1, LIN);
+	_damping_pot1.setRange(0, 1, LIN);
 }
 
 void
@@ -27,13 +30,13 @@ Reverb :: updateValues() {
 			return;
 		}
 		else {
-			_rev.roomsize(_roomsize_pot0.f_read());
-			_rev.damping(_damping_pot1.f_read());
+			_rev.roomsize(_roomsize_pot0.read());
+			_rev.damping(_damping_pot1.read());
 			return;
 		}
 	}
 	if(_roomsize_pot0.wasUpdated())
-		_rev.roomsize(_roomsize_pot0.f_read());
+		_rev.roomsize(_roomsize_pot0.read());
 	if(_damping_pot1.wasUpdated())
-		_rev.damping(_damping_pot1.f_read());
+		_rev.damping(_damping_pot1.read());
 }

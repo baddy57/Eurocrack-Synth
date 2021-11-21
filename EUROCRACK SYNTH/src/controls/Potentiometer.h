@@ -8,6 +8,7 @@
 #define LIN 0
 #define EXP 1
 #define LOG 2
+#define POW 3
 
 class Potentiometer : public Control {
 	private:
@@ -15,18 +16,47 @@ class Potentiometer : public Control {
 		ControlAddress address
 		bool _wasUpdated; */
 		float value = -10.f;
-		float minval = 0.f;// , maxval = 1023;
+		float minRead = 0.f, maxRead = 1023.f;
+		float rangeScope = 0;
+		float rangeMin = 0.f;
+		float rangeMax = 0.f;
 		float range = 1.f;
-	public:
-		Potentiometer(const Address& a, uint_fast8_t id, float pullup_res = 0.f) : Control(a, id), value(0) { setRange(pullup_res); };
-		Potentiometer(uint_fast8_t pin) : Control(pin), value(0){};
-		void setRange(float);
-		float read(float, float, uint = LIN);
-		float f_read(){return (value*DIV1023);};
-		float half_f_read(){return ((value-200)*DIV1023);};
-		float i_read(){return value;};
+		float k = 1;
+		int scale = LIN;
 		void update();
+	public:
+
+		/// @brief constructor
+		/// @param a address of the module
+		/// @param id pin on the module pcb
+		/// @param pullup_res value of the pullup resistor
+		Potentiometer(const Address& a, uint_fast8_t id, float pullup_res = 0.f) : Control(a, id), value(0) { setPullUpResistor(pullup_res); };
+		
+		/// @brief constructor for pots connected directly to the board
+		/// @param pin 
+		Potentiometer(uint_fast8_t pin) : Control(pin), value(0){};
+
+		/// @brief set the value of the pullup to fix readings
+		/// @param value of the pullup resistor in ohm 
+		void setPullUpResistor(float);
+
+		/// @brief set the target range of the reading
+		/// @param min value
+		/// @param max value
+		/// @param flag LIN,LOG,EXP,POW
+		void setRange(float, float, int flag = LIN);
+
+		/// @brief reads the hardware value
+		/// @return true if the value is different from the last read
 		bool wasUpdated() {update(); return _wasUpdated;};
+
+		/// @brief translates the hardware value into target value
+		/// @return a value from the range set before
+		float read();
+
+		/// @brief 
+		/// @return original hardware value {0,1023} 
+		inline int getOriginalValue() { return value; }
 };
 
 typedef Potentiometer Fader;

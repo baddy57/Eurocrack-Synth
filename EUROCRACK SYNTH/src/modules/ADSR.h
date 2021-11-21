@@ -5,13 +5,12 @@
 
 class ADSR : public Module{
 	private:
-		Potentiometer 	
-			//_del_pot0,
-			_att_pot1,
-			//_hol_pot2,
-			_sus_pot3,
-			_dec_pot4,
-			_rel_pot5;
+		Potentiometer _att_pot1;
+		Potentiometer _sus_pot3;
+		Potentiometer _dec_pot4;
+		Potentiometer _rel_pot5;
+		Input gateIn;
+		Output out;
 
 		AudioEffectEnvelope _envelope;
 		AudioRecordQueue _gate;//???

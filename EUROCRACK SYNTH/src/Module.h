@@ -48,7 +48,7 @@ struct Input {
 		uint_fast8_t port,
 		const char* name = "mono in")
 	{
-		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as, port));
+		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as, port, name));
 	}
 
 	inline Input(const Address& a,
@@ -61,7 +61,7 @@ struct Input {
 		uint_fast8_t port,
 		const char* name = "poly in")
 	{
-		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port));
+		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name));
 	}
 };
 
@@ -73,7 +73,7 @@ struct Output {
 		uint_fast8_t port,
 		const char* name = "mono out")
 	{
-		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as, port));
+		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as, port, name));
 	}
 
 	inline Output(const Address& a,
@@ -86,7 +86,7 @@ struct Output {
 		uint_fast8_t port,
 		const char* name = "poly out")
 	{
-		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as0, as1, as2, as3, port));
+		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name));
 	}
 };
 #endif

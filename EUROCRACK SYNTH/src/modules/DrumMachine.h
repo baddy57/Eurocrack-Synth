@@ -52,8 +52,12 @@ class DrumMachine : public Module {
 		Button s0, s1, s2, s3;
 		Button chplus, chminus;
 		
-		Potentiometer 	pan_pot,
-						gain_pot;
+		Potentiometer pan_pot;
+		Potentiometer gain_pot;
+		Output left;
+		Output right;
+		Output mono;
+
 		//Switch 	mono_stereo_sw0;//, _sw1;
 		AudioMixer4* mxr[9];
 		

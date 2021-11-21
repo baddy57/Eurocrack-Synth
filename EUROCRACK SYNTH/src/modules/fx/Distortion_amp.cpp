@@ -16,6 +16,8 @@ Distortion_amp::Distortion_amp(const Address& a)
 	inputSockets.push_back(std::make_shared<InputSocket>(a, IN, IN_D, _pre, 0, "Distortion_amp IN"));
 
 	internalConns.push_back(new AudioConnection(_pre, 0, _post, 0));
+
+	_gain_pot0.setRange(0, 1, EXP);
 }
 
 void
@@ -29,7 +31,7 @@ Distortion_amp::updateValues() {
 	}
 
 	if (_gain_pot0.wasUpdated()) {
-		float val = _gain_pot0.f_read();
+		float val = _gain_pot0.read();
 
 		_pre.gain(val*100);
 		_post.gain(0.1*val);
