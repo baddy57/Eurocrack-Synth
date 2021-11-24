@@ -202,7 +202,7 @@
     <ClInclude Include="src\modules\fx\Distortion_amp.h" />
     <ClInclude Include="src\modules\fx\Distortion_bc.h" />
     <ClInclude Include="src\modules\fx\Reverb.h" />
-    <ClInclude Include="src\modules\GateIn.h" />
+    <ClInclude Include="src\sw_components\GateIn.h" />
     <ClInclude Include="src\modules\Looper.h" />
     <ClInclude Include="src\modules\MidiMono.h" />
     <ClInclude Include="src\modules\Mixer8.h" />
@@ -212,6 +212,8 @@
     <ClInclude Include="src\modules\VCO_det.h" />
     <ClInclude Include="src\PatchCable.h" />
     <ClInclude Include="src\samples\D_samples.h" />
+    <ClInclude Include="src\sw_components\Scales.h" />
+    <ClInclude Include="src\sw_components\Notes.h" />
     <ClInclude Include="__vm\.EUROCRACK SYNTH.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -235,7 +237,7 @@
     <ClCompile Include="src\modules\fx\Distortion_amp.cpp" />
     <ClCompile Include="src\modules\fx\Distortion_bc.cpp" />
     <ClCompile Include="src\modules\fx\Reverb.cpp" />
-    <ClCompile Include="src\modules\GateIn.cpp" />
+    <ClCompile Include="src\sw_components\GateIn.cpp" />
     <ClCompile Include="src\modules\Looper.cpp" />
     <ClCompile Include="src\modules\MidiMono.cpp" />
     <ClCompile Include="src\modules\Mixer8.cpp" />

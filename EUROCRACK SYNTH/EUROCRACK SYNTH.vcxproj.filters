@@ -51,7 +51,7 @@
     <ClInclude Include="src\modules\EmptyModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\modules\GateIn.h">
+    <ClInclude Include="src\sw_components\GateIn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\modules\MidiMono.h">
@@ -123,6 +123,12 @@
     <ClInclude Include="src\modules\LFO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\sw_components\Notes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sw_components\Scales.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Address.cpp">
@@ -143,7 +149,7 @@
     <ClCompile Include="src\modules\AudioOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\modules\GateIn.cpp">
+    <ClCompile Include="src\sw_components\GateIn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\MidiMono.cpp">

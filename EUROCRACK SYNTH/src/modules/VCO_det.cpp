@@ -12,7 +12,7 @@ namespace {
 //ctor
 VCO_det::VCO_det(const Address& a)
 	: Module(a)
-	, _coarse_pot0(a, 8, 3200.f)
+	, _coarse_pot0(a, 8, 3800.f)
 	, _fine_pot1(a, 10, 3200.f)
 	, _freqmodcv_pot2(a, 11)
 	, _phasemodcv_pot3(a, 12)
@@ -63,7 +63,7 @@ VCO_det::VCO_det(const Address& a)
 	_saw1.begin(1, 200, WAVEFORM_SAWTOOTH);
 	_sqr1.begin(1, 200, WAVEFORM_SQUARE);
 
-	_coarse_pot0.setRange(0, 20000, EXP);
+	_coarse_pot0.setRange(0, 3200, EXP);
 	_fine_pot1.setRange(-25, 75, EXP);
 	_amp_pot4.setRange(0, 1, EXP);
 	_freqmodcv_pot2.setRange(0, 12, LIN);

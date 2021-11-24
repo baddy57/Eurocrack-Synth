@@ -20,7 +20,7 @@ VCF :: VCF (const Address& a)
 	,	bpf(a, BPF, BPF_D, _filter, 1, "BPF")
 	,	hpf(a, HPF, HPF_D, _filter, 2, "HPF")
 {
-	_freq_pot0.setRange(0, 20000, EXP);
+	_freq_pot0.setRange(20, 3000, EXP);
 	_res_pot1.setRange(0.7, 5, LIN);
 	_oct_pot2.setRange(0, 7, LIN);
 }

@@ -4,7 +4,7 @@
 #include <Audio.h>
 #include <cstdint>
 
-class GateIn : public AudioRecordQueue{
+class GateIn : protected AudioRecordQueue{
 	public:
 		GateIn();
 		bool read();
