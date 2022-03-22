@@ -9,6 +9,10 @@
 #include <SPI.h>
 #include <USBHost_t36.h>
 
+#define MOBO_REV_3 1
+#define MOBO_REV_4 0
+
+#if MOBO_REV_3
 //PINS
 namespace pins {
 	enum {
@@ -46,7 +50,46 @@ namespace pins {
 		RG, 
 		RF, 
 		RE, 
-		RD};
+		RD
+	};
+#elif MOBO_REV_4
+namespace pins {
+	enum {
+		WD=2,
+		WE,
+		WF,
+		LCD_DC,
+		WG,
+		T_CS = 9,
+		WH,
+		__MOSI,
+		__MISO,
+		__SCK,
+		READ,
+		FREE_PIN,
+		__IRQ = 16,
+		WC,
+		WRITE = 22,
+		TX = 24,
+		RX,
+		WB,
+		WA,
+		WI,
+		RL,
+		RK,
+		RJ,
+		RI,
+		RA,
+		RB,
+		RC,
+		LCD_CS,
+		RH,
+		RG,
+		RF,
+		RE,
+		RD
+	};
+#endif
 };
 
 const uint_fast8_t MIDI_OUT_PIN = 	pins::TX;
@@ -93,7 +136,7 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 const uint_fast8_t POLYPHONY = 10;
 
 
-//USBHost myusb;
+//USBHost usbHost;
 
 #define TIRQ_PIN 16//pins::__IRQS
 //XPT2046_Touchscreen ts(CS_PIN, TIRQ_PIN);
