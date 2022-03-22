@@ -15,7 +15,7 @@ any output socket can be connected to multiple inputs using 3.5mm mono jacks and
 the signal that flows in these cables is not an audio signal, but just a digital signal sent from the outputs, that, if received by any inputs, lets the code know that an audioconnection object must be created.
 
 similarities to real eurorack synths:<br>
-	module size, which is 128.5 x 5.08*n mm<br>
+	module size, which is 128.5 x 5.08*n mm<br>    .
 	m3 screws used to attach the modules to the rack<br>
 	3.5mm mono jacks<br>
 	fpc16 cables<br>
