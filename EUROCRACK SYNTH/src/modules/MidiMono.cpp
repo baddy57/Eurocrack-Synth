@@ -1,8 +1,8 @@
 #include "MidiMono.h"
 
-extern USBHost myusb;
-extern MIDIDevice midi1;
-
+extern USBHost usbHost;
+extern MIDIDevice midiOnUsbHost;
+usb_midi_class& midiOnUsbGuest = usbMIDI;
 #define DIV127 1/127
 #define DIV120 1/120
 
@@ -19,7 +19,7 @@ namespace {
 	enum _outputs {GATE, CV, VEL};
 };
 
-//extern midi::MidiInterface<HardwareSerial> MIDI;
+//extern midi::MidiInterface<HardwareSerial> midiHardware;
 
 //ctor
 MidiMono :: MidiMono (const Address& a) 
@@ -27,34 +27,21 @@ MidiMono :: MidiMono (const Address& a)
 		source_sw0(a, USBSW),
 		chplus_btn0(a, CHPLUS),
 		chminus_btn1(a, CHMINUS),
-		MIDI((HardwareSerial&)Serial1)
-	/*,
-		_gate(),
-		_cv(),
-		_vel()*/
+		midiHardware((HardwareSerial&)Serial1)
 {
-	
-	
-	// _gate = new AudioSynthWaveformDc();
-	// _cv   =	new AudioSynthWaveformDc();
-	// _vel  = new AudioSynthWaveformDc();
-	
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, GATE, GATE_D, _gate, 0, "midi gate"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, CV, CV_D, _cv, 0, "midi cv"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, VEL, VEL_D, _vel, 0, "midi vel"));
 	
-//	MIDI_CREATE_DEFAULT_INSTANCE();
-	
 	_channel=1;
 	
-	MIDI.setHandleNoteOn(handleNoteOn);
-    MIDI.setHandleNoteOff(handleNoteOff);
-	usbMIDI.setHandleNoteOn(handleNoteOn);
-	usbMIDI.setHandleNoteOff(handleNoteOff);
-	midi1.setHandleNoteOn(handleNoteOn);
-    midi1.setHandleNoteOff(handleNoteOff);
-	
-	MIDI.begin(_channel);
+	midiHardware.setHandleNoteOn(handleNoteOn);
+    midiHardware.setHandleNoteOff(handleNoteOff);
+	midiOnUsbGuest.setHandleNoteOn(handleNoteOn);
+	midiOnUsbGuest.setHandleNoteOff(handleNoteOff);
+	midiOnUsbHost.setHandleNoteOn(handleNoteOn);
+    midiOnUsbHost.setHandleNoteOff(handleNoteOff);
+	midiHardware.begin(_channel);
 	
 }
 
@@ -77,13 +64,15 @@ MidiMono :: updateValues() {
 	
 	
 	source_sw0.update();
-	if (source_sw0.b_read())
-		MIDI.read();
-	else{
+	bool usbSource = source_sw0.b_read();
+
+//	if (usbSource)
+		midiHardware.read();
+//	else{
 		usbMIDI.read();
-		myusb.Task();
-		midi1.read();
-	}
+		usbHost.Task();
+		midiOnUsbHost.read();
+//	}
 }
 
 void 
@@ -94,7 +83,7 @@ MidiMono :: handleNoteOn(	uint8_t inChannel,
 		_gate.amplitude(1);
 		_cv.amplitude(((float(inNote-120))*DIV120));
 	}
-	// tft.print("note on");
+	Serial.println("note on");
 }
 
 void
@@ -103,5 +92,5 @@ MidiMono :: handleNoteOff(uint8_t inChannel,
 							uint8_t inVelocity) {
 	if(inChannel==_channel)							
 		_gate.amplitude(0);
-	// tft.println("note off");
+	Serial.println("note off");
 }

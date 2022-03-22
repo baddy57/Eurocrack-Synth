@@ -16,7 +16,7 @@ class MidiMono : public Module {
 			chplus_btn0, 
 			chminus_btn1;
 
-		midi :: MidiInterface<HardwareSerial> MIDI;
+		midi :: MidiInterface<HardwareSerial> midiHardware;
 	public:
 		MidiMono (const Address&);
 		void updateValues();

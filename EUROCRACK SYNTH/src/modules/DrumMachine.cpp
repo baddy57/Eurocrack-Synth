@@ -7,8 +7,8 @@ std::vector<Voice*> voices;
 
 
 extern ILI9341_t3 tft;
-extern USBHost myusb;
-extern MIDIDevice midi1;
+extern USBHost usbHost;
+extern MIDIDevice midiOnUsbHost;
 
 
 namespace {
@@ -81,8 +81,8 @@ DrumMachine :: DrumMachine (const Address& a)
     MIDI.setHandleNoteOff(handleNoteOff);
 	usbMIDI.setHandleNoteOn(handleNoteOn);
 	usbMIDI.setHandleNoteOff(handleNoteOff);
-	midi1.setHandleNoteOn(handleNoteOn);
-    midi1.setHandleNoteOff(handleNoteOff);
+	midiOnUsbHost.setHandleNoteOn(handleNoteOn);
+    midiOnUsbHost.setHandleNoteOff(handleNoteOff);
 	
 	MIDI.begin(_channel);
 	
@@ -141,8 +141,8 @@ DrumMachine :: updateValues() {
 			}
 		}
 	}
-	myusb.Task();
-	midi1.read();
+	usbHost.Task();
+	midiOnUsbHost.read();
 }
 
 void 
