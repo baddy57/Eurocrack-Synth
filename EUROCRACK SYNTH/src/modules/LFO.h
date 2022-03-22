@@ -2,7 +2,7 @@
 #define __MODULES_LFO_H__
 
 #include "../Module.h"
-#include "GateIn.h"
+#include "../sw_components/GateIn.h"
 
 class LFO : public Module {
 	private:

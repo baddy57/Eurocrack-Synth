@@ -2,7 +2,7 @@
 #define __MODULES_DrumMachine_H__
 
 #include "../Module.h"
-#include "GateIn.h"
+#include "../sw_components/GateIn.h"
 #include <MIDI.h>
 #include "../samples/D_samples.h"
 

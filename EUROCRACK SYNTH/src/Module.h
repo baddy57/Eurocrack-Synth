@@ -17,6 +17,10 @@
 #include "controls/Button2t.h"
 #include "controls/Switch.h"
 #include "controls/SelectorMulti.h"
+#include "controls/RotarySwitch.h"
+#include "sw_components/GateIn.h"
+#include "sw_components/Notes.h"
+#include "sw_components/Scales.h"
 
 extern ILI9341_t3 tft;
 
@@ -48,7 +52,8 @@ struct Input {
 		uint_fast8_t port,
 		const char* name = "mono in")
 	{
-		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as, port, name));
+		base = std::make_shared<InputSocket>(a, id, detectorId, as, port, name);
+		Module::inputSockets.push_back(base);
 	}
 
 	inline Input(const Address& a,
@@ -61,8 +66,10 @@ struct Input {
 		uint_fast8_t port,
 		const char* name = "poly in")
 	{
-		Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name));
+		base = std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name);
+		Module::inputSockets.push_back(base);
 	}
+	std::shared_ptr<InputSocket> base;
 };
 
 struct Output {
