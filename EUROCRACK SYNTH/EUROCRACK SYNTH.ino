@@ -34,12 +34,15 @@ extern const uint_fast8_t WRITE_PIN;
 std::vector<Module*> activeModules;
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 
-USBHost myusb;
-MIDIDevice midi1(myusb);
+USBHost usbHost;
+MIDIDevice midiOnUsbHost(usbHost);
 
+#define ADAFRUIT_NEOPIXEL_TEST 0
+#if ADAFRUIT_NEOPIXEL_TEST
+#include <Adafruit_NeoPixel.h>
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(57, pins::RGB1_3, NEO_GRB + NEO_KHZ800);
+#endif
 
-// #include <Adafruit_NeoPixel.h>
-// Adafruit_NeoPixel strip = Adafruit_NeoPixel(57, pins::RGB1_3, NEO_GRB + NEO_KHZ800);
 #define POLYPHONIC
 
 
@@ -81,20 +84,19 @@ void setup() {
 	tft.setRotation(4);
 	tft.fillScreen(ILI9341_BLUE);
 
-	myusb.begin();
+	usbHost.begin();
+	Serial.begin(31250);
 
 	SD.begin(BUILTIN_SDCARD);
 
 	module::factory(activeModules);
 
-	Serial.println("sd started");
 
-
-	// strip.begin();
-	// strip.setBrightness(255);
-	// strip.show(); // Initialize all pixels to 'off'
-
-	  // rainbow(5);
+#if ADAFRUIT_NEOPIXEL_TEST
+	strip.begin();
+	strip.setBrightness(255);
+	strip.show(); // Initialize all pixels to 'off'
+#endif
 
 
 }
@@ -108,27 +110,15 @@ void loop() {
 	}
 	Module::updateConnections();
 
+
+#if ADAFRUIT_NEOPIXEL_TEST
+	rainbow(5);
+#endif
+
 }
 
 
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-
-
-
-
+#if ADAFRUIT_NEOPIXEL_TEST
 void rainbow(uint8_t wait) {
   uint16_t i, j;
 
@@ -167,4 +157,4 @@ uint32_t Wheel(byte WheelPos) {
   WheelPos -= 170;
   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
- */
+#endif
