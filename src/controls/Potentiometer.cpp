@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#define M_E 2.71828182845904523536 /* e */
+
 extern const float POT_DEADZONE;
 
 extern ILI9341_t3 tft;

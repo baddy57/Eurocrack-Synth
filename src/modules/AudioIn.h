@@ -3,6 +3,7 @@
 
 #include "../core/Module.h"
 #include <usb_audio.h>
+#include <Audio.h>
 
 class AudioIn : public Module {
 	private:
