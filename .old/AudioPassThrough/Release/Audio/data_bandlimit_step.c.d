@@ -1,0 +1,2 @@
+C:\Users\cristian\AppData\Local\Temp\VMBuilds\AudioPassThrough\teensy41\Release\Audio\data_bandlimit_step.c.o: \
+ C:\Program\ Files\Arduino\hardware\teensy\avr\libraries\Audio\data_bandlimit_step.c
