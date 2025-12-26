@@ -10,8 +10,8 @@ AudioIn :: AudioIn(const Address& a)
 	,   _micGain(a, 16, 4700)
 	,	lineInL(a, LINE_IN_L, LINE_IN_L_D, _preamp, 0, "LINE_IN_L")
 	,	lineInR(a, LINE_IN_R, LINE_IN_R_D, _lineIn, 1, "LINE_IN_R")
-	// ,	usbInL(a, USB_IN_L, USB_IN_L_D, _usbIn, 0, "USB_IN_L")
-	// ,	usbInR(a, USB_IN_R, USB_IN_R_D, _usbIn, 1, "USB_IN_R")
+	,	usbInL(a, USB_IN_L, USB_IN_L_D, _usbIn, 0, "USB_IN_L")
+	,	usbInR(a, USB_IN_R, USB_IN_R_D, _usbIn, 1, "USB_IN_R")
 
 {
 	//MIC TODO
