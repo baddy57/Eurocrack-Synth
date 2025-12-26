@@ -1,6 +1,6 @@
 #include "RotarySwitch.h"
 
-RotarySwitch::RotarySwitch(const Address& a, int _positions, const uint* ids)
+RotarySwitch::RotarySwitch(const Address& a, int _positions, const uint_fast16_t* ids)
 	: positions(_positions)
 	, lastValue(0)
 {

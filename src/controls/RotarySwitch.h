@@ -9,7 +9,7 @@ public:
 	/// @param a module address
 	/// @param positions number of positions 
 	/// @param ids array of single pins ids, ordered clockwise
-	RotarySwitch(const Address& a, int _positions, const uint* ids);
+	RotarySwitch(const Address& a, int _positions, const uint_fast16_t* ids);
 	void update();
 	inline int read() { return lastValue; }
 	inline bool wasUpdated() { return read() != lastValue; }
