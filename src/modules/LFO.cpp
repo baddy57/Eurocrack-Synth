@@ -1,4 +1,5 @@
 #include "LFO.h"
+#include <string>
 
 
 namespace {
