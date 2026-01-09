@@ -23,7 +23,8 @@ namespace {
 //ctor
 DrumMachine :: DrumMachine (const Address& a)
 	:	Module(a)
-	,	MIDI((HardwareSerial&)Serial1)
+	,	serialTransport(Serial1)
+	,	MIDI(serialTransport)
 	,	s0(a, S0), s1(a, S0), s2(a, S2), s3(a, S3)
 	,	chplus(a, CHPLUS)
 	,	chminus(a, CHMINUS)

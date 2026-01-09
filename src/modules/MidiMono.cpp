@@ -22,12 +22,13 @@ namespace {
 //extern midi::MidiInterface<HardwareSerial> midiHardware;
 
 //ctor
-MidiMono :: MidiMono (const Address& a) 
+MidiMono :: MidiMono (const Address& a)
 	:	Module(a),
 		source_sw0(a, USBSW),
 		chplus_btn0(a, CHPLUS),
 		chminus_btn1(a, CHMINUS),
-		midiHardware((HardwareSerial&)Serial1)
+		serialTransport(Serial1),
+		midiHardware(serialTransport)
 {
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, GATE, GATE_D, _gate, 0, "midi gate"));
 	outputSockets.push_back(std::make_shared<OutputSocket>(a, CV, CV_D, _cv, 0, "midi cv"));

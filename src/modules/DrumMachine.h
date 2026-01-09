@@ -48,7 +48,8 @@ class DrumMachine : public Module {
 		std :: vector <AudioConnection*> internalConns;//if any;
 	*/
 		
-		midi :: MidiInterface<HardwareSerial> MIDI;
+		midi::SerialMIDI<HardwareSerial> serialTransport;
+		midi::MidiInterface<midi::SerialMIDI<HardwareSerial>> MIDI;
 		Button s0, s1, s2, s3;
 		Button chplus, chminus;
 		
