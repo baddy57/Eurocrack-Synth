@@ -7,10 +7,10 @@
 #include "../core/PatchCable.h"
 
 /// @brief input sockets that are connected to a patch cable and actively receiving a stream
-std::list<InputSocket_p> InputSocket::busyInputs;
+std::list<std::shared_ptr<InputSocket>> InputSocket::busyInputs;
 
 /// @brief input sockets that are connected to a patch cable and available for connection
-std::list<InputSocket_p> InputSocket::availableInputs;
+std::list<std::shared_ptr<InputSocket>> InputSocket::availableInputs;
 
 // ctor MONO ONLY
 InputSocket ::InputSocket( // param
@@ -51,7 +51,7 @@ bool InputSocket::isReceiving() const
 	return !digitalRead(address->getPin());
 }
 
-void InputSocket::removeFromAvailable(InputSocket_p i)
+void InputSocket::removeFromAvailable(std::shared_ptr<InputSocket> i)
 {
 	for (auto it = availableInputs.begin(), end = availableInputs.end(); it != end; ++it)
 		if ((*it)->uid == i->uid)
@@ -61,7 +61,7 @@ void InputSocket::removeFromAvailable(InputSocket_p i)
 		}
 }
 
-void InputSocket::removeFromBusy(InputSocket_p i)
+void InputSocket::removeFromBusy(std::shared_ptr<InputSocket> i)
 {
 	for (auto it = busyInputs.begin(), end = busyInputs.end(); it != end; ++it)
 		if ((*it)->uid == i->uid)
@@ -71,27 +71,27 @@ void InputSocket::removeFromBusy(InputSocket_p i)
 		}
 }
 
-void InputSocket::setAvailable(InputSocket_p i)
+void InputSocket::setAvailable(std::shared_ptr<InputSocket> i)
 {
 	availableInputs.push_back(i);
 
-	if((*i)->state == SocketState::BUSY)
+	if(i->state == SocketState::BUSY)
 		removeFromBusy(i);
 
-	(*i)->state = SocketState::AVAILABLE;
+	i->state = SocketState::AVAILABLE;
 }
 
-void InputSocket::setBusy(InputSocket_p i)
+void InputSocket::setBusy(std::shared_ptr<InputSocket> i)
 {
 	busyInputs.push_back(i);
 
-	if((*i)->state == SocketState::AVAILABLE)
+	if(i->state == SocketState::AVAILABLE)
 		removeFromAvailable(i);
 
-	(*i)->state = SocketState::BUSY;
+	i->state = SocketState::BUSY;
 }
 
-void InputSocket::setInactive(InputSocket_p i)
+void InputSocket::setInactive(std::shared_ptr<InputSocket> i)
 {
 	if(i->state == SocketState::AVAILABLE)
 		removeFromAvailable(i);

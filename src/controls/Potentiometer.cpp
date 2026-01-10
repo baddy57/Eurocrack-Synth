@@ -8,7 +8,8 @@ extern ILI9341_t3 tft;
 extern const uint_fast8_t POT_READS;
 
 
-void Potentiometer::setPullUpResistor(float pullup){
+void Potentiometer::setPullUpResistor(float pullup)
+{
 	if (pullup == 0.f)return;
 	minRead = pullup / 9.78f;
 	range = 1023.f / (990.f-minRead);
@@ -32,7 +33,8 @@ void Potentiometer::setRange(float _min, float _max, int flag)
 	}
 }
 
-float Potentiometer::read() {
+float Potentiometer::read() 
+{
 	switch (scale) {
 	case LIN:
 		return value * k + rangeMin;// / 1023.f * (max - rangeMin) + rangeMin;
@@ -45,11 +47,10 @@ float Potentiometer::read() {
 	default:
 		return -1;
 	}
-
 }
 
-void
-Potentiometer :: update() {
+void Potentiometer :: update() 
+{
 	address.setForReading();
 	int r_sum =0;
 	uint_fast8_t p = address.getPin();
@@ -70,5 +71,4 @@ Potentiometer :: update() {
 	}
 	else //if the value is the same as before 
 		_wasUpdated = false;
-	return;
 }

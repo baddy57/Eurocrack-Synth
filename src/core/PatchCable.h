@@ -8,6 +8,8 @@
 #include "controls/OutputSocket.h"
 #include "HardwareCfg.h"
 
+#define POLYPHONY 4
+
 class PatchCable {
 	private:
 		AudioConnection* ac[POLYPHONY];
@@ -19,18 +21,18 @@ class PatchCable {
 		static void searchForCablesToAdd();
 	public:
 		//ctor
-		PatchCable(OutputSocket_p, InputSocket_p);
+		PatchCable(std::shared_ptr<OutputSocket>, std::shared_ptr<InputSocket>);
 		
 		//dtor
 		~PatchCable();
 		
-		InputSocket_p inputSocket;
-		OutputSocket_p outputSocket;
+		std::shared_ptr<InputSocket> inputSocket;
+		std::shared_ptr<OutputSocket> outputSocket;
 
-		static bool checkConnection (OutputSocket_p, InputSocket_p);
+		static bool checkConnection (std::shared_ptr<OutputSocket>, std::shared_ptr<InputSocket>);
 		
-		static void onInputSocketConnected(InputSocket_p);
-		static void onOutputSocketConnected(OutputSocket_p);
-		static void onInputSocketDisconnected(InputSocket_p);
-		static void onOutputSocketDisconnected(OutputSocket_p);
+		static void onInputSocketConnected(std::shared_ptr<InputSocket>);
+		static void onOutputSocketConnected(std::shared_ptr<OutputSocket>);
+		static void onInputSocketDisconnected(std::shared_ptr<InputSocket>);
+		static void onOutputSocketDisconnected(std::shared_ptr<OutputSocket>);
 };

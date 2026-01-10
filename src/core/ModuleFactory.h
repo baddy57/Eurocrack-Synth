@@ -30,7 +30,7 @@
 #include "../modules/fx/Delay_multi.h"
 
 extern const uint_fast8_t MAX_MODULES;
-extern ILI9341_t3 Serial;
+// extern ILI9341_t3 Serial;
 
 class ModuleFactory
 {

@@ -3,9 +3,9 @@
 #include "PatchCable.h"
 
 //definition of static members
-std::vector<InputSocket_p> Module::inputSockets;
+std::vector<std::shared_ptr<InputSocket>> Module::inputSockets;
 
-std::vector<OutputSocket_p> Module::outputSockets;
+std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
 
 AudioControlSGTL5000 Module::_audioCtrl;
 

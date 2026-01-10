@@ -8,7 +8,7 @@ extern ILI9341_t3 tft;
 std::list<std::unique_ptr<PatchCable>> PatchCable::activeCables;
 
 //ctor
-PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
+PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputSocket> in)
 {
 	// begin handling underlying connections
 
@@ -114,14 +114,14 @@ PatchCable::~PatchCable()
 	*/
 }
 
-void PatchCable::onInputSocketConnected(InputSocket_p i)
+void PatchCable::onInputSocketConnected(std::shared_ptr<InputSocket> i)
 {
 	InputSocket::setAvailable(i);
 
 	searchForCablesToAdd();
 }
 
-void PatchCable::onOutputSocketConnected(OutputSocket_p o)
+void PatchCable::onOutputSocketConnected(std::shared_ptr<OutputSocket> o)
 {
 	OutputSocket::setAvailable(o);
 
@@ -149,7 +149,7 @@ void PatchCable::searchForCablesToAdd()
 }
 
 /// @brief checks if an output socket is connected to an input socket
-bool PatchCable::checkConnection(OutputSocket_p out, InputSocket_p in)
+bool PatchCable::checkConnection(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputSocket> in)
 {
 	out->sendSignal();
 
@@ -165,7 +165,7 @@ bool PatchCable::checkConnection(OutputSocket_p out, InputSocket_p in)
 }
 
 // destroy the patchcable that was disconnected from the input socket
-void PatchCable::onInputSocketDisconnected(InputSocket_p input)
+void PatchCable::onInputSocketDisconnected(std::shared_ptr<InputSocket> input)
 {
 	if (!activeCables.empty())
 		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end; ++cable)
@@ -179,7 +179,7 @@ void PatchCable::onInputSocketDisconnected(InputSocket_p input)
 }
 
 // destroy the patchcable that was disconnected from the output socket
-void PatchCable::onOutputSocketDisconnected(OutputSocket_p output)
+void PatchCable::onOutputSocketDisconnected(std::shared_ptr<OutputSocket> output)
 {
 	if (!activeCables.empty())
 	{

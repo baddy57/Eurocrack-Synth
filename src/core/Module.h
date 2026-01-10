@@ -35,8 +35,8 @@ class Module{
 
 		static AudioControlSGTL5000 _audioCtrl;
 
-		static std::vector<InputSocket_p> inputSockets;
-		static std::vector<OutputSocket_p> outputSockets;
+		static std::vector<std::shared_ptr<InputSocket>> inputSockets;
+		static std::vector<std::shared_ptr<OutputSocket>> outputSockets;
 
 		//static unsigned int fix(const unsigned int);
 		virtual void updateValues()=0; 
@@ -71,7 +71,7 @@ struct Input {
 		Module::inputSockets.push_back(base);
 	}
 
-	InputSocket_p base;
+	std::shared_ptr<InputSocket> base;
 };
 
 struct Output {

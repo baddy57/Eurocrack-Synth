@@ -9,7 +9,7 @@
 extern ILI9341_t3 tft;
 
 /// @brief output sockets that are connected to a patch cable and available for connection
-std::list<OutputSocket_p> OutputSocket::availableOutputs;
+std::list<std::shared_ptr<OutputSocket>> OutputSocket::availableOutputs;
 
 //ctor mono
 OutputSocket :: OutputSocket (
@@ -60,7 +60,7 @@ void OutputSocket :: resetSignal() const
 	return;
 }
 
-void OutputSocket::removeFromAvailable(OutputSocket_p out)
+void OutputSocket::removeFromAvailable(std::shared_ptr<OutputSocket> out)
 {
 	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
 		if ((*o)->uid == out->uid) {
@@ -70,14 +70,14 @@ void OutputSocket::removeFromAvailable(OutputSocket_p out)
 	}
 }
 
-void OutputSocket::setAvailable(OutputSocket_p out)
+void OutputSocket::setAvailable(std::shared_ptr<OutputSocket> out)
 {
 	availableOutputs.push_back(out);
 
-	*out->state = SocketState::AVAILABLE;
+	out->state = SocketState::AVAILABLE;
 }
 
-void OutputSocket::setInactive(OutputSocket_p out) 
+void OutputSocket::setInactive(std::shared_ptr<OutputSocket> out) 
 {
 	if(out->state == SocketState::AVAILABLE)
 		removeFromAvailable(out);

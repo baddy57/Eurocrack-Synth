@@ -13,14 +13,12 @@
 // - availableInputs: input sockets that are AVAILABLE
 // - busyInputs: input sockets that are BUSY
 
-typedef std::shared_ptr<InputSocket> InputSocket_p;
-
 class InputSocket : public Socket {
 protected:
 	ControlAddress* address;
 
-	static void removeFromAvailable(InputSocket_p);
-	static void removeFromBusy(InputSocket_p);
+	static void removeFromAvailable(std::shared_ptr<InputSocket>);
+	static void removeFromBusy(std::shared_ptr<InputSocket>);
 		
 public:
 	//mono ctor
@@ -44,10 +42,10 @@ public:
 
 	bool isReceiving() const;
 
-	static std::list<InputSocket_p> busyInputs;
-	static std::list<InputSocket_p> availableInputs;
+	static std::list<std::shared_ptr<InputSocket>> busyInputs;
+	static std::list<std::shared_ptr<InputSocket>> availableInputs;
 
-	static void setAvailable(InputSocket_p);
-	static void setBusy(InputSocket_p);
-	static void setInactive(InputSocket_p);
+	static void setAvailable(std::shared_ptr<InputSocket>);
+	static void setBusy(std::shared_ptr<InputSocket>);
+	static void setInactive(std::shared_ptr<InputSocket>);
 };
