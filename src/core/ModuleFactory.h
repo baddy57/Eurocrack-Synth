@@ -1,7 +1,6 @@
-#ifndef __MAKER_H__
-#define __MAKER_H__
+#pragma once
 
-//#include <vector>
+// #include <vector>
 #include <cstdint>
 #include <vector>
 
@@ -9,6 +8,7 @@
 #include "Module.h"
 #include "HardwareCfg.h"
 
+#include "ModuleIdentifiers.h"
 #include "../controls/IdMux.h"
 
 #include "../modules/EmptyModule.h"
@@ -30,223 +30,148 @@
 #include "../modules/fx/Delay_multi.h"
 
 extern const uint_fast8_t MAX_MODULES;
-//extern ILI9341_t3 Serial;
+extern ILI9341_t3 Serial;
 
-namespace module {
-	namespace types {
-		enum moduleTypeList {
-			zero, 	//0 = 0000 0000
-			AUDIO_OUT,		//1 = 0000 0001
-			AUDIO_IN,		//2 = 0000 0010
-			MIDI_MODULE,	//3 = 0000 0011
-			VCO_ID = 4,			//4 = 0000 0100
-			LFO,
-			FILTER,
-			ADSR,
-			VCA,
-			MIXER8,  //9 = 00001001
-			DISTORTION,
-			REVERB, //11 = 00001011
-			DELAY,
-			LOOPER,
-			NOISE,
-			FLANGER,
-			AUTOTUNE,
-			DRUMS,
-			INSTRUMENTS,
-			EMPTY_MODULE = 255
-		};
-	}
+class ModuleFactory
+{
+public:
+	static void factory(std::vector<Module *> &activeModules)
+	{
+		Serial.println("init modules");
 
-
-void factory(std::vector<Module*>& activeModules) {
-	bool verbose = true;
-	
-	Serial.println("init modules");
-	
-	while (activeModules.size() == 0) {
-	//while(true){
-		for (uint_fast8_t i = 0; i < MAX_MODULES; ++i) {
+		for (uint_fast8_t i = 0; i < MAX_MODULES; ++i)
+		{
 			Address slotAddress(i);
+
 			uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
-			//Serial.println(moduleType);
-			switch (moduleType) {
-			case 0: {
-				//Serial.print("---");
-				//Serial.println(slotAddress.toInt());
-				break;
-			}
 
-			case 1: {
-				if (verbose) {
+			switch (moduleType)
+			{
 
-					Serial.print(moduleType);
-					Serial.print("  AUDIO_OUT");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case 0: break;
+
+			case ModuleIdentifiers::AUDIO_OUT:
+			{
+				logModuleDetected(moduleType, "AUDIO_OUT", slotAddress);
 				activeModules.push_back(new AudioOut(slotAddress));
 				break;
 			}
-			case 2: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  AUDIO_IN");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::AUDIO_IN:
+			{
+				logModuleDetected(moduleType, "AUDIO_IN", slotAddress);
 				activeModules.push_back(new AudioIn(slotAddress));
 				break;
 			}
-			case 3: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  VCF");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::FILTER:
+			{
+				logModuleDetected(moduleType, "VCF", slotAddress);
 				activeModules.push_back(new VCF(slotAddress));
 				break;
 			}
-			case 4: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  VCO_det");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::VCO_ID:
+			{
+				logModuleDetected(moduleType, "VCO_det", slotAddress);
 				activeModules.push_back(new VCO_det(slotAddress));
 				break;
 			}
-			case 5: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  MIDI MONO");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::MIDI_MODULE:
+			{
+				logModuleDetected(moduleType, "MIDI_MONO", slotAddress);
 				activeModules.push_back(new MidiMono(slotAddress));
 				break;
 			}
-			case 6: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  ADSR");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::ADSR:
+			{
+				logModuleDetected(moduleType, "ADSR", slotAddress);
 				activeModules.push_back(new ADSR(slotAddress));
 				break;
 			}
-			case 9: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  MIXER8");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::MIXER8:
+			{
+				logModuleDetected(moduleType, "MIXER 8", slotAddress);
 				activeModules.push_back(new Mixer8(slotAddress));
 				break;
 			}
-			case 10: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  VCA");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::VCA:
+			{
+				logModuleDetected(moduleType, "VCA", slotAddress);
 				activeModules.push_back(new VCA(slotAddress));
 				break;
 			}
-			case 11: {
-				if (verbose) {
-					Serial.print(moduleType);
-					Serial.print("  DRUMZ");
-					Serial.print("  @  ");
-					Serial.println(slotAddress.toInt());
-				}
+			case ModuleIdentifiers::DRUMS:
+			{
+				logModuleDetected(moduleType, "DRUMZ", slotAddress);
 				activeModules.push_back(new DrumMachine(slotAddress));
 				break;
 			}
-			case 12: {
-				Serial.print(moduleType);
-				Serial.print("  Delay_multi");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::DELAY:
+			{
+				logModuleDetected(moduleType, "DELAY MULTI", slotAddress);
 				activeModules.push_back(new Delay_multi(slotAddress));
 				break;
 			}
-			case 13: {
-				Serial.print(moduleType);
-				Serial.print("  DISTORTION_bc");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::DISTORTION:
+			{
+				logModuleDetected(moduleType, "DISTORTION_bc", slotAddress);
 				activeModules.push_back(new Distortion_bc(slotAddress));
 				break;
 			}
-			case 14: {
-
-				Serial.print(moduleType);
-				Serial.print("  REVERB");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::REVERB:
+			{
+				logModuleDetected(moduleType, "REVERB", slotAddress);
 				activeModules.push_back(new Reverb(slotAddress));
 				break;
 			}
-			case 15: {
-				Serial.print(moduleType);
-				Serial.print("  DISTORTION_amp");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::DISTORTION_AMP:
+			{
+				logModuleDetected(moduleType, "DISTORTION_amp", slotAddress);
 				activeModules.push_back(new Distortion_amp(slotAddress));
 				break;
 			}
-
-			case 16: {
-				Serial.print(moduleType);
-				Serial.print("  Delay_single");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::DELAY_SINGLE:
+			{
+				logModuleDetected(moduleType, "DELAY_SINGLE", slotAddress);
 				activeModules.push_back(new Delay_single(slotAddress));
 				break;
 			}
-
-			case 17: {
-				Serial.print(moduleType);
-				Serial.print("  Looper");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::LOOPER:
+			{
+				logModuleDetected(moduleType, "LOOPER", slotAddress);
 				activeModules.push_back(new Looper(slotAddress));
 				break;
 			}
-			case 18 : {
-				Serial.print(moduleType);
-				Serial.print("  LFO");
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			case ModuleIdentifiers::LFO:
+			{
+				logModuleDetected(moduleType, "LFO", slotAddress);
 				activeModules.push_back(new LFO(slotAddress));
 				break;
 			}
-
-			default: {
-				Serial.print(moduleType);
-				Serial.print("  @  ");
-				Serial.println(slotAddress.toInt());
+			default:
+			{
+				logModuleDetected(moduleType, "UNKNOWN", slotAddress);
 				break;
 			}
 			};
-			if (slotAddress.toInt() % 16 == 15) Serial.println("----------------------");
+
+			if (slotAddress.toInt() % 16 == 15)
+				Serial.println("---------end of bank-------------");
 		}
+
 		Serial.println("----------------------------------------");
 	}
-}
-}; 
 
+	static void logModuleDetected(uint_fast8_t moduleType, String moduleName, const Address &slotAddress)
+	{
+		bool verbose = true;
 
+		if (!verbose)
+			return;
 
-
-
-
-
-
-#endif
+		Serial.print("Module detected: ");
+		Serial.print(moduleType);
+		Serial.print("  ");
+		Serial.print(moduleName);
+		Serial.print("  @  ");
+		Serial.println(slotAddress.toInt());
+	}
+};

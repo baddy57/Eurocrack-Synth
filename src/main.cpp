@@ -83,7 +83,8 @@ void setup() {
 
 	SD.begin(BUILTIN_SDCARD);
 
-	module::factory(activeModules);
+	while (activeModules.size() == 0)
+		ModuleFactory::factory(activeModules);
 
 }
 
