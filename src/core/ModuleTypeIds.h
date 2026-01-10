@@ -2,7 +2,8 @@
 
 #include <Wire.h>
 
-class ModuleIdentifiers
+/// @brief 8-bit identifiers for each module type
+class ModuleTypeIds
 {
 public:
 	const static byte zero = 0b00000000;		// 0 = 0000 0000

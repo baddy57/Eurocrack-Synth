@@ -1,12 +1,11 @@
-#include "IdMux.h"
+#include "ModuleTypeIdMux.h"
 
 extern const uint_fast8_t IN_SEL2[];
 extern const uint_fast8_t READ_PIN;
 extern ILI9341_t3 tft;
 
 
-//idmux ctor
-IdMux :: IdMux(const Address& a){
+ModuleTypeIdMux :: ModuleTypeIdMux(const Address& a){
 //	tft.println("idmux ctor");
 	a.setForReading();
 	moduleId = 0;

@@ -8,8 +8,8 @@
 #include "Module.h"
 #include "HardwareCfg.h"
 
-#include "ModuleIdentifiers.h"
-#include "../controls/IdMux.h"
+#include "ModuleTypeIds.h"
+#include "../controls/ModuleTypeIdMux.h"
 
 #include "../modules/EmptyModule.h"
 #include "../modules/AudioOut.h"
@@ -43,104 +43,104 @@ public:
 		{
 			Address slotAddress(i);
 
-			uint_fast8_t moduleType = IdMux(slotAddress).getModuleId();
+			uint_fast8_t moduleType = ModuleTypeIdMux(slotAddress).getModuleId();
 
 			switch (moduleType)
 			{
 
 			case 0: break;
 
-			case ModuleIdentifiers::AUDIO_OUT:
+			case ModuleTypeIds::AUDIO_OUT:
 			{
 				logModuleDetected(moduleType, "AUDIO_OUT", slotAddress);
 				activeModules.push_back(new AudioOut(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::AUDIO_IN:
+			case ModuleTypeIds::AUDIO_IN:
 			{
 				logModuleDetected(moduleType, "AUDIO_IN", slotAddress);
 				activeModules.push_back(new AudioIn(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::FILTER:
+			case ModuleTypeIds::FILTER:
 			{
 				logModuleDetected(moduleType, "VCF", slotAddress);
 				activeModules.push_back(new VCF(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::VCO_ID:
+			case ModuleTypeIds::VCO_ID:
 			{
 				logModuleDetected(moduleType, "VCO_det", slotAddress);
 				activeModules.push_back(new VCO_det(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::MIDI_MODULE:
+			case ModuleTypeIds::MIDI_MODULE:
 			{
 				logModuleDetected(moduleType, "MIDI_MONO", slotAddress);
 				activeModules.push_back(new MidiMono(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::ADSR:
+			case ModuleTypeIds::ADSR:
 			{
 				logModuleDetected(moduleType, "ADSR", slotAddress);
 				activeModules.push_back(new ADSR(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::MIXER8:
+			case ModuleTypeIds::MIXER8:
 			{
 				logModuleDetected(moduleType, "MIXER 8", slotAddress);
 				activeModules.push_back(new Mixer8(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::VCA:
+			case ModuleTypeIds::VCA:
 			{
 				logModuleDetected(moduleType, "VCA", slotAddress);
 				activeModules.push_back(new VCA(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::DRUMS:
+			case ModuleTypeIds::DRUMS:
 			{
 				logModuleDetected(moduleType, "DRUMZ", slotAddress);
 				activeModules.push_back(new DrumMachine(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::DELAY:
+			case ModuleTypeIds::DELAY:
 			{
 				logModuleDetected(moduleType, "DELAY MULTI", slotAddress);
 				activeModules.push_back(new Delay_multi(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::DISTORTION:
+			case ModuleTypeIds::DISTORTION:
 			{
 				logModuleDetected(moduleType, "DISTORTION_bc", slotAddress);
 				activeModules.push_back(new Distortion_bc(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::REVERB:
+			case ModuleTypeIds::REVERB:
 			{
 				logModuleDetected(moduleType, "REVERB", slotAddress);
 				activeModules.push_back(new Reverb(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::DISTORTION_AMP:
+			case ModuleTypeIds::DISTORTION_AMP:
 			{
 				logModuleDetected(moduleType, "DISTORTION_amp", slotAddress);
 				activeModules.push_back(new Distortion_amp(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::DELAY_SINGLE:
+			case ModuleTypeIds::DELAY_SINGLE:
 			{
 				logModuleDetected(moduleType, "DELAY_SINGLE", slotAddress);
 				activeModules.push_back(new Delay_single(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::LOOPER:
+			case ModuleTypeIds::LOOPER:
 			{
 				logModuleDetected(moduleType, "LOOPER", slotAddress);
 				activeModules.push_back(new Looper(slotAddress));
 				break;
 			}
-			case ModuleIdentifiers::LFO:
+			case ModuleTypeIds::LFO:
 			{
 				logModuleDetected(moduleType, "LFO", slotAddress);
 				activeModules.push_back(new LFO(slotAddress));
