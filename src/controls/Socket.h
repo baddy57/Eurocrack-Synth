@@ -45,7 +45,7 @@ public:
 		uint_fast8_t,
 		const char *);
 
-	uint_fast8_t voicesCount;
+	bool isPolyphonic;
 
 	unsigned int uid;
 

@@ -132,8 +132,6 @@ const uint_fast8_t MAX_MODULES = 64;
 const uint_fast8_t HIGH_UPDATE_PRIORITY = 255;
 const uint_fast8_t MEDIUM_UPDATE_PRIORITY = 128;
 const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
-const uint_fast8_t POLYPHONY = 10;
-
 
 //USBHost usbHost;
 

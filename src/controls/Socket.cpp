@@ -15,7 +15,7 @@ Socket::Socket(
 	linkedStream3(as)
 
 {
-	voicesCount = 1;
+	isPolyphonic = false;
 	audioStream_port = i;
 }
 
@@ -36,6 +36,6 @@ Socket::Socket(
 	linkedStream2(as2),
 	linkedStream3(as3)
 {
-	voicesCount = POLYPHONY;
+	isPolyphonic = true;
 	audioStream_port = i;
 }

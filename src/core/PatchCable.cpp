@@ -12,7 +12,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 {
 	// begin handling underlying connections
 
-	if (out->voicesCount == 1 && in->voicesCount == 1)
+	if (!out->isPolyphonic && !in->isPolyphonic)
 	{
 		connectionType = PatchCableConnectionType::M2M;
 
@@ -21,7 +21,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 									in->getLinkedStream(),
 									in->getIndex());
 	}
-	else if (out->voicesCount == 1 && in->voicesCount > 1)
+	else if (!out->isPolyphonic && in->isPolyphonic)
 	{
 		connectionType = PatchCableConnectionType::M2P;
 
@@ -38,7 +38,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 		// 								in->getLinkedStream(),
 		// 								i);
 	}
-	else if (out->voicesCount > 1 && in->voicesCount == 1)
+	else if (out->isPolyphonic && !in->isPolyphonic)
 	{
 		connectionType = PatchCableConnectionType::P2M;
 
@@ -48,7 +48,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 							in->getIndex());
 
 	}
-	else /*if(out->voicesCount>1 && in->voicesCount>1)*/
+	else if(out->isPolyphonic && in->isPolyphonic)
 	{
 		connectionType = PatchCableConnectionType::P2P;
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
