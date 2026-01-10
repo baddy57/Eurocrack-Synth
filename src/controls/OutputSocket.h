@@ -33,9 +33,7 @@ public:
 	
 	void sendSignal() const;
 	void resetSignal() const;
-	
-	unsigned int socket_uid;
-	
+		
 	static std::list<OutputSocket_p> availableOutputs;
 
 	static void setAvailable(OutputSocket_p);

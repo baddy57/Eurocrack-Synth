@@ -67,8 +67,9 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 	}
 	// end
 
-	inputSocket_uid = in->socket_uid;
-	outputSocket_uid = out->socket_uid;
+	this->inputSocket = in;
+	this->outputSocket = out;
+
 	// in cannot accept any other connections until this one is deleted
 	InputSocket::setBusy(in);
 
@@ -197,7 +198,7 @@ void PatchCable::onInputSocketDisconnected(InputSocket_p input)
 {
 	if (!activeCables.empty())
 		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end; ++cable)
-			if ((*cable)->inputSocket_uid == input->socket_uid)
+			if ((*cable)->inputSocket->uid == input->uid)
 			{
 				activeCables.erase(cable);
 				break; // i have to destroy only one cable
@@ -218,11 +219,11 @@ void PatchCable::onOutputSocketDisconnected(OutputSocket_p output)
 	{
 		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end;)
 		{
-			if ((*cable)->outputSocket_uid == output->socket_uid)
+			if ((*cable)->outputSocket->uid == output->uid)
 			{
 				// the inputs that were connected to this output must be set available again
 				//todo maybe use pointers instead of uids ?
-				InputSocket::setAvailable((*cable)->inputSocket_uid);
+				InputSocket::setAvailable((*cable)->inputSocket);
 
 				activeCables.erase(cable++);
 			}

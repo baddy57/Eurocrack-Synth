@@ -30,6 +30,7 @@ public:
 					AudioStream&, 
 					uint_fast8_t,
 					const char* = "mono in"	);
+					
 	//poly ctor
 	InputSocket(	const Address&,
 					uint_fast8_t,
@@ -40,22 +41,20 @@ public:
 					AudioStream&,
 					uint_fast8_t,
 					const char* = "poly in"	);
+
 	bool isReceiving() const;
 	void p2m_on();
 	void p2m_off();
 
 	bool p2m_status;
+
 	AudioConnection* p2m_link;
 	AudioMixer4* p2m_mixer;
-	unsigned int socket_uid;
 
 	static std::list<InputSocket_p> busyInputs;
 	static std::list<InputSocket_p> availableInputs;
 
 	static void setAvailable(InputSocket_p);
-	static void setAvailable(unsigned int);
-
 	static void setBusy(InputSocket_p);
-
-	static void setInactive(InputSocket_p i);
+	static void setInactive(InputSocket_p);
 };

@@ -23,7 +23,7 @@ InputSocket ::InputSocket( // param
 	// init list
 	: Socket(slotAddress, detectorId, as, i, n), address(new ControlAddress(slotAddress, id)), p2m_mixer(new AudioMixer4())
 {
-	socket_uid = address->_id;
+	uid = address->_id;
 
 	p2m_status = false;
 	p2m_on();
@@ -44,7 +44,7 @@ InputSocket ::InputSocket( // param
 	: Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n), address(new ControlAddress(slotAddress, id))
 
 {
-	socket_uid = address->_id;
+	uid = address->_id;
 	
 	p2m_status = false;
 
@@ -83,7 +83,7 @@ void InputSocket::p2m_off()
 void InputSocket::removeFromAvailable(InputSocket_p i)
 {
 	for (auto it = availableInputs.begin(), end = availableInputs.end(); it != end; ++it)
-		if ((*it)->socket_uid == i->socket_uid)
+		if ((*it)->uid == i->uid)
 		{
 			availableInputs.erase(it);
 			return;
@@ -93,58 +93,40 @@ void InputSocket::removeFromAvailable(InputSocket_p i)
 void InputSocket::removeFromBusy(InputSocket_p i)
 {
 	for (auto it = busyInputs.begin(), end = busyInputs.end(); it != end; ++it)
-		if ((*it)->socket_uid == i->socket_uid)
+		if ((*it)->uid == i->uid)
 		{
 			busyInputs.erase(it);
 			return;
 		}
 }
 
-/// @brief sets a as AVAILABLE. currently unused as patchcable refers to sockets via uids
 void InputSocket::setAvailable(InputSocket_p i)
 {
 	availableInputs.push_back(i);
 
-	if((*i)->state == BUSY)
+	if((*i)->state == SocketState::BUSY)
 		removeFromBusy(i);
 
-	(*i)->state = AVAILABLE;
-}
-
-/// @brief sets an input socket as AVAILABLE by its unique identifier. OBSOLETE
-void InputSocket::setAvailable(unsigned int uid)
-{
-	for (auto inputSocket = busyInputs.begin(), end = busyInputs.end(); inputSocket != end; ++inputSocket)
-	{
-		if ((*inputSocket)->socket_uid == uid)
-		{
-			availableInputs.push_back(InputSocket_p(*inputSocket));
-			busyInputs.erase(inputSocket);
-
-			(*inputSocket)->state = AVAILABLE;
-
-			return;
-		}
-	}
+	(*i)->state = SocketState::AVAILABLE;
 }
 
 void InputSocket::setBusy(InputSocket_p i)
 {
 	busyInputs.push_back(i);
 
-	if((*i)->state == AVAILABLE)
+	if((*i)->state == SocketState::AVAILABLE)
 		removeFromAvailable(i);
 
-	(*i)->state = BUSY;
+	(*i)->state = SocketState::BUSY;
 }
 
 void InputSocket::setInactive(InputSocket_p i)
 {
-	if(i->state == AVAILABLE)
+	if(i->state == SocketState::AVAILABLE)
 		removeFromAvailable(i);
-	
-	else if(i->state == BUSY)
+
+	else if(i->state == SocketState::BUSY)
 		removeFromBusy(i);
 
-	i->state = INACTIVE;
+	i->state = SocketState::INACTIVE;
 }

@@ -6,14 +6,9 @@
 
 #include <Audio.h>
 
+#include "SocketState.h"
 #include "../core/Address.h"
 #include "Switch.h"
-
-enum SocketState {
-	INACTIVE,
-	AVAILABLE,
-	BUSY
-};
 
 class Socket
 {
@@ -28,7 +23,7 @@ protected:
 
 	uint_fast8_t audioStream_port;
 
-	SocketState state = INACTIVE;
+	SocketState state = SocketState::INACTIVE;
 
 public:
 	// mono
@@ -51,6 +46,8 @@ public:
 		const char *);
 
 	uint_fast8_t voicesCount;
+
+	unsigned int uid;
 
 	// aka isAvailable
 	inline bool hasJack() { return !jackDetector.b_read(); };

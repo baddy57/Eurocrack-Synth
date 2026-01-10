@@ -22,8 +22,8 @@ OutputSocket :: OutputSocket (
 )
 	:	Socket(slotAddress, detectorId, as, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
-	,   socket_uid(address->_id)
 {
+	uid = address->_id;
 }
 
 //ctor poly
@@ -40,8 +40,8 @@ OutputSocket :: OutputSocket (
 )
 	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
-	,   socket_uid(address->_id)
 {
+	uid = address->_id;
 }
 
 OutputSocket::~OutputSocket() 
@@ -67,24 +67,24 @@ void OutputSocket :: resetSignal() const
 void OutputSocket::removeFromAvailable(OutputSocket_p out)
 {
 	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
-		if ((*o)->socket_uid == out->socket_uid) {
+		if ((*o)->uid == out->uid) {
 			availableOutputs.erase(o);
 			return;
 		}
 	}
 }
 
-void OutputSocket::setAvailable(OutputSocket_p o)
+void OutputSocket::setAvailable(OutputSocket_p out)
 {
-	availableOutputs.push_back(o);
+	availableOutputs.push_back(out);
 
-	*o->state = AVAILABLE;
+	*out->state = SocketState::AVAILABLE;
 }
 
 void OutputSocket::setInactive(OutputSocket_p out) 
 {
-	if(out->state == AVAILABLE)
+	if(out->state == SocketState::AVAILABLE)
 		removeFromAvailable(out);
 	
-	out->state = INACTIVE;
+	out->state = SocketState::INACTIVE;
 }

@@ -1,5 +1,4 @@
-#ifndef __PATCH_CABLE_H__
-#define __PATCH_CABLE_H__
+#pragma once
 
 #include <list>
 #include <memory>
@@ -12,8 +11,11 @@
 class PatchCable {
 	private:
 		AudioConnection* ac[POLYPHONY];
+		
 		uint_fast8_t connectionType;
+		
 		static std::list <std::unique_ptr<PatchCable>> activeCables;
+
 		static void searchForCablesToAdd();
 	public:
 		//ctor
@@ -22,17 +24,13 @@ class PatchCable {
 		//dtor
 		~PatchCable();
 		
-		//todo maybe use pointers instead of uids ?
-		unsigned int inputSocket_uid;
-		unsigned int outputSocket_uid;
+		InputSocket_p inputSocket;
+		OutputSocket_p outputSocket;
 
 		static bool checkConnection (OutputSocket_p, InputSocket_p);
 		
 		static void onInputSocketConnected(InputSocket_p);
 		static void onOutputSocketConnected(OutputSocket_p);
-
 		static void onInputSocketDisconnected(InputSocket_p);
 		static void onOutputSocketDisconnected(OutputSocket_p);
 };
-
-#endif
