@@ -1,3 +1,4 @@
+#include "PatchCableConnectionType.h"
 #include "PatchCable.h"
 #include <memory>
 
@@ -6,29 +7,14 @@ extern ILI9341_t3 tft;
 // definition of static member
 std::list<std::unique_ptr<PatchCable>> PatchCable::activeCables;
 
-enum PatchCableConnectionType
-{
-	// mono in to mono out
-	M2M,
-
-	// mono out to poly in
-	M2P,
-
-	// poly out to mono in
-	P2M,
-
-	// poly out to poly in
-	P2P
-};
-
-// constructor ok
+//ctor
 PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 {
 	// begin handling underlying connections
 
 	if (out->voicesCount == 1 && in->voicesCount == 1)
 	{
-		connectionType = M2M;
+		connectionType = PatchCableConnectionType::M2M;
 		in->p2m_off();
 
 		ac[0] = new AudioConnection(out->getLinkedStream(),
@@ -39,7 +25,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 	}
 	else if (out->voicesCount == 1 && in->voicesCount > 1)
 	{
-		connectionType = M2P;
+		connectionType = PatchCableConnectionType::M2P;
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
 			ac[i] = new AudioConnection(out->getLinkedStream(),
 										out->getIndex(),
@@ -48,7 +34,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 	}
 	else if (out->voicesCount > 1 && in->voicesCount == 1)
 	{
-		connectionType = P2M;
+		connectionType = PatchCableConnectionType::P2M;
 		in->p2m_on();
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
 			ac[i] = new AudioConnection(out->getLinkedStream(i),
@@ -58,7 +44,7 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 	}
 	else /*if(out->voicesCount>1 && in->voicesCount>1)*/
 	{
-		connectionType = P2P;
+		connectionType = PatchCableConnectionType::P2P;
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
 			ac[i] = new AudioConnection(out->getLinkedStream(i),
 										out->getIndex(),
@@ -97,13 +83,13 @@ PatchCable::~PatchCable()
 {
 	switch (connectionType)
 	{
-	case M2M:
+	case PatchCableConnectionType::M2M:
 	{
 		// ac[0]->disconnect();
 		delete ac[0];
 		break;
 	}
-	case M2P:
+	case PatchCableConnectionType::M2P:
 	{
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
 		{
@@ -112,7 +98,7 @@ PatchCable::~PatchCable()
 		}
 		break;
 	}
-	case P2M:
+	case PatchCableConnectionType::P2M:
 	{
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
 		{
@@ -122,7 +108,7 @@ PatchCable::~PatchCable()
 		////////////////////////////////////_in->p2m_off();
 		break;
 	}
-	case P2P:
+	case PatchCableConnectionType::P2P:
 	{
 		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
 		{
@@ -139,7 +125,6 @@ PatchCable::~PatchCable()
 	*/
 }
 
-// ok
 void PatchCable::onInputSocketConnected(InputSocket_p i)
 {
 	InputSocket::setAvailable(i);
@@ -147,7 +132,6 @@ void PatchCable::onInputSocketConnected(InputSocket_p i)
 	searchForCablesToAdd();
 }
 
-// ok
 void PatchCable::onOutputSocketConnected(OutputSocket_p o)
 {
 	OutputSocket::setAvailable(o);
@@ -155,7 +139,6 @@ void PatchCable::onOutputSocketConnected(OutputSocket_p o)
 	searchForCablesToAdd();
 }
 
-// ok
 void PatchCable::searchForCablesToAdd()
 {
 	if (OutputSocket::availableOutputs.empty() || InputSocket::availableInputs.empty())
@@ -171,7 +154,6 @@ void PatchCable::searchForCablesToAdd()
 				// if (out,in) are connected, instantiate a patchcable
 				// post increment the iterator because *in will be removed from available inputs
 				activeCables.push_back(std::make_unique<PatchCable>(*out, *(in++)));
-				break; // provvisorio, permette la creazione di un solo cavo per volta --> dangling
 			}
 		}
 	}
@@ -204,12 +186,7 @@ void PatchCable::onInputSocketDisconnected(InputSocket_p input)
 				break; // i have to destroy only one cable
 			}
 
-	// if input was part of a patchcable, remove input from busy
-	// if input was not part of a patchcable, remove input from available
-	// input::setInactive handles both cases
 	InputSocket::setInactive(input);
-
-	return;
 }
 
 // destroy the patchcable that was disconnected from the output socket
@@ -222,7 +199,6 @@ void PatchCable::onOutputSocketDisconnected(OutputSocket_p output)
 			if ((*cable)->outputSocket->uid == output->uid)
 			{
 				// the inputs that were connected to this output must be set available again
-				//todo maybe use pointers instead of uids ?
 				InputSocket::setAvailable((*cable)->inputSocket);
 
 				activeCables.erase(cable++);
@@ -233,6 +209,4 @@ void PatchCable::onOutputSocketDisconnected(OutputSocket_p output)
 	}
 
 	OutputSocket::setInactive(output);
-
-	return;
 }

@@ -3,5 +3,5 @@
 enum SocketState {
 	INACTIVE,
 	AVAILABLE,
-	BUSY
+	BUSY // applies only to InputSockets
 };
