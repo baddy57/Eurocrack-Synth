@@ -6,10 +6,10 @@
 
 #include "../core/PatchCable.h"
 
-/// @brief list of input sockets that are connected to a patch cable and actively receiving audio
+/// @brief input sockets that are connected to a patch cable and actively receiving a stream
 std::list<InputSocket_p> InputSocket::busyInputs;
 
-/// @brief list of input sockets that are connected to a patch cable and available for connection
+/// @brief input sockets that are connected to a patch cable and available for connection
 std::list<InputSocket_p> InputSocket::availableInputs;
 
 // ctor MONO ONLY

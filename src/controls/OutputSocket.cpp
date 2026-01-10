@@ -8,7 +8,7 @@
 
 extern ILI9341_t3 tft;
 
-/// @brief list of output sockets that are connected to a patch cable and available for connection
+/// @brief output sockets that are connected to a patch cable and available for connection
 std::list<OutputSocket_p> OutputSocket::availableOutputs;
 
 //ctor mono
@@ -44,10 +44,6 @@ OutputSocket :: OutputSocket (
 	uid = address->_id;
 }
 
-OutputSocket::~OutputSocket() 
-{
-}
-
 void OutputSocket :: sendSignal() const 
 {
 	resetSignal();
@@ -60,7 +56,7 @@ void OutputSocket :: sendSignal() const
 void OutputSocket :: resetSignal() const 
 {
 	//address.setForWriting(); is already set
-	digitalWrite(WRITE_PIN/*address->getPin()*/, HIGH); 
+	digitalWrite(WRITE_PIN, HIGH); 
 	return;
 }
 
