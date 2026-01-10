@@ -15,32 +15,38 @@ PatchCable::PatchCable(OutputSocket_p out, InputSocket_p in)
 	if (out->voicesCount == 1 && in->voicesCount == 1)
 	{
 		connectionType = PatchCableConnectionType::M2M;
-		in->p2m_off();
 
 		ac[0] = new AudioConnection(out->getLinkedStream(),
 									out->getIndex(),
-									in->getLinkedStream(), // getLinkedStream(),
+									in->getLinkedStream(),
 									in->getIndex());
-		// 0);//getIndex()	);
 	}
 	else if (out->voicesCount == 1 && in->voicesCount > 1)
 	{
 		connectionType = PatchCableConnectionType::M2P;
-		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
-			ac[i] = new AudioConnection(out->getLinkedStream(),
-										out->getIndex(),
-										in->getLinkedStream(),
-										i);
+
+		// only connect to the first voice of the poly input
+		ac[0] = new AudioConnection(out->getLinkedStream(),
+							out->getIndex(),
+							in->getLinkedStream(0),
+							in->getIndex());
+
+		// alternatively, connect to all voices of the poly input
+		// for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
+		// 	ac[i] = new AudioConnection(out->getLinkedStream(),
+		// 								out->getIndex(),
+		// 								in->getLinkedStream(),
+		// 								i);
 	}
 	else if (out->voicesCount > 1 && in->voicesCount == 1)
 	{
 		connectionType = PatchCableConnectionType::P2M;
-		in->p2m_on();
-		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
-			ac[i] = new AudioConnection(out->getLinkedStream(i),
-										out->getIndex(),
-										*(in->p2m_mixer),
-										i);
+
+		ac[0] = new AudioConnection(out->getLinkedStream(0),
+							out->getIndex(),
+							in->getLinkedStream(),
+							in->getIndex());
+
 	}
 	else /*if(out->voicesCount>1 && in->voicesCount>1)*/
 	{
@@ -84,28 +90,11 @@ PatchCable::~PatchCable()
 	switch (connectionType)
 	{
 	case PatchCableConnectionType::M2M:
-	{
-		// ac[0]->disconnect();
-		delete ac[0];
-		break;
-	}
 	case PatchCableConnectionType::M2P:
-	{
-		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
-		{
-			ac[i]->disconnect();
-			delete ac[i];
-		}
-		break;
-	}
 	case PatchCableConnectionType::P2M:
 	{
-		for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
-		{
-			ac[i]->disconnect();
-			delete ac[i];
-		}
-		////////////////////////////////////_in->p2m_off();
+		ac[0]->disconnect();
+		delete ac[0];
 		break;
 	}
 	case PatchCableConnectionType::P2P:

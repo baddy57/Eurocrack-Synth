@@ -43,13 +43,6 @@ public:
 					const char* = "poly in"	);
 
 	bool isReceiving() const;
-	void p2m_on();
-	void p2m_off();
-
-	bool p2m_status;
-
-	AudioConnection* p2m_link;
-	AudioMixer4* p2m_mixer;
 
 	static std::list<InputSocket_p> busyInputs;
 	static std::list<InputSocket_p> availableInputs;

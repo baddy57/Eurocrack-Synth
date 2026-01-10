@@ -21,12 +21,9 @@ InputSocket ::InputSocket( // param
 	uint_fast8_t i,
 	const char *n)
 	// init list
-	: Socket(slotAddress, detectorId, as, i, n), address(new ControlAddress(slotAddress, id)), p2m_mixer(new AudioMixer4())
+	: Socket(slotAddress, detectorId, as, i, n), address(new ControlAddress(slotAddress, id))
 {
 	uid = address->_id;
-
-	p2m_status = false;
-	p2m_on();
 }
 
 // POLY CTOR
@@ -45,10 +42,6 @@ InputSocket ::InputSocket( // param
 
 {
 	uid = address->_id;
-	
-	p2m_status = false;
-
-	p2m_on();
 }
 
 bool InputSocket::isReceiving() const
@@ -56,28 +49,6 @@ bool InputSocket::isReceiving() const
 	address->setForReading();
 
 	return !digitalRead(address->getPin());
-}
-
-void InputSocket::p2m_on()
-{
-	if (p2m_status)
-		return;
-
-	p2m_link = new AudioConnection(*p2m_mixer, 0, linkedStream0, audioStream_port);
-
-	p2m_status = true;
-}
-
-void InputSocket::p2m_off()
-{
-	if (!p2m_status)
-		return;
-
-	p2m_link->disconnect();
-	
-	delete p2m_link;
-
-	p2m_status = false;
 }
 
 void InputSocket::removeFromAvailable(InputSocket_p i)
