@@ -1,5 +1,4 @@
-#ifndef __HARDWARE_CFG_H__
-#define __HARDWARE_CFG_H__ 
+#pragma once
 
 #include <cstdint>
 
@@ -164,6 +163,3 @@ const uint_fast8_t POLYPHONY = 10;
 		return i + 24;
 	return i;
 }*/
-
-
-#endif

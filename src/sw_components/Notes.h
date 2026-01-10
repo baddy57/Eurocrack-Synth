@@ -1,5 +1,5 @@
-#ifndef _MUSIC_NOTES_H_
-#define _MUSIC_NOTES_H_
+#pragma once
+
 namespace notes {
 
 	const int OCTAVES = 9;
@@ -20,5 +20,3 @@ namespace notes {
 		{30.87,	61.74, 123.47, 246.94,	493.88,	987.77,	1975.53,	3951.07,	7902.13 } //B
 	};
 }
-
-#endif

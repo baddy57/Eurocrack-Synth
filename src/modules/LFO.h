@@ -1,5 +1,4 @@
-#ifndef __MODULES_LFO_H__
-#define __MODULES_LFO_H__
+#pragma once
 
 #include "../core/Module.h"
 #include "../sw_components/GateIn.h"
@@ -25,5 +24,3 @@ class LFO : public Module {
 		LFO (const Address&);
 		void updateValues();		
 };
-
-#endif

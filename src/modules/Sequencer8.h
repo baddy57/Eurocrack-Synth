@@ -1,5 +1,4 @@
-#ifndef _SEQUENCER_MODULE_H
-#define _SEQUENCER_MODULE_H
+#pragma once
 
 #include "../core/Module.h"
 
@@ -60,5 +59,3 @@ private:
 	void playStep();
 
 };
-
-#endif

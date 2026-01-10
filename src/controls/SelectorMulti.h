@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Potentiometer.h"
+
 class SelectorMulti : public Potentiometer
 {
 public:

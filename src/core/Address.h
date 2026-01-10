@@ -1,5 +1,4 @@
-#ifndef __ADDRESS_H__
-#define __ADDRESS_H__
+#pragma once
 
 #include <cstdint>
 
@@ -52,5 +51,3 @@ class IdMuxAddress : public Address {
 		IdMuxAddress(const Address&);
 		void setForReading() const;
 };
-
-#endif

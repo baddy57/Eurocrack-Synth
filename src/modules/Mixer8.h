@@ -1,5 +1,4 @@
-#ifndef __MODULES_MIXER8_H__
-#define __MODULES_MIXER8_H__ 
+#pragma once
 
 #include "../core/Module.h"
 
@@ -31,5 +30,3 @@ class Mixer8 : public Module {
 		void updateValues(); //(uint_fast8_t priority) ?
 		
 };
-
-#endif

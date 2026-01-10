@@ -1,5 +1,4 @@
-#ifndef __EMPTY_MODULE_H__
-#define __EMPTY_MODULE_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -10,5 +9,3 @@ class EmptyModule : public Module {
 		//EmptyModule(const Address& a) : Module(a) {};
 		void updateValues()override{return;};
 };
-
-#endif

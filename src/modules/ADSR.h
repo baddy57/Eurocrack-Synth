@@ -1,5 +1,4 @@
-#ifndef __MODULES_ADSR_H__
-#define __MODULES_ADSR_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -22,5 +21,3 @@ class ADSR : public Module{
 		void updateValues();
 
 };
-
-#endif

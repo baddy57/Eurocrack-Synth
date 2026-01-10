@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Switch.h"
 
 /// @brief implements a rotary swith as an array of n 2-position switches

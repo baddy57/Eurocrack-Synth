@@ -1,5 +1,4 @@
-#ifndef __MODULE_H__
-#define __MODULE_H__
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -99,4 +98,3 @@ struct Output {
 		Module::outputSockets.push_back(std::make_shared<OutputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name));
 	}
 };
-#endif

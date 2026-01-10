@@ -1,5 +1,4 @@
-#ifndef __MODULES_AUDIO_IN_H__
-#define __MODULES_AUDIO_IN_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -17,5 +16,3 @@ class AudioIn : public Module {
 		AudioIn(const Address&);		
 		void updateValues() override;
 };
-
-#endif

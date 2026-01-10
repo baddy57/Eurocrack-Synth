@@ -1,5 +1,5 @@
-#ifndef _SCALES_H_
-#define _SCALES_H_
+#pragma once
+
 namespace scales {
 	
 	inline uint majorScale(uint root, uint at) {
@@ -44,5 +44,3 @@ namespace scales {
 	}
 
 }
-
-#endif

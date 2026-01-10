@@ -1,5 +1,4 @@
-#ifndef __MODULES_DrumMachine_H__
-#define __MODULES_DrumMachine_H__
+#pragma once
 
 #include "../core/Module.h"
 #include "../sw_components/GateIn.h"
@@ -75,4 +74,3 @@ class DrumMachine : public Module {
 		void updateValues(); //(uint_fast8_t priority) ?
 		
 };
-#endif

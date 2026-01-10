@@ -1,5 +1,4 @@
-#ifndef __MODULES_AUDIO_OUT_H__
-#define __MODULES_AUDIO_OUT_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -16,4 +15,3 @@ private:
 		AudioOut(const Address&);
 		void updateValues() override;
 };
-#endif

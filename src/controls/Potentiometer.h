@@ -1,5 +1,4 @@
-#ifndef __CONTROLS_POTENTIOMETER_H__
-#define __CONTROLS_POTENTIOMETER_H__
+#pragma once
 
 #include "../core/Control.h"
 
@@ -60,4 +59,3 @@ public:
 };
 
 typedef Potentiometer Fader;
-#endif

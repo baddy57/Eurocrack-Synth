@@ -1,5 +1,4 @@
-#ifndef __CONTROLS_SWITCH_H__
-#define __CONTROLS_SWITCH_H__
+#pragma once
 
 #include "../core/Control.h"
 
@@ -12,5 +11,3 @@ class Switch : public Control {
 		void update() /* override */;
 		bool wasUpdated() {update(); return _wasUpdated;};
 };
-
-#endif

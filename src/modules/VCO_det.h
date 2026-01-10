@@ -1,5 +1,4 @@
-#ifndef __MODULES_VCO_DET_H__
-#define __MODULES_VCO_DET_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -49,5 +48,3 @@ class VCO_det : public Module {
 		VCO_det (const Address&);
 		void updateValues()override;
 };
-
-#endif

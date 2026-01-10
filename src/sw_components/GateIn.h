@@ -1,5 +1,4 @@
-#ifndef __GATE_IN_H__
-#define __GATE_IN_H__
+#pragma once
 
 #include <Audio.h>
 #include <cstdint>
@@ -12,4 +11,3 @@ class GateIn : public AudioRecordQueue{
 		bool _isOpen;
 		bool isAvailable(){return available()>0;};
 };
-#endif // !__GATE_IN_H__

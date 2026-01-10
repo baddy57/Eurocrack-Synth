@@ -1,5 +1,4 @@
-#ifndef __CONTROL_H__
-#define __CONTROL_H__
+#pragma once
 
 #include <cstdint>
 
@@ -15,5 +14,3 @@ class Control{
 		Control(uint_fast8_t pin) : address(pin),_wasUpdated(true),uid(address._id){};
 		const unsigned int uid;
 };
-
-#endif

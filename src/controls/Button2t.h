@@ -1,5 +1,4 @@
-#ifndef __CONTROLS_BUTTON2T_H__
-#define __CONTROLS_BUTTON2T_H__
+#pragma once
 
 #include "Button.h"
 
@@ -19,5 +18,3 @@ class Button2t : public Button {
 		/// @return true if the button was double-tapped
 		bool doubleTap();
 };
-
-#endif

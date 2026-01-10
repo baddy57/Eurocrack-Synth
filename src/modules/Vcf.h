@@ -1,5 +1,4 @@
-#ifndef __MODULES_VCF_H__
-#define __MODULES_VCF_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -21,5 +20,3 @@ class VCF : public Module {
 		void updateValues(); 
 		
 };
-
-#endif

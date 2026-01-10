@@ -1,5 +1,4 @@
-#ifndef __MODULES_Looper_H__
-#define __MODULES_Looper_H__
+#pragma once
 
 #include "../core/Module.h"
 const int TRACKS_COUNT = 6;
@@ -38,5 +37,3 @@ public:
 	Looper (const Address&);
 	void updateValues();
 };
-
-#endif

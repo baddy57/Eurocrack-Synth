@@ -35,5 +35,4 @@ void Module :: updateConnections(){
 		if ((*outputSocket)->jackJustUnplugged()) 
 			PatchCable::onOutputSocketDisconnected(*outputSocket);
 	}
-	return;
 }

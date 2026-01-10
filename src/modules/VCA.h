@@ -1,5 +1,4 @@
-#ifndef __MODULES_VCA_H__
-#define __MODULES_VCA_H__
+#pragma once
 
 #include "../core/Module.h"
 
@@ -13,5 +12,3 @@ class VCA : public Module {
 		VCA (const Address&);
 		void updateValues()override;
 };
-
-#endif

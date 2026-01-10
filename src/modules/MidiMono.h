@@ -1,5 +1,4 @@
-#ifndef __MODULES_MIDIMONO_H__
-#define __MODULES_MIDIMONO_H__
+#pragma once
 
 #include "../core/Module.h"
 #include "USBHost_t36.h"
@@ -31,5 +30,3 @@ class MidiMono : public Module {
 		static void handleNoteOn(uint8_t, uint8_t, uint8_t);
 		static void handleNoteOff(uint8_t, uint8_t, uint8_t);
 };
-
-#endif
