@@ -9,33 +9,30 @@
 #include "controls/OutputSocket.h"
 #include "HardwareCfg.h"
 
-typedef  std::shared_ptr<InputSocket> is_ptr;
-typedef  std::shared_ptr<OutputSocket> os_ptr;
-
 class PatchCable {
 	private:
 		AudioConnection* ac[POLYPHONY];
 		uint_fast8_t connectionType;
-		static std::list <std::unique_ptr<PatchCable>> activeConnections;
+		static std::list <std::unique_ptr<PatchCable>> activeCables;
 		static void searchForCablesToAdd();
 	public:
 		//ctor
-		PatchCable(os_ptr, is_ptr);
+		PatchCable(OutputSocket_p, InputSocket_p);
 		
 		//dtor
 		~PatchCable();
 		
+		//todo maybe use pointers instead of uids ?
 		unsigned int inputSocket_uid;
 		unsigned int outputSocket_uid;
 
-		static bool checkConnection (os_ptr, is_ptr);
+		static bool checkConnection (OutputSocket_p, InputSocket_p);
 		
-		static void addFromInput(is_ptr);
-		static void addFromOutput(os_ptr);
-		static void deleteFromInput(is_ptr);
-		static void deleteFromOutput(os_ptr);
+		static void onInputSocketConnected(InputSocket_p);
+		static void onOutputSocketConnected(OutputSocket_p);
 
-		//bool operator==(std::shared_ptr<PatchCable> other) const {return this->_in==other->getInputSocket()&&this->_out==other->getOutputSocket();};
+		static void onInputSocketDisconnected(InputSocket_p);
+		static void onOutputSocketDisconnected(OutputSocket_p);
 };
 
 #endif

@@ -1,10 +1,14 @@
-#ifndef __OUTPUT_SOCKET_H___
-#define __OUTPUT_SOCKET_H___
+#pragma once
+
 #include "Socket.h"
+
+typedef  std::shared_ptr<OutputSocket> OutputSocket_p;
 
 class OutputSocket : public Socket {
 protected:
 	OutputSocketAddress* address;
+	static void OutputSocket::removeFromAvailable(OutputSocket_p &out);
+
 public:
 	//mono
 	OutputSocket(	const Address&, 
@@ -13,7 +17,8 @@ public:
 					AudioStream&, 
 					uint_fast8_t,
 					const char* = "mono out");		
-	//poly
+	
+					//poly
 	OutputSocket(	const Address&, 
 					uint_fast8_t,
 					uint_fast8_t,
@@ -23,15 +28,16 @@ public:
 					AudioStream&,
 					uint_fast8_t,
 					const char* = "poly out");
-	~OutputSocket();
+	
+					~OutputSocket();
+	
 	void sendSignal() const;
 	void resetSignal() const;
+	
 	unsigned int socket_uid;
-	static std::list< std::shared_ptr<OutputSocket>> availableOutputs;
-	static void setAvailable(std::shared_ptr<OutputSocket>&);
-	static void disconnect(std::shared_ptr<OutputSocket>&);
+	
+	static std::list<OutputSocket_p> availableOutputs;
+
+	static void setAvailable(OutputSocket_p&);
+	static void setInactive(OutputSocket_p&);
 };
-
-
-
-#endif

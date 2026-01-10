@@ -1,17 +1,26 @@
-#ifndef __INPUT_SOCKET_H___
-#define __INPUT_SOCKET_H___
+#pragma once
 
 #include "Socket.h"
 
-//no #define Input(a, id, did, as, p, n) Module::inputSockets.push_back(std::make_shared<InputSocket>(a, id, did, as, p, n))
+/// @brief an input socket that can receive audio signals
 
+// input sockets can have three states:
+// INACTIVE: not connected to any patch cable
+// AVAILABLE: connected to a patch cable, but not receiving audio
+// BUSY: connected to a patch cable and receiving audio
 
+// for faster searching, two lists are kept:
+// - availableInputs: input sockets that are AVAILABLE
+// - busyInputs: input sockets that are BUSY
+
+typedef std::shared_ptr<InputSocket> InputSocket_p;
 
 class InputSocket : public Socket {
 protected:
 	ControlAddress* address;
-	static void removeFromAvailable(std::shared_ptr<InputSocket>&);
-	static void removeFromBusy(std::shared_ptr<InputSocket>&);
+	
+	static void removeFromAvailable(InputSocket_p&);
+	static void removeFromBusy(InputSocket_p&);
 		
 public:
 	//mono ctor
@@ -40,15 +49,13 @@ public:
 	AudioMixer4* p2m_mixer;
 	unsigned int socket_uid;
 
-	static std::list<std::shared_ptr<InputSocket>> busyInputs;
-	static std::list<std::shared_ptr<InputSocket>> availableInputs;
+	static std::list<InputSocket_p> busyInputs;
+	static std::list<InputSocket_p> availableInputs;
 
-	static void connect(std::shared_ptr<InputSocket>&);
-	static void setAvailable(std::shared_ptr<InputSocket>&);
+	static void setAvailable(InputSocket_p&);
 	static void setAvailable(unsigned int);
-	static void setBusy(std::shared_ptr<InputSocket>&);
-	static inline void disconnect(std::shared_ptr<InputSocket>& i ) { removeFromAvailable(i); removeFromBusy(i); };
+
+	static void setBusy(InputSocket_p&);
+
+	static void setInactive(InputSocket_p& i );
 };
-
-
-#endif

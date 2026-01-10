@@ -8,9 +8,8 @@
 
 extern ILI9341_t3 tft;
 
-typedef std::shared_ptr<OutputSocket> os_ptr;
-
-std::list<os_ptr> OutputSocket::availableOutputs;
+/// @brief list of output sockets that are connected to a patch cable and available for connection
+std::list<OutputSocket_p> OutputSocket::availableOutputs;
 
 //ctor mono
 OutputSocket :: OutputSocket (
@@ -25,7 +24,6 @@ OutputSocket :: OutputSocket (
 	,	address(new OutputSocketAddress(slotAddress, id))
 	,   socket_uid(address->_id)
 {
-
 }
 
 //ctor poly
@@ -46,12 +44,12 @@ OutputSocket :: OutputSocket (
 {
 }
 
-OutputSocket::~OutputSocket() {
-
+OutputSocket::~OutputSocket() 
+{
 }
 
-void 
-OutputSocket :: sendSignal() const {
+void OutputSocket :: sendSignal() const 
+{
 	resetSignal();
 	address->setForWriting();
 	digitalWrite(address->getPin(), LOW);
@@ -59,26 +57,34 @@ OutputSocket :: sendSignal() const {
 	return;
 }
 
-void OutputSocket :: resetSignal() const {
+void OutputSocket :: resetSignal() const 
+{
 	//address.setForWriting(); is already set
 	digitalWrite(WRITE_PIN/*address->getPin()*/, HIGH); 
 	return;
 }
 
-//ok
-void OutputSocket::setAvailable(os_ptr& o){
-	availableOutputs.push_back(os_ptr(o));
-
-}
-
-//ok
-void OutputSocket::disconnect(os_ptr& out) {
-
+void OutputSocket::removeFromAvailable(OutputSocket_p &out)
+{
 	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
 		if ((*o)->socket_uid == out->socket_uid) {
 			availableOutputs.erase(o);
 			return;
 		}
 	}
+}
 
+void OutputSocket::setAvailable(OutputSocket_p& o)
+{
+	availableOutputs.push_back(OutputSocket_p(o));
+
+	*o->state = AVAILABLE;
+}
+
+void OutputSocket::setInactive(OutputSocket_p& out) 
+{
+	if((*out)->state == AVAILABLE)
+		removeFromAvailable(out);
+	
+	*out->state = INACTIVE;
 }

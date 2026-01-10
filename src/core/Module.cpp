@@ -3,8 +3,10 @@
 #include "PatchCable.h"
 
 //definition of static members
-std::vector<std::shared_ptr<InputSocket>> Module::inputSockets;
-std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
+std::vector<InputSocket_p> Module::inputSockets;
+
+std::vector<OutputSocket_p> Module::outputSockets;
+
 AudioControlSGTL5000 Module::_audioCtrl;
 
 //ctor
@@ -15,28 +17,23 @@ Module :: Module(const Address& address) : moduleAddress(address), verbose(false
 //ok
 void Module :: updateConnections(){
 	//for each input
-	for(auto i = inputSockets.begin(), end = inputSockets.end(); i != end; ++i)
+	for(auto inputSocket = inputSockets.begin(), end = inputSockets.end(); inputSocket != end; ++inputSocket)
 	{
-		if ((*i)->jackJustPlugged())
-			PatchCable::addFromInput(*i);
+		if ((*inputSocket)->jackJustPlugged())
+			PatchCable::onInputSocketConnected(*inputSocket);
 
-		if ((*i)->jackJustUnplugged())
-			PatchCable::deleteFromInput(*i);
+		if ((*inputSocket)->jackJustUnplugged())
+			PatchCable::onInputSocketDisconnected(*inputSocket);
 	}
 
 	//for each output
-	for(auto o = outputSockets.begin(),	end = outputSockets.end(); o != end; ++o)
+	for(auto outputSocket = outputSockets.begin(),	end = outputSockets.end(); outputSocket != end; ++outputSocket)
 	{
-		if ((*o)->jackJustPlugged()) {
-			PatchCable::addFromOutput(*o);
+		if ((*outputSocket)->jackJustPlugged())
+			PatchCable::onOutputSocketConnected(*outputSocket);
 
-		}
-
-		if ((*o)->jackJustUnplugged()) {
-
-			PatchCable::deleteFromOutput(*o);
-
-		}
+		if ((*outputSocket)->jackJustUnplugged()) 
+			PatchCable::onOutputSocketDisconnected(*outputSocket);
 	}
 	return;
 }

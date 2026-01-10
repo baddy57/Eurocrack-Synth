@@ -59,7 +59,7 @@ Sequencer8::Sequencer8(const Address& a)
 void Sequencer8::updateValues()
 {
 	//if external clock connected
-	if (clockIn.base->isReady()) {
+	if (clockIn.base->hasJack()) {
 		//getClockFromInput
 		sequenceLength_ms = 0;
 	}

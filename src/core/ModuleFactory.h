@@ -35,6 +35,8 @@ extern ILI9341_t3 Serial;
 class ModuleFactory
 {
 public:
+
+	/// @brief creates module instances for all detected modules and adds them to the provided vector
 	static void factory(std::vector<Module *> &activeModules)
 	{
 		Serial.println("init modules");
