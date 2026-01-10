@@ -7,7 +7,7 @@ typedef  std::shared_ptr<OutputSocket> OutputSocket_p;
 class OutputSocket : public Socket {
 protected:
 	OutputSocketAddress* address;
-	static void OutputSocket::removeFromAvailable(OutputSocket_p &out);
+	static void removeFromAvailable(OutputSocket_p out);
 
 public:
 	//mono
@@ -38,6 +38,6 @@ public:
 	
 	static std::list<OutputSocket_p> availableOutputs;
 
-	static void setAvailable(OutputSocket_p&);
-	static void setInactive(OutputSocket_p&);
+	static void setAvailable(OutputSocket_p);
+	static void setInactive(OutputSocket_p);
 };

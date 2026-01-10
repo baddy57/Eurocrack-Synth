@@ -64,7 +64,7 @@ void OutputSocket :: resetSignal() const
 	return;
 }
 
-void OutputSocket::removeFromAvailable(OutputSocket_p &out)
+void OutputSocket::removeFromAvailable(OutputSocket_p out)
 {
 	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
 		if ((*o)->socket_uid == out->socket_uid) {
@@ -74,17 +74,17 @@ void OutputSocket::removeFromAvailable(OutputSocket_p &out)
 	}
 }
 
-void OutputSocket::setAvailable(OutputSocket_p& o)
+void OutputSocket::setAvailable(OutputSocket_p o)
 {
-	availableOutputs.push_back(OutputSocket_p(o));
+	availableOutputs.push_back(o);
 
 	*o->state = AVAILABLE;
 }
 
-void OutputSocket::setInactive(OutputSocket_p& out) 
+void OutputSocket::setInactive(OutputSocket_p out) 
 {
-	if((*out)->state == AVAILABLE)
+	if(out->state == AVAILABLE)
 		removeFromAvailable(out);
 	
-	*out->state = INACTIVE;
+	out->state = INACTIVE;
 }

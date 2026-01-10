@@ -80,7 +80,7 @@ void InputSocket::p2m_off()
 	p2m_status = false;
 }
 
-void InputSocket::removeFromAvailable(InputSocket_p &i)
+void InputSocket::removeFromAvailable(InputSocket_p i)
 {
 	for (auto it = availableInputs.begin(), end = availableInputs.end(); it != end; ++it)
 		if ((*it)->socket_uid == i->socket_uid)
@@ -90,7 +90,7 @@ void InputSocket::removeFromAvailable(InputSocket_p &i)
 		}
 }
 
-void InputSocket::removeFromBusy(InputSocket_p &i)
+void InputSocket::removeFromBusy(InputSocket_p i)
 {
 	for (auto it = busyInputs.begin(), end = busyInputs.end(); it != end; ++it)
 		if ((*it)->socket_uid == i->socket_uid)
@@ -101,9 +101,9 @@ void InputSocket::removeFromBusy(InputSocket_p &i)
 }
 
 /// @brief sets a as AVAILABLE. currently unused as patchcable refers to sockets via uids
-void InputSocket::setAvailable(InputSocket_p &i)
+void InputSocket::setAvailable(InputSocket_p i)
 {
-	availableInputs.push_back(InputSocket_p(i));
+	availableInputs.push_back(i);
 
 	if((*i)->state == BUSY)
 		removeFromBusy(i);
@@ -128,9 +128,9 @@ void InputSocket::setAvailable(unsigned int uid)
 	}
 }
 
-void InputSocket::setBusy(InputSocket_p &i)
+void InputSocket::setBusy(InputSocket_p i)
 {
-	busyInputs.push_back(InputSocket_p(i));
+	busyInputs.push_back(i);
 
 	if((*i)->state == AVAILABLE)
 		removeFromAvailable(i);
@@ -138,13 +138,13 @@ void InputSocket::setBusy(InputSocket_p &i)
 	(*i)->state = BUSY;
 }
 
-void InputSocket::setInactive(InputSocket_p &i)
+void InputSocket::setInactive(InputSocket_p i)
 {
-	if((*i)->state == AVAILABLE)
+	if(i->state == AVAILABLE)
 		removeFromAvailable(i);
 	
-	else if((*i)->state == BUSY)
+	else if(i->state == BUSY)
 		removeFromBusy(i);
 
-	(*i)->state = INACTIVE;
+	i->state = INACTIVE;
 }

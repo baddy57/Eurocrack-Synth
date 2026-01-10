@@ -18,9 +18,9 @@ typedef std::shared_ptr<InputSocket> InputSocket_p;
 class InputSocket : public Socket {
 protected:
 	ControlAddress* address;
-	
-	static void removeFromAvailable(InputSocket_p&);
-	static void removeFromBusy(InputSocket_p&);
+
+	static void removeFromAvailable(InputSocket_p);
+	static void removeFromBusy(InputSocket_p);
 		
 public:
 	//mono ctor
@@ -52,10 +52,10 @@ public:
 	static std::list<InputSocket_p> busyInputs;
 	static std::list<InputSocket_p> availableInputs;
 
-	static void setAvailable(InputSocket_p&);
+	static void setAvailable(InputSocket_p);
 	static void setAvailable(unsigned int);
 
-	static void setBusy(InputSocket_p&);
+	static void setBusy(InputSocket_p);
 
-	static void setInactive(InputSocket_p& i );
+	static void setInactive(InputSocket_p i);
 };
