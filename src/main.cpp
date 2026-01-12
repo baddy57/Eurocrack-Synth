@@ -75,17 +75,24 @@ void setup() {
 	delay(2000);
 
 	tft.begin();
-	tft.setRotation(4);
+	tft.setRotation(4);	
 	tft.fillScreen(CONFIGURATION__BACKGROUND_COLOR);
 
+	#if CONFIGURATION__USBHOST_ENABLED
 	usbHost.begin();
-	Serial.begin(31250);
+	#endif
 
+	#if CONFIGURATION__SERIAL_ENABLED
+	Serial.begin(31250);
+	#endif
+
+	#if CONFIGURATION__SDCARD_ENABLED
 	SD.begin(BUILTIN_SDCARD);
+	#endif
 
 	pinMode(pins::READ, INPUT_PULLDOWN);
 	
-		ModuleFactory::factory(activeModules);
+	ModuleFactory::factory(activeModules);
 
 	pinMode(pins::READ, INPUT);
 
