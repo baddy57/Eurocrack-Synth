@@ -76,7 +76,7 @@ void setup() {
 
 	tft.begin();
 	tft.setRotation(4);
-	tft.fillScreen(ILI9341_PINK);
+	tft.fillScreen(CONFIGURATION__BACKGROUND_COLOR);
 
 	usbHost.begin();
 	Serial.begin(31250);
