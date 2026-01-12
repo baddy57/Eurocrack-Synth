@@ -76,15 +76,18 @@ void setup() {
 
 	tft.begin();
 	tft.setRotation(4);
-	tft.fillScreen(ILI9341_BLUE);
+	tft.fillScreen(ILI9341_PINK);
 
 	usbHost.begin();
 	Serial.begin(31250);
 
 	SD.begin(BUILTIN_SDCARD);
 
-	while (activeModules.size() == 0)
+	pinMode(pins::READ, INPUT_PULLDOWN);
+	
 		ModuleFactory::factory(activeModules);
+
+	pinMode(pins::READ, INPUT);
 
 }
 
