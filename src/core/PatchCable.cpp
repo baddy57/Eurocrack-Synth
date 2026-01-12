@@ -65,23 +65,25 @@ PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputS
 	// in cannot accept any other connections until this one is deleted
 	InputSocket::setBusy(in);
 
-	Serial.print(out->getName());
-	Serial.print(" >>> ");
-	Serial.print(in->getName());
+	#if CONFIGURATION__LOGGER__CONNECTIONS
+	tft.print(out->getName());
+	tft.print(" >>> ");
+	tft.print(in->getName());
 	switch (connectionType)
 	{
 	case M2M:
-		Serial.println(" M2M");
+		tft.println(" M2M");
 		break;
 	case M2P:
-		Serial.println(" M2P");
+		tft.println(" M2P");
 		break;
 	case P2M:
-		Serial.println(" P2M");
+		tft.println(" P2M");
 		break;
 	case P2P:
-		Serial.println(" P2P");
+		tft.println(" P2P");
 	}
+	#endif
 }
 
 // dtor
@@ -108,14 +110,21 @@ PatchCable::~PatchCable()
 	}
 	}
 
-	/*Serial.print(_out->getName());
-	Serial.print(" XXX ");
-	Serial.println(_in->getName());
-	*/
+	#if CONFIGURATION__LOGGER__CONNECTIONS
+	tft.print(outputSocket->getName());
+	tft.print(" XXX ");
+	tft.println(inputSocket->getName());
+	#endif
+	
 }
 
 void PatchCable::onInputSocketConnected(std::shared_ptr<InputSocket> i)
 {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	tft.print("Input connected: ");
+	tft.println(i->getName());
+	#endif
+
 	InputSocket::setAvailable(i);
 
 	searchForCablesToAdd();
@@ -123,6 +132,11 @@ void PatchCable::onInputSocketConnected(std::shared_ptr<InputSocket> i)
 
 void PatchCable::onOutputSocketConnected(std::shared_ptr<OutputSocket> o)
 {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	tft.print("Output connected: ");
+	tft.println(o->getName());
+	#endif
+
 	OutputSocket::setAvailable(o);
 
 	searchForCablesToAdd();
@@ -167,6 +181,11 @@ bool PatchCable::checkConnection(std::shared_ptr<OutputSocket> out, std::shared_
 // destroy the patchcable that was disconnected from the input socket
 void PatchCable::onInputSocketDisconnected(std::shared_ptr<InputSocket> input)
 {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	tft.print("Input disconnected: ");
+	tft.println(input->getName());
+	#endif
+
 	if (!activeCables.empty())
 		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end; ++cable)
 			if ((*cable)->inputSocket->uid == input->uid)
@@ -181,6 +200,11 @@ void PatchCable::onInputSocketDisconnected(std::shared_ptr<InputSocket> input)
 // destroy the patchcable that was disconnected from the output socket
 void PatchCable::onOutputSocketDisconnected(std::shared_ptr<OutputSocket> output)
 {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	tft.print("Output disconnected: ");
+	tft.println(output->getName());
+	#endif
+
 	if (!activeCables.empty())
 	{
 		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end;)

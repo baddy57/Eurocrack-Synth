@@ -126,7 +126,7 @@ const bool ID_MUX_LOCATION [3] = {0, 0, 0}; //IN_SEL2[0, 1, 2] --->pins::RG, pin
 const float POT_DEADZONE = 5.f;
 const uint_fast8_t POT_READS = 5;
 
-const uint_fast8_t MAX_MODULES = 64;
+const uint_fast8_t MAX_MODULES = 16;
 
 
 const uint_fast8_t HIGH_UPDATE_PRIORITY = 255;
@@ -161,3 +161,8 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 		return i + 24;
 	return i;
 }*/
+
+
+#define CONFIGURATION__LOGGER__JACK_EVENTS 1
+#define CONFIGURATION__LOGGER__CONNECTIONS 1
+#define CONFIGURATION__LOGGER__MODULE_FACTORY 1

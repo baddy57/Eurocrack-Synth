@@ -30,7 +30,7 @@
 #include "../modules/fx/Delay_multi.h"
 
 extern const uint_fast8_t MAX_MODULES;
-// extern ILI9341_t3 Serial;
+extern ILI9341_t3 tft;
 
 class ModuleFactory
 {
@@ -39,8 +39,6 @@ public:
 	/// @brief creates module instances for all detected modules and adds them to the provided vector
 	static void factory(std::vector<Module *> &activeModules)
 	{
-		Serial.println("init modules");
-
 		for (uint_fast8_t i = 0; i < MAX_MODULES; ++i)
 		{
 			Address slotAddress(i);
@@ -155,25 +153,26 @@ public:
 			}
 			};
 
-			if (slotAddress.toInt() % 16 == 15)
-				Serial.println("---------end of bank-------------");
+			#if CONFIGURATION__LOGGER__MODULE_FACTORY
+			if (MAX_MODULES > 16 && slotAddress.toInt() % 16 == 15)
+				Serial.printf("---------end of bank %i-------------\n", i);
+			#endif		
 		}
 
-		Serial.println("----------------------------------------");
+		#if CONFIGURATION__LOGGER__MODULE_FACTORY
+		tft.println("----------------------------------------");
+		#endif	
 	}
 
 	static void logModuleDetected(uint_fast8_t moduleType, String moduleName, const Address &slotAddress)
 	{
-		bool verbose = true;
-
-		if (!verbose)
-			return;
-
-		Serial.print("Module detected: ");
-		Serial.print(moduleType);
-		Serial.print("  ");
-		Serial.print(moduleName);
-		Serial.print("  @  ");
-		Serial.println(slotAddress.toInt());
+		#if CONFIGURATION__LOGGER__MODULE_FACTORY
+		tft.print("Module detected: ");
+		tft.print(moduleType);
+		tft.print("  ");
+		tft.print(moduleName);
+		tft.print("  @  ");
+		tft.println(slotAddress.toInt());
+		#endif
 	}
 };
