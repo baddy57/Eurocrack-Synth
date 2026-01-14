@@ -7,8 +7,8 @@ extern const float POT_DEADZONE;
 extern ILI9341_t3 tft;
 extern const uint_fast8_t POT_READS;
 
-
-void Potentiometer::setPullUpResistor(float pullup)
+#warning "Potentiometer pullup compensation is obsolete, use dedicated multiplexers instead"
+void Potentiometer::setPullUpResistorCompensation(float pullup)
 {
 	if (pullup == 0.f)return;
 	minRead = pullup / 9.78f;
@@ -53,16 +53,20 @@ void Potentiometer :: update()
 {
 	address.setForReading();
 	int r_sum =0;
-	uint_fast8_t p = address.getPin();
 
 	for (uint_fast16_t i = 0; i < POT_READS; ++i)
-		r_sum +=analogRead(p);
+		r_sum +=analogRead(address.getPin());
 
 	float avg = r_sum / POT_READS;
+	
 	avg -= minRead;
 	avg *= range;
-	if(avg < 2.f) avg = 0.f;
-	if (avg > 1020.f) avg = 1023.f;
+
+	if(avg < 2.f) 
+		avg = 0.f;
+	
+	if (avg > 1020.f) 
+		avg = 1023.f;
 	
 	if (avg > value+POT_DEADZONE || avg < value-POT_DEADZONE) {
 		value = avg;

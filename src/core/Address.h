@@ -20,6 +20,7 @@ class Address{
 		virtual void setForWriting() const{};
 		uint_fast8_t getPin() const{return this->pin;};
 		uint_fast8_t toInt()const{return _id;};
+		uint_fast8_t getLocalId() const {return _id %16;};
 };
 
 //address of a switch, a button, a pot or an inputSocket

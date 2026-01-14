@@ -29,7 +29,8 @@ public:
 	/// @param a address of the module
 	/// @param id pin on the module pcb
 	/// @param pullup_res value of the pullup resistor
-	Potentiometer(const Address& a, uint_fast8_t id, float pullup_res = 0.f) : Control(a, id), value(0) { setPullUpResistor(pullup_res); };
+	Potentiometer(const Address& a, uint_fast8_t id, float pullup_res = 0.f) 
+		: Control(a, id), value(0) { setPullUpResistorCompensation(pullup_res); };
 
 	/// @brief constructor for pots connected directly to the board
 	/// @param pin
@@ -37,7 +38,7 @@ public:
 
 	/// @brief set the value of the pullup to fix readings
 	/// @param value of the pullup resistor in ohm
-	void setPullUpResistor(float);
+	void setPullUpResistorCompensation(float);
 
 	/// @brief set the target range of the reading
 	/// @param min value
