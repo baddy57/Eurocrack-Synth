@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(tree:*)",
+      "Bash(git -C \"P:\\\\repos\\\\SYNTH\" status --short)",
+      "Bash(find:*)",
+      "Bash(git -C \"P:\\\\repos\\\\SYNTH\" log --oneline --all --grep=\"Visual\\\\|Arduino\\\\|IDE\\\\|visual micro\")",
+      "Bash(pio run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "WebSearch",
+      "Bash(~/.platformio/penv/Scripts/pio.exe run)"
+    ]
+  }
+}
