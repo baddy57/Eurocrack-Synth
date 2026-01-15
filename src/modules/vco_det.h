@@ -181,9 +181,10 @@ public:
 		}
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::VCO_ID; }
+	
 	const char* getModuleName() const override { return "VCO_det"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

@@ -53,9 +53,10 @@ public:
 		}
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DISTORTION; }
+	
 	const char* getModuleName() const override { return "DISTORTION_BC"; }
+	
 #if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

@@ -52,9 +52,10 @@ public:
 			_rev.damping(_damping_pot1.read());
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::REVERB; }
+	
 	const char* getModuleName() const override { return "REVERB"; }
+	
 #if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

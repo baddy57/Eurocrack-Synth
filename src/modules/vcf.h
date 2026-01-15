@@ -51,9 +51,10 @@ public:
 			_filter.octaveControl(_oct_pot2.read());
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::FILTER; }
+	
 	const char* getModuleName() const override { return "VCF"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

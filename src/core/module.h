@@ -42,12 +42,12 @@ class Module{
 
 		virtual void updateValues()=0;
 
-		// Test mode support - modules override to provide their control info
 		virtual uint8_t getModuleTypeId() const { return 0; }
-
+		
 		virtual const char* getModuleName() const { return "Unknown"; }
 		
 		#if TEST_MODE_ENABLED
+		// Test mode support - modules override to provide their control info
 		virtual void getTestControls(
 			std::vector<TestControlInfo>& analog,
 			std::vector<TestControlInfo>& digital) = 0;

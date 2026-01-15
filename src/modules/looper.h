@@ -263,9 +263,10 @@ public:
 		}
 	}
 
-		// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::LOOPER; }
+	
 	const char* getModuleName() const override { return "Looper"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

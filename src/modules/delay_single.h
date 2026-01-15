@@ -46,9 +46,10 @@ public:
 		}
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DELAY_SINGLE; }
+	
 	const char* getModuleName() const override { return "DELAY_SINGLE"; }
+	
 #if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

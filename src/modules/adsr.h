@@ -85,7 +85,6 @@ public:
 		}
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::ADSR; }
 
 	const char* getModuleName() const override { return "ADSR"; }

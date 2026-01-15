@@ -85,9 +85,10 @@ public:
 			_channels4_7.gain(3, _gain_pot7.read());
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::MIXER8; }
+	
 	const char* getModuleName() const override { return "Mixer8"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

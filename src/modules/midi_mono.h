@@ -93,9 +93,10 @@ public:
 		Serial.println("note off");
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::MIDI_MODULE; }
+	
 	const char* getModuleName() const override { return "MidiMono"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

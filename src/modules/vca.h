@@ -28,9 +28,10 @@ public:
 	inline void updateValues() override {
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::VCA; }
+	
 	const char* getModuleName() const override { return "VCA"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

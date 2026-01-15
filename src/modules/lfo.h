@@ -63,9 +63,10 @@ public:
 		}
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::LFO; }
+	
 	const char* getModuleName() const override { return "LFO"; }
+	
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,

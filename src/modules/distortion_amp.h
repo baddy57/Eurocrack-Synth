@@ -48,9 +48,10 @@ public:
 		}
 	}
 
-	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DISTORTION_AMP; }
+	
 	const char* getModuleName() const override { return "DISTORTION_AMP"; }
+	
 #if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
