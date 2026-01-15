@@ -45,11 +45,11 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back({"VOLUME", pins::VOLUME, TestControlType::POTENTIOMETER, &_volume_pot0});
-		digital.push_back({"ANALOG_OUT_L_JK", AudioOut_pins::ANALOG_OUT_L_D, TestControlType::JACK_DETECTOR, nullptr});
-		digital.push_back({"ANALOG_OUT_R_JK", AudioOut_pins::ANALOG_OUT_R_D, TestControlType::JACK_DETECTOR, nullptr});
-		digital.push_back({"USB_OUT_L_JK", AudioOut_pins::USB_OUT_L_D, TestControlType::JACK_DETECTOR, nullptr});
-		digital.push_back({"USB_OUT_R_JK", AudioOut_pins::USB_OUT_R_D, TestControlType::JACK_DETECTOR, nullptr});
+		analog.push_back(TestControlInfo::createAnalog("VOLUME", pins::VOLUME, &_volume_pot0));
+		digital.push_back(TestControlInfo::createDigital("ANALOG_OUT_L_JK", AudioOut_pins::ANALOG_OUT_L_D, TestControlType::JACK_DETECTOR));
+		digital.push_back(TestControlInfo::createDigital("ANALOG_OUT_R_JK", AudioOut_pins::ANALOG_OUT_R_D, TestControlType::JACK_DETECTOR));
+		digital.push_back(TestControlInfo::createDigital("USB_OUT_L_JK", AudioOut_pins::USB_OUT_L_D, TestControlType::JACK_DETECTOR));
+		digital.push_back(TestControlInfo::createDigital("USB_OUT_R_JK", AudioOut_pins::USB_OUT_R_D, TestControlType::JACK_DETECTOR));
 	}
 	#endif
 };

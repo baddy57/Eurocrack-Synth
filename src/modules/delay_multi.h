@@ -72,13 +72,13 @@ public:
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DELAY; }
 	
 	const char* getModuleName() const override { return "DelayMulti"; }
-	
+
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back({"TIME", pot0.getPinId(), TestControlType::POTENTIOMETER, &pot0});
+		analog.push_back(TestControlInfo::createAnalog("TIME", pot0.getPinId(), &pot0));
 	}
 	#endif
 };

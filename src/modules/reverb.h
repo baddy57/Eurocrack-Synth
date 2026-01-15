@@ -55,17 +55,17 @@ public:
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::REVERB; }
 	
 	const char* getModuleName() const override { return "REVERB"; }
-	
+
 #if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back({"ROOMSIZE", Reverb_pins::POT0, TestControlType::POTENTIOMETER, &_roomsize_pot0});
-		analog.push_back({"DAMPING", Reverb_pins::POT1, TestControlType::POTENTIOMETER, &_damping_pot1});
-		digital.push_back({"BYPASS_SW", Reverb_pins::BYPASS_SW, TestControlType::SWITCH, nullptr});
-		digital.push_back({"IN_JK", Reverb_pins::IN_D, TestControlType::JACK_DETECTOR, nullptr});
-		digital.push_back({"OUT_JK", Reverb_pins::OUT_D, TestControlType::JACK_DETECTOR, nullptr});
+		analog.push_back(TestControlInfo::createAnalog("ROOMSIZE", Reverb_pins::POT0, &_roomsize_pot0));
+		analog.push_back(TestControlInfo::createAnalog("DAMPING", Reverb_pins::POT1, &_damping_pot1));
+		digital.push_back(TestControlInfo::createDigital("BYPASS_SW", Reverb_pins::BYPASS_SW, TestControlType::SWITCH));
+		digital.push_back(TestControlInfo::createDigital("IN_JK", Reverb_pins::IN_D, TestControlType::JACK_DETECTOR));
+		digital.push_back(TestControlInfo::createDigital("OUT_JK", Reverb_pins::OUT_D, TestControlType::JACK_DETECTOR));
 	}
 #endif
 };

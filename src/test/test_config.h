@@ -18,4 +18,12 @@ struct TestControlInfo {
 	uint8_t pinId;
 	TestControlType type;
 	Potentiometer* pot;  // Pointer to potentiometer for reading computed value (nullptr for digital)
+
+	static TestControlInfo createAnalog(const char* n, uint8_t p, Potentiometer* ctrl) {
+		return {n, p, TestControlType::POTENTIOMETER, ctrl};
+	}
+
+	static TestControlInfo createDigital(const char* n, uint8_t p, TestControlType t) {
+		return {n, p, t, nullptr};
+	}
 };
