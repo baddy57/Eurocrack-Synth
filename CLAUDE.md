@@ -30,14 +30,23 @@ External libraries are expected in `../libraries/` relative to the project root.
 
 Control abstractions for hardware inputs: Potentiometer, Button, Button2t, Switch, RotarySwitch, InputSocket, OutputSocket. Sockets support mono/poly modes and three states (INACTIVE, AVAILABLE, BUSY).
 
+### Services (`src/services/`)
+
+Static service classes organizing global state. No interfaces, no DI, no runtime cost - just better organization.
+
+- **SynthDisplay** - TFT display wrapper. Access via `SynthDisplay::print()`, `SynthDisplay::raw()` for direct ILI9341_t3 access.
+- **SynthAudio** - Audio codec (`SynthAudio::codec`). Note: `AudioMemory()` must be called from main.cpp.
+- **Modules** - Active module list (`Modules::active`), main loop update (`Modules::updateAll()`).
+- **Connections** - Unified socket/cable management. Entry point for jack event polling (`Connections::update()`).
+
 ### Modules (`src/modules/`)
 
-Synthesis modules built on Teensy Audio Library streams:
+Synthesis modules built on Teensy Audio Library streams (header-only with inline methods):
 - VCO_det, VCA, VCF, LFO, ADSR - Core synthesis
 - Mixer8 - 8-channel mixing
 - AudioIn/AudioOut - I/O
-- MidiMono - MIDI control
-- Effects in `fx/`: Reverb, Distortion, Delay
+- MidiMono, DrumMachine - MIDI control
+- Reverb, Distortion_amp, Distortion_bc, Delay_single, Delay_multi - Effects
 
 ### Module Type IDs (`ModuleTypeIds.h`)
 
