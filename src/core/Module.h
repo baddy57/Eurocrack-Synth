@@ -37,11 +37,7 @@ class Module{
 		static std::vector<std::shared_ptr<InputSocket>> inputSockets;
 		static std::vector<std::shared_ptr<OutputSocket>> outputSockets;
 
-		//static unsigned int fix(const unsigned int);
-		virtual void updateValues()=0; 
-
-		/// @brief updates the connections of the module's input and output sockets
-		static void updateConnections();
+		virtual void updateValues()=0;
 };
 
 struct Input {
