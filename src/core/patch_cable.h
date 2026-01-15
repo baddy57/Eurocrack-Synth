@@ -3,8 +3,8 @@
 #include <memory>
 #include <Audio.h>
 
-#include "controls/InputSocket.h"
-#include "controls/OutputSocket.h"
+#include "controls/input_socket.h"
+#include "controls/output_socket.h"
 #include "hardware_cfg.h"
 
 #define POLYPHONY 4

@@ -1,7 +1,7 @@
 #ifndef __MODULES_VCO_H__
 #define __MODULES_VCO_H__
 
-#include "../../core/Module.h"
+#include "../../core/module.h"
 
 class VCO : public Module {
 	private:

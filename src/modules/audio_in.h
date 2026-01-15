@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../core/Module.h"
-#include "../services/SynthAudio.h"
+#include "../core/module.h"
+#include "../services/synth_audio.h"
 
 namespace AudioIn_pins {
 	enum inputs { MIC_GAIN=16, MIC_IN_D, SW, LINE_IN_L_D, LINE_IN_R_D, USB_IN_L_D, USB_IN_R_D=23 };

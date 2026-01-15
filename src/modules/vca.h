@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Module.h"
+#include "../core/module.h"
 
 namespace VCA_pins {
 	enum outputs { OUT0, OUT1 };

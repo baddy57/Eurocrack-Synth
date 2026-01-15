@@ -20,7 +20,7 @@ These `new` allocations have no corresponding `delete`.
 
 ### 2. Missing Virtual Destructor
 
-**Module.h:26** - Base class has no virtual destructor:
+**module.h:26** - Base class has no virtual destructor:
 ```cpp
 class Module{
     // ... no virtual ~Module()
@@ -84,7 +84,7 @@ delay(MUX_DELAY);  // Called 8 times in loop = 40ms blocking at startup
 
 ### 6. Side Effects in Constructors
 
-**Module.h:48-72** - `Input` and `Output` structs:
+**module.h:48-72** - `Input` and `Output` structs:
 ```cpp
 inline Input(...) {
     base = std::make_shared<InputSocket>(...);
@@ -98,14 +98,14 @@ Constructor modifies global state, making object creation non-idempotent and har
 Multiple classes rely on global/static state:
 - `main.cpp:36`: `std::vector<Module*> activeModules`
 - `main.cpp:37`: `ILI9341_t3 tft`
-- `Module.h:38-39`: `static std::vector<InputSocket>`, `outputSockets`
+- `module.h:38-39`: `static std::vector<InputSocket>`, `outputSockets`
 - `PatchCable.h:19`: `static std::list<PatchCable> activeCables`
 
 This creates hidden dependencies and makes unit testing nearly impossible.
 
 ### 8. Rule of Three Violation
 
-**InputSocket.h, OutputSocket.h** - Classes with raw pointer members (`address`) have no:
+**input_socket.h, output_socket.h** - Classes with raw pointer members (`address`) have no:
 - Copy constructor
 - Copy assignment operator
 - Move constructor/assignment
@@ -144,7 +144,7 @@ case POW:
 
 ### 12. Unused Members
 
-- **Module.h:32**: `verbose` member never used
+- **module.h:32**: `verbose` member never used
 - **Address.h**: Public `_id` alongside getter `toInt()` - inconsistent
 
 ### 13. Const-Correctness Issues

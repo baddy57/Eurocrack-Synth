@@ -2,8 +2,8 @@
 
 #include "../../controls/Potentiometer.h"
 #include "../../controls/Switch.h"
-#include "../../controls/OutputSocket.h"
-#include "../../controls/InputSocket.h"
+#include "../../controls/output_socket.h"
+#include "../../controls/input_socket.h"
 
 
 #include <vector>

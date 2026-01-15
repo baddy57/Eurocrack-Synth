@@ -1,7 +1,7 @@
 #ifndef __MODULES_WaveTable_H__
 #define __MODULES_WaveTable_H__
 
-#include "../../core/Module.h"
+#include "../../core/module.h"
 #include <Audio.h>
 
 class WaveTable : public Module {

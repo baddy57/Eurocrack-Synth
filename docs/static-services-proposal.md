@@ -11,7 +11,7 @@ main.cpp
 ├── USBHost usbHost
 └── MIDIDevice midiOnUsbHost
 
-Module.h
+module.h
 ├── static std::vector<InputSocket> inputSockets
 ├── static std::vector<OutputSocket> outputSockets
 └── static AudioControlSGTL5000 _audioCtrl
@@ -19,11 +19,11 @@ Module.h
 PatchCable.h
 └── static std::list<PatchCable> activeCables
 
-InputSocket.h
+input_socket.h
 ├── static std::list<InputSocket> availableInputs
 └── static std::list<InputSocket> busyInputs
 
-OutputSocket.h
+output_socket.h
 └── static std::list<OutputSocket> availableOutputs
 
 MidiMono.h
@@ -169,7 +169,7 @@ void InputSocket::setAvailable(std::shared_ptr<InputSocket> i) {
     i->state = SocketState::AVAILABLE;
 }
 
-// In Module.h - Input struct constructor
+// In module.h - Input struct constructor
 inline Input(...) {
     base = std::make_shared<InputSocket>(...);
     Module::inputSockets.push_back(base);  // Side effect
@@ -200,7 +200,7 @@ void Connections::registerInput(std::shared_ptr<InputSocket> socket) {
     inputs.push_back(socket);
 }
 
-// In Module.h - Input struct (no side effect)
+// In module.h - Input struct (no side effect)
 inline Input(...) {
     socket = std::make_shared<InputSocket>(...);
     // Registration happens explicitly in module constructor
@@ -219,7 +219,7 @@ VCO_det::VCO_det(const Address& a) : Module(a), freqCv(...), sine(...) {
 ## Refactored Module Base
 
 ```cpp
-// core/Module.h
+// core/module.h
 #pragma once
 #include <vector>
 #include <Audio.h>

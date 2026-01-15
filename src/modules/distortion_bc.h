@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Module.h"
+#include "../core/module.h"
 
 namespace Distortion_bc_pins {
 	enum inputs { BYPASS_SW = 16, POT0, POT1, IN_D, OUT_D, IN = 23 };

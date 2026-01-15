@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Module.h"
+#include "../core/module.h"
 
 class EmptyModule : public Module {
 	private:

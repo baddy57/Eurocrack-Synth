@@ -114,7 +114,7 @@ This prevents having multiple MIDI modules with independent channels.
 
 ### 9. Empty Implementation (EmptyModule)
 
-**EmptyModule.h:9-10**:
+**Emptymodule.h:9-10**:
 ```cpp
 //EmptyModule(const Address& a) : Module(a) {};  // Commented out
 void updateValues()override{return;};

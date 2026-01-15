@@ -1,7 +1,7 @@
 #ifndef __MODULES_FX_Multi_H__
 #define __MODULES_FX_Multi_H__ 1
 
-#include "../../core/Module.h"
+#include "../../core/module.h"
 #include "../../core/Address.h"
 #include <Audio.h>
 #include <cstdint>

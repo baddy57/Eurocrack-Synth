@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../core/Module.h"
-#include "../services/SynthAudio.h"
+#include "../core/module.h"
+#include "../services/synth_audio.h"
 
 namespace AudioOut_pins {
 	enum inputs { ANALOG_OUT_L_D=16, ANALOG_OUT_L, 

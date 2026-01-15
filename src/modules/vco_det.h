@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Module.h"
+#include "../core/module.h"
 
 namespace VCO_det_pins {
 	enum outputs { SIN_OUT, TRI_OUT, SAW_OUT, SQR_OUT };

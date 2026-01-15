@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Module.h"
+#include "../core/module.h"
 
 namespace VCF_pins {
 	enum inputs { POT0=16, POT1, POT2,

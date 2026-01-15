@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../core/Module.h"
-#include "../sw_components/GateIn.h"
+#include "../core/module.h"
+#include "../sw_components/gate_in.h"
 #include <string>
 
 namespace LFO_pins {

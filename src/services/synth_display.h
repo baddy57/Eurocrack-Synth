@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ILI9341_t3.h>
-#include "../core/HardwareCfg.h"
+#include "../core/hardware_cfg.h"
 
 class SynthDisplay {
 	static ILI9341_t3 _tft;

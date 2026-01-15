@@ -1,5 +1,5 @@
 #pragma once
-#include "../core/Module.h"
+#include "../core/module.h"
 
 namespace Delay_single_pins {
 	const uint8_t

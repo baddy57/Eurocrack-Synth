@@ -17,14 +17,13 @@
 #include <Wire.h>
 
 //include my classes
-#include "core/Module.h"
-#include "core/Address.h"
-#include "core/PatchCable.h"
-#include "core/HardwareCfg.h"
-#include "services/Modules.h"
-#include "services/SynthDisplay.h"
-#include "services/Modules.h"
-#include "services/Connections.h"
+#include "core/module.h"
+#include "core/address.h"
+#include "core/patch_cable.h"
+#include "core/hardware_cfg.h"
+#include "services/synth_display.h"
+#include "services/module_manager.h"
+#include "services/patch_cable_manager.h"
 
 //constants
 extern const uint_fast8_t HIGH_UPDATE_PRIORITY;

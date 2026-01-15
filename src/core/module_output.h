@@ -5,8 +5,8 @@
 #include <Audio.h>
 
 #include "address.h"
-#include "../controls/OutputSocket.h"
-#include "../services/Connections.h"
+#include "../controls/output_socket.h"
+#include "../services/patch_cable_manager.h"
 
 struct ModuleOutput {
 	inline  ModuleOutput(const Address& a,

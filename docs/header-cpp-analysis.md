@@ -4,23 +4,23 @@ Analysis of when h/cpp separation is beneficial vs when header-only is viable.
 
 ## Core (services, base classes, controls)
 
-**Files:** `Module.h`, `Address.h`, `InputSocket.h`, `OutputSocket.h`, proposed services
+**Files:** `module.h`, `Address.h`, `input_socket.h`, `output_socket.h`, proposed services
 
-**Include pattern:** Included by many files (Module.h → 15+ modules, services → everywhere)
+**Include pattern:** Included by many files (module.h → 15+ modules, services → everywhere)
 
 ### Benefit of h/cpp separation
 
 | Change to | Files recompiled |
 |-----------|------------------|
 | `InputSocket.cpp` | 1 file |
-| `InputSocket.h` | InputSocket.cpp + every module that includes it (~15 files) |
+| `input_socket.h` | InputSocket.cpp + every module that includes it (~15 files) |
 
 **Verdict: Keep separation.** Implementation changes (bug fixes, tweaks) don't cascade to all dependents.
 
 ### What goes where
 
 ```cpp
-// InputSocket.h - interface only
+// input_socket.h - interface only
 class InputSocket : public Socket {
 protected:
     ControlAddress* address;
@@ -105,7 +105,7 @@ That's 3 places across 2 files. In C#-style (header-only), it's 2 places in 1 fi
 ```cpp
 // VCO_det.h - everything in one file
 #pragma once
-#include "core/Module.h"
+#include "core/module.h"
 
 class VCO_det : public Module {
     Potentiometer _coarse_pot0;
@@ -165,7 +165,7 @@ The compile-time cost of header-only modules is small (maybe +2-3 seconds per ch
 ```
 src/
 ├── core/           # h/cpp separation
-│   ├── Module.h
+│   ├── module.h
 │   ├── Module.cpp
 │   ├── Address.h
 │   ├── Address.cpp

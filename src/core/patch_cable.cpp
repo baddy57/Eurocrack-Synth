@@ -1,8 +1,8 @@
 #include "patch_cable_connection_type.h"
 #include "patch_cable.h"
 #include <memory>
-#include "../services/SynthDisplay.h"
-#include "../services/Connections.h"
+#include "../services/synth_display.h"
+#include "../services/patch_cable_manager.h"
 
 #define tft SynthDisplay::raw()
 

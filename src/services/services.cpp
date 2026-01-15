@@ -3,10 +3,10 @@
 
 #include "synth_display.h"
 #include "synth_audio.h"
-#include "modules.h"
-#include "connections.h"
-#include "../core/Module.h"
-#include "../core/PatchCable.h"
+#include "module_manager.h"
+#include "patch_cable_manager.h"
+#include "../core/module.h"
+#include "../core/patch_cable.h"
 
 // SynthDisplay
 ILI9341_t3 SynthDisplay::_tft = ILI9341_t3(TFT_CS, TFT_DC);

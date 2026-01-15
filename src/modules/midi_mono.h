@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Module.h"
+#include "../core/module.h"
 #include "USBHost_t36.h"
 #include <MIDI.h>
 
