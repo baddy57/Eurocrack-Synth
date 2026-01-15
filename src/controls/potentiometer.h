@@ -22,8 +22,9 @@ private:
 	float range = 1.f;
 	float k = 1;
 	int scale = LIN;
-	void update();
 public:
+
+	void update();
 
 	/// @brief constructor
 	/// @param a address of the module

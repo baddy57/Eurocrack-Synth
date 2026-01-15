@@ -61,6 +61,8 @@ public:
 			tft.print(controls[i].name);
 			tft.setCursor(COL_PIN, y);
 			tft.print(controls[i].pinId);
+			tft.setCursor(COL_RAW, y);
+			tft.print(controls[i].pot->read());
 		}
 	}
 
@@ -90,13 +92,14 @@ public:
 
 		// Draw raw value with color coding
 		tft.setCursor(COL_RAW, y);
-		tft.setTextColor(getAnalogColor(raw));
+		tft.setTextColor(TEST_COLOR_VALUE_NORMAL);
 		tft.print(raw);
 
 		// Draw computed value if potentiometer available
 		if (pot != nullptr) {
 			tft.setCursor(COL_COMPUTED, y);
 			tft.setTextColor(TEST_COLOR_LABEL);
+			pot->update();
 			float computed = pot->read();
 			// Format based on value magnitude
 			if (computed >= 100 || computed <= -100) {
@@ -151,12 +154,6 @@ public:
 	}
 
 private:
-	static inline uint16_t getAnalogColor(uint16_t raw) {
-		if (raw < 10) return TEST_COLOR_VALUE_ZERO;
-		if (raw > 1013) return TEST_COLOR_VALUE_MAX;
-		return TEST_COLOR_VALUE_NORMAL;
-	}
-
 	// Screen layout constants
 	static constexpr uint8_t HEADER_Y = 0;
 	static constexpr uint8_t INFO_Y = 16;
