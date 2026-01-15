@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/module.h"
+#include "../core/module_type_ids.h"
 
 namespace ADSR_pins {
 	enum inputs {
@@ -83,5 +84,21 @@ public:
 			}
 			_gate.clear();
 		}
+	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::ADSR; }
+	const char* getModuleName() const override { return "ADSR"; }
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) const override
+	{
+		analog.push_back({"ATTACK", _att_pot1.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"DECAY", _dec_pot4.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"SUSTAIN", _sus_pot3.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"RELEASE", _rel_pot5.getPinId(), TestControlType::POTENTIOMETER});
+
+		digital.push_back({"GATE_JK", ADSR_pins::GATE_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"OUT_JK", ADSR_pins::SIGNAL_OUT_D, TestControlType::JACK_DETECTOR});
 	}
 };

@@ -28,78 +28,50 @@ void TestDisplay::drawHeader(const char* moduleName, uint8_t slot, uint8_t typeI
 	}
 }
 
-void TestDisplay::drawAnalogSection(const ModuleTestConfig* config) {
+void TestDisplay::drawAnalogSection(const std::vector<TestControlInfo>& controls) {
 	// Section header
 	tft.setTextColor(TEST_COLOR_SEPARATOR);
 	tft.setCursor(COL_NAME, ANALOG_HEADER_Y);
-	tft.print("ANALOG    PIN  RAW   VALUE");
+	tft.print("ANALOG        PIN   RAW");
 
 	// Draw labels for each analog control
 	tft.setTextColor(TEST_COLOR_LABEL);
-	for (uint8_t i = 0; i < config->numAnalog; ++i) {
+	for (uint8_t i = 0; i < controls.size(); ++i) {
 		uint8_t y = ANALOG_START_Y + (i * ROW_HEIGHT);
 		tft.setCursor(COL_NAME, y);
-		tft.print(config->analogControls[i].name);
+		tft.print(controls[i].name);
 		tft.setCursor(COL_PIN, y);
-		tft.print(config->analogControls[i].pinId);
+		tft.print(controls[i].pinId);
 	}
 }
 
-void TestDisplay::drawDigitalSection(const ModuleTestConfig* config) {
+void TestDisplay::drawDigitalSection(const std::vector<TestControlInfo>& controls) {
 	// Section header
 	tft.setTextColor(TEST_COLOR_SEPARATOR);
 	tft.setCursor(COL_NAME, DIGITAL_HEADER_Y);
-	tft.print("DIGITAL   PIN  STATE");
+	tft.print("DIGITAL       PIN   STATE");
 
 	// Draw labels for each digital control
 	tft.setTextColor(TEST_COLOR_LABEL);
-	for (uint8_t i = 0; i < config->numDigital; ++i) {
+	for (uint8_t i = 0; i < controls.size(); ++i) {
 		uint8_t y = DIGITAL_START_Y + (i * ROW_HEIGHT);
 		tft.setCursor(COL_NAME, y);
-		tft.print(config->digitalControls[i].name);
+		tft.print(controls[i].name);
 		tft.setCursor(COL_PIN, y);
-		tft.print(config->digitalControls[i].pinId);
+		tft.print(controls[i].pinId);
 	}
 }
 
-float TestDisplay::calculateProcessed(uint16_t raw, float minVal, float maxVal) {
-	// Linear interpolation from 0-1023 to minVal-maxVal
-	float normalized = raw / 1023.0f;
-	return minVal + normalized * (maxVal - minVal);
-}
-
-void TestDisplay::updateAnalog(uint8_t row, uint16_t raw, const TestControl& ctrl) {
+void TestDisplay::updateAnalog(uint8_t row, uint16_t raw) {
 	uint8_t y = ANALOG_START_Y + (row * ROW_HEIGHT);
 
-	// Clear raw and processed value areas
-	tft.fillRect(COL_RAW, y, 45, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
-	tft.fillRect(COL_PROCESSED, y, 180, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+	// Clear raw value area
+	tft.fillRect(COL_RAW, y, 60, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
 
 	// Draw raw value with color coding
 	tft.setCursor(COL_RAW, y);
 	tft.setTextColor(getAnalogColor(raw));
 	tft.print(raw);
-
-	// Draw processed value
-	tft.setCursor(COL_PROCESSED, y);
-	tft.setTextColor(TEST_COLOR_LABEL);
-
-	float processed = calculateProcessed(raw, ctrl.minValue, ctrl.maxValue);
-
-	// Format based on range - use fewer decimals for large ranges
-	if (ctrl.maxValue - ctrl.minValue > 100) {
-		tft.print((int)processed);
-	} else if (ctrl.maxValue - ctrl.minValue > 10) {
-		tft.print(processed, 1);
-	} else {
-		tft.print(processed, 2);
-	}
-
-	// Add unit if specified
-	if (ctrl.unit != nullptr) {
-		tft.print(" ");
-		tft.print(ctrl.unit);
-	}
 }
 
 void TestDisplay::updateDigital(uint8_t row, bool state, TestControlType type) {
@@ -120,7 +92,7 @@ void TestDisplay::updateDigital(uint8_t row, bool state, TestControlType type) {
 			tft.print("[----]");
 		}
 	} else {
-		// BUTTON or SWITCH
+		// BUTTON, SWITCH, or SELECTOR_MULTI
 		if (state) {
 			tft.setTextColor(TEST_COLOR_DIGITAL_ON);
 			tft.print("[ ON ]");

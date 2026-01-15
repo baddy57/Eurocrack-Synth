@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/module.h"
+#include "../core/module_type_ids.h"
 #include "../sw_components/gate_in.h"
 #include <string>
 
@@ -61,5 +62,21 @@ public:
 			float cv = cvPot.read();
 			wave.frequencyModulation(cv);
 		}
+	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::LFO; }
+	const char* getModuleName() const override { return "LFO"; }
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) const override
+	{
+		analog.push_back({"WAVE", waveShapeSel.getPinId(), TestControlType::SELECTOR_MULTI});
+		analog.push_back({"FREQ", freqPot.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"CV_AMT", cvPot.getPinId(), TestControlType::POTENTIOMETER});
+
+		digital.push_back({"CV_JK", LFO_pins::CV_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"SYNC_JK", LFO_pins::SYNC_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"OUT_JK", LFO_pins::OUT_D, TestControlType::JACK_DETECTOR});
 	}
 };

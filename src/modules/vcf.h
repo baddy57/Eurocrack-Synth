@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/module.h"
+#include "../core/module_type_ids.h"
 
 namespace VCF_pins {
 	enum inputs { POT0=16, POT1, POT2,
@@ -49,5 +50,23 @@ public:
 		}
 		if (_oct_pot2.wasUpdated())
 			_filter.octaveControl(_oct_pot2.read());
+	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::FILTER; }
+	const char* getModuleName() const override { return "VCF"; }
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) const override
+	{
+		analog.push_back({"FREQ", _freq_pot0.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"RESO", _res_pot1.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"OCTAVE", _oct_pot2.getPinId(), TestControlType::POTENTIOMETER});
+
+		digital.push_back({"IN_JK", VCF_pins::SIG_IN_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"CV_JK", VCF_pins::FREQ_CV_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"HPF_JK", VCF_pins::HPF_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"BPF_JK", VCF_pins::BPF_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"LPF_JK", VCF_pins::LPF_D, TestControlType::JACK_DETECTOR});
 	}
 };

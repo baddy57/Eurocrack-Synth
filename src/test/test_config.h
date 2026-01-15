@@ -1,32 +1,18 @@
 #pragma once
 #include <cstdint>
+#include <vector>
 
 enum class TestControlType : uint8_t {
 	POTENTIOMETER,
 	BUTTON,
 	SWITCH,
 	JACK_DETECTOR,
-	SELECTOR_MULTI  // Multi-position selector (reads as analog)
+	SELECTOR_MULTI
 };
 
-struct TestControl {
-	const char* name;        // Max 8 chars for display grid
-	uint8_t pinId;           // Control ID within module (0-63)
+// Lightweight struct for test control info - no separate config files needed
+struct TestControlInfo {
+	const char* name;
+	uint8_t pinId;
 	TestControlType type;
-	float pullupRes;         // For pots: pullup resistor (0 if none)
-	float minValue;          // Processed value range min
-	float maxValue;          // Processed value range max
-	const char* unit;        // Unit label (Hz, ms, etc.) - nullptr for no unit
 };
-
-struct ModuleTestConfig {
-	uint8_t moduleTypeId;
-	const char* moduleName;
-	const TestControl* analogControls;
-	uint8_t numAnalog;
-	const TestControl* digitalControls;
-	uint8_t numDigital;
-};
-
-// Registry function
-const ModuleTestConfig* findTestConfig(uint8_t typeId);

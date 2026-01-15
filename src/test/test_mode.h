@@ -1,8 +1,11 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include "../core/address.h"
 #include "test_config.h"
+
+class Module;  // Forward declaration
 
 class TestMode {
 public:
@@ -18,7 +21,10 @@ public:
 private:
 	static bool _active;
 	static Address _currentSlot;
-	static const ModuleTestConfig* _config;
+	static Module* _module;
+	static uint8_t _detectedTypeId;  // Store type ID even when module creation fails
+	static std::vector<TestControlInfo> _analogControls;
+	static std::vector<TestControlInfo> _digitalControls;
 	static uint32_t _lastUpdate;
 
 	// Detect first connected module

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/module.h"
+#include "../core/module_type_ids.h"
 
 namespace VCO_det_pins {
 	enum outputs { SIN_OUT, TRI_OUT, SAW_OUT, SQR_OUT };
@@ -179,5 +180,29 @@ public:
 				_sqr1.phaseModulation(_phasemodcv);
 			}
 		}
+	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::VCO_ID; }
+	const char* getModuleName() const override { return "VCO_det"; }
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) const override
+	{
+		// Analog controls (potentiometers)
+		analog.push_back({"COARSE", _coarse_pot0.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"FINE", _fine_pot1.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"FM_CV", _freqmodcv_pot2.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"PM_CV", _phasemodcv_pot3.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"AMP", _amp_pot4.getPinId(), TestControlType::POTENTIOMETER});
+
+		// Digital controls (switch and jack detectors)
+		digital.push_back({"FM/PM", _freq_phase_sw4.getPinId(), TestControlType::SWITCH});
+		digital.push_back({"FREQ_JK", VCO_det_pins::FREQ_PHASE_CV_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"SHAP_JK", VCO_det_pins::SHAPE_CV_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"SIN_JK", VCO_det_pins::SIN_OUT_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"TRI_JK", VCO_det_pins::TRI_OUT_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"SAW_JK", VCO_det_pins::SAW_OUT_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"SQR_JK", VCO_det_pins::SQR_OUT_D, TestControlType::JACK_DETECTOR});
 	}
 };
