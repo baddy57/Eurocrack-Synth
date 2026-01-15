@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 #include "../sw_components/gate_in.h"
 #include <string>
 
@@ -67,6 +66,7 @@ public:
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::LFO; }
 	const char* getModuleName() const override { return "LFO"; }
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -79,4 +79,5 @@ public:
 		digital.push_back({"SYNC_JK", LFO_pins::SYNC_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"OUT_JK", LFO_pins::OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
 };

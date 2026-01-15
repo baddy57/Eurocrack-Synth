@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 
 namespace VCO_det_pins {
 	enum outputs { SIN_OUT, TRI_OUT, SAW_OUT, SQR_OUT };
@@ -185,6 +184,7 @@ public:
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::VCO_ID; }
 	const char* getModuleName() const override { return "VCO_det"; }
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -205,4 +205,5 @@ public:
 		digital.push_back({"SAW_JK", VCO_det_pins::SAW_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"SQR_JK", VCO_det_pins::SQR_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
 };

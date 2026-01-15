@@ -8,7 +8,6 @@
 #include "../core/module.h"
 #include "../core/hardware_cfg.h"
 
-#include "../core/module_type_ids.h"
 #include "../controls/module_type_id_mux.h"
 
 #include "../modules/empty_module.h"

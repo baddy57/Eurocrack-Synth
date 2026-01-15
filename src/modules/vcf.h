@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 
 namespace VCF_pins {
 	enum inputs { POT0=16, POT1, POT2,
@@ -55,6 +54,7 @@ public:
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::FILTER; }
 	const char* getModuleName() const override { return "VCF"; }
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -69,4 +69,5 @@ public:
 		digital.push_back({"BPF_JK", VCF_pins::BPF_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"LPF_JK", VCF_pins::LPF_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
 };

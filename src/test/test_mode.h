@@ -4,7 +4,6 @@
 #include <vector>
 #include "../core/address.h"
 #include "../core/hardware_cfg.h"
-#include "../core/module_type_ids.h"
 #include "../controls/module_type_id_mux.h"
 #include "test_config.h"
 #include "test_display.h"
@@ -41,14 +40,12 @@ public:
 		if (_detectedTypeId == 0) {
 			// No module detected at all
 			TestDisplay::showError("No module detected!");
-			_active = true;
 			return;
 		}
 
 		if (_module == nullptr) {
 			// Module detected but no implementation - show type ID anyway
 			TestDisplay::drawHeader("UNKNOWN", _currentSlot.toInt(), _detectedTypeId);
-			_active = true;
 			return;
 		}
 
@@ -62,7 +59,6 @@ public:
 		TestDisplay::drawAnalogSection(_analogControls);
 		TestDisplay::drawDigitalSection(_digitalControls);
 
-		_active = true;
 		_lastUpdate = millis();
 
 		// Initial poll to show current values
@@ -72,7 +68,7 @@ public:
 
 	// Main loop update - polls controls and updates display
 	static inline void update() {
-		if (!_active || _module == nullptr) return;
+		if (_module == nullptr) return;
 
 		uint32_t now = millis();
 		if (now - _lastUpdate < UPDATE_INTERVAL_MS) return;
@@ -82,13 +78,7 @@ public:
 		pollDigitalControls();
 	}
 
-	// Check if test mode is active
-	static inline bool isActive() {
-		return _active;
-	}
-
 private:
-	static inline bool _active = false;
 	static inline Address _currentSlot{0};
 	static inline Module* _module = nullptr;
 	static inline uint8_t _detectedTypeId = 0;

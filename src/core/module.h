@@ -25,6 +25,8 @@
 #include "module_input.h"
 #include "module_output.h"
 #include "../test/test_config.h"
+#include "module_type_ids.h"
+
 
 #define tft SynthDisplay::raw()
 
@@ -42,10 +44,14 @@ class Module{
 
 		// Test mode support - modules override to provide their control info
 		virtual uint8_t getModuleTypeId() const { return 0; }
+
 		virtual const char* getModuleName() const { return "Unknown"; }
+		
+		#if TEST_MODE_ENABLED
 		virtual void getTestControls(
 			std::vector<TestControlInfo>& analog,
-			std::vector<TestControlInfo>& digital) {}
+			std::vector<TestControlInfo>& digital) = 0;
+		#endif
 
 		const Address& getAddress() const { return moduleAddress; }
 };

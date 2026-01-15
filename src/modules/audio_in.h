@@ -37,4 +37,18 @@ public:
 
 	inline void updateValues() override {
 	}
+
+	#if TEST_MODE_ENABLED
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) override
+	{
+		analog.push_back({"MIC_GAIN", AudioIn_pins::MIC_GAIN, TestControlType::POTENTIOMETER, &_micGain});
+		digital.push_back({"MIC_IN_JK", AudioIn_pins::MIC_IN_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"LINE_IN_L_JK", AudioIn_pins::LINE_IN_L_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"LINE_IN_R_JK", AudioIn_pins::LINE_IN_R_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"USB_IN_L_JK", AudioIn_pins::USB_IN_L_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"USB_IN_R_JK", AudioIn_pins::USB_IN_R_D, TestControlType::JACK_DETECTOR, nullptr});
+	}
+	#endif
 };

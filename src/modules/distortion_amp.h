@@ -47,4 +47,19 @@ public:
 			_post.gain(0.1 * val);
 		}
 	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DISTORTION_AMP; }
+	const char* getModuleName() const override { return "DISTORTION_AMP"; }
+#if TEST_MODE_ENABLED
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) override
+	{
+		analog.push_back({"GAIN", Distortion_amp_pins::POT0, TestControlType::POTENTIOMETER, &_gain_pot0});
+		digital.push_back({"BYPASS_SW", Distortion_amp_pins::BYPASS_SW, TestControlType::SWITCH, nullptr});
+		digital.push_back({"IN_JK", Distortion_amp_pins::IN_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT_JK", Distortion_amp_pins::OUT_D, TestControlType::JACK_DETECTOR, nullptr});
+	}
+#endif
 };

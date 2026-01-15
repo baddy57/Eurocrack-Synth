@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 
 namespace Mixer8_pins {
 	enum inputs { CH0_D=16, CH1_D, CH2_D, CH3_D, CH4_D, CH5_D, CH6_D, CH7_D,
@@ -89,6 +88,7 @@ public:
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::MIXER8; }
 	const char* getModuleName() const override { return "Mixer8"; }
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -107,11 +107,13 @@ public:
 		digital.push_back({"CH2_JK", Mixer8_pins::CH2_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"CH3_JK", Mixer8_pins::CH3_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"CH4_JK", Mixer8_pins::CH4_D, TestControlType::JACK_DETECTOR, nullptr});
-		digital.push_back({"CH5_JK", Mixer8_pins::CH5_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"CH6_JK", Mixer8_pins::CH6_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"CH7_JK", Mixer8_pins::CH7_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"OUTL_JK", Mixer8_pins::OUT_STEREO_L_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"OUTR_JK", Mixer8_pins::OUT_STEREO_R_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"OUTM_JK", Mixer8_pins::OUT_MONO_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
+
+
 };

@@ -68,4 +68,16 @@ public:
 		// TODO: pot1 mutes taps >n
 		// TODO: pot2 sets ratio
 	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DELAY; }
+	const char* getModuleName() const override { return "DelayMulti"; }
+	#if TEST_MODE_ENABLED
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) override
+	{
+		analog.push_back({"TIME", pot0.getPinId(), TestControlType::POTENTIOMETER, &pot0});
+	}
+	#endif
 };

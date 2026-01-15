@@ -189,4 +189,36 @@ public:
 			if (inNote >= 44 && inNote <= 51)
 				DrumMachine_voices[inNote - 44]->wavetable.stop();
 	}
+
+	virtual uint8_t getModuleTypeId() const override { return ModuleTypeIds::DRUMS; }
+	virtual const char* getModuleName() const override { return "DrumMachine"; }
+
+	#if TEST_MODE_ENABLED
+	virtual void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) override
+	{
+		analog.push_back({"PAN", DrumMachine_pins::PAN, TestControlType::POTENTIOMETER, &pan_pot});
+		analog.push_back({"GAIN", DrumMachine_pins::GAIN, TestControlType::POTENTIOMETER, &gain_pot});
+		digital.push_back({"CHPLUS", DrumMachine_pins::CHPLUS, TestControlType::BUTTON, nullptr});
+		digital.push_back({"CHMINUS", DrumMachine_pins::CHMINUS, TestControlType::BUTTON, nullptr});
+		digital.push_back({"S0", DrumMachine_pins::S0, TestControlType::BUTTON, nullptr});
+		digital.push_back({"S1", DrumMachine_pins::S1, TestControlType::BUTTON, nullptr});
+		digital.push_back({"S2", DrumMachine_pins::S2, TestControlType::BUTTON, nullptr});
+		digital.push_back({"S3", DrumMachine_pins::S3, TestControlType::BUTTON, nullptr});
+		digital.push_back({"OUT_L_JK", DrumMachine_pins::OUT_L_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT_R_JK", DrumMachine_pins::OUT_R_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT_M_JK", DrumMachine_pins::OUT_M_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"B0", DrumMachine_pins::_B0, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B1", DrumMachine_pins::_B1, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B2", DrumMachine_pins::_B2, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B3",	 DrumMachine_pins::_B3, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B4", DrumMachine_pins::_B4, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B5", DrumMachine_pins::_B5, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B6", DrumMachine_pins::_B6, TestControlType::BUTTON, nullptr});
+		digital.push_back({"B7", DrumMachine_pins::_B7, TestControlType::BUTTON, nullptr});
+		
+
+	}
+	#endif
 };

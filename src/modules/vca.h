@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 
 namespace VCA_pins {
 	enum outputs { OUT0, OUT1 };
@@ -32,6 +31,7 @@ public:
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::VCA; }
 	const char* getModuleName() const override { return "VCA"; }
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -44,4 +44,5 @@ public:
 		digital.push_back({"CV1_JK", VCA_pins::CV1_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"OUT1_JK", VCA_pins::OUT1_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
 };

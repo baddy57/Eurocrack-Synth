@@ -45,4 +45,18 @@ public:
 			delay.delay(0, r);
 		}
 	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DELAY_SINGLE; }
+	const char* getModuleName() const override { return "DELAY_SINGLE"; }
+#if TEST_MODE_ENABLED
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) override
+	{
+		analog.push_back({"POT0", Delay_single_pins::POT0, TestControlType::POTENTIOMETER, &pot0});
+		digital.push_back({"IN0_JK", Delay_single_pins::IN0_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT0_JK", Delay_single_pins::OUT0_D, TestControlType::JACK_DETECTOR, nullptr});
+	}
+#endif
 };

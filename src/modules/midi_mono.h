@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 #include "USBHost_t36.h"
 #include <MIDI.h>
 
@@ -97,6 +96,7 @@ public:
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::MIDI_MODULE; }
 	const char* getModuleName() const override { return "MidiMono"; }
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -109,4 +109,5 @@ public:
 		digital.push_back({"CV_JK", MidiMono_pins::CV_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"VEL_JK", MidiMono_pins::VEL_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
 };

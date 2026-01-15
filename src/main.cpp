@@ -109,10 +109,8 @@ void setup() {
 
 void loop() {
 	#if TEST_MODE_ENABLED
-	if (TestMode::isActive()) {
-		TestMode::update();
-		return;
-	}
+	TestMode::update();
+	return;
 	#endif
 
 	ModuleManager::updateAll();

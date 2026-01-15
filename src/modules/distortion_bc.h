@@ -52,4 +52,20 @@ public:
 			_dist.sampleRate(val);
 		}
 	}
+
+	// Test mode support
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::DISTORTION; }
+	const char* getModuleName() const override { return "DISTORTION_BC"; }
+#if TEST_MODE_ENABLED
+	void getTestControls(
+		std::vector<TestControlInfo>& analog,
+		std::vector<TestControlInfo>& digital) override
+	{
+		analog.push_back({"BITS", Distortion_bc_pins::POT0, TestControlType::POTENTIOMETER, &_bits_pot0});
+		analog.push_back({"SAMPLE_RATE", Distortion_bc_pins::POT1, TestControlType::POTENTIOMETER, &_sampleRate_pot1});
+		digital.push_back({"BYPASS_SW", Distortion_bc_pins::BYPASS_SW, TestControlType::SWITCH, nullptr});
+		digital.push_back({"IN_JK", Distortion_bc_pins::IN_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT_JK", Distortion_bc_pins::OUT_D, TestControlType::JACK_DETECTOR, nullptr});
+	}
+#endif
 };

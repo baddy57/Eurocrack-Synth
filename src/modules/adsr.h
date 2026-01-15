@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../core/module_type_ids.h"
 
 namespace ADSR_pins {
 	enum inputs {
@@ -88,7 +87,10 @@ public:
 
 	// Test mode support
 	uint8_t getModuleTypeId() const override { return ModuleTypeIds::ADSR; }
+
 	const char* getModuleName() const override { return "ADSR"; }
+	
+	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
@@ -101,4 +103,5 @@ public:
 		digital.push_back({"GATE_JK", ADSR_pins::GATE_D, TestControlType::JACK_DETECTOR, nullptr});
 		digital.push_back({"OUT_JK", ADSR_pins::SIGNAL_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
+	#endif
 };
