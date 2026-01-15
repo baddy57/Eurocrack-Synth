@@ -23,6 +23,7 @@
 #include "core/HardwareCfg.h"
 #include "core/ModuleFactory.h"
 #include "services/SynthDisplay.h"
+#include "services/Modules.h"
 
 //constants
 extern const uint_fast8_t HIGH_UPDATE_PRIORITY;
@@ -34,8 +35,6 @@ extern const uint_fast8_t WRITE_PIN;
 //AudioControlSGTL5000     sgtl5000_1;
 
 //global variables
-std::vector<Module*> activeModules;
-
 USBHost usbHost;
 MIDIDevice midiOnUsbHost(usbHost);
 
@@ -90,19 +89,14 @@ void setup() {
 
 	pinMode(pins::READ, INPUT_PULLDOWN);
 	
-	ModuleFactory::factory(activeModules);
+	ModuleFactory::factory(Modules::active);
 
 	pinMode(pins::READ, INPUT);
 
 }
 
 void loop() {
-	//update Modules
-	for (auto i = activeModules.begin(),
-		end = activeModules.end();
-		i < end; ++i) {
-		(*i)->updateValues();
-	}
+	Modules::updateAll();
 	Module::updateConnections();
 }
 
