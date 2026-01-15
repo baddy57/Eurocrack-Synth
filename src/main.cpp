@@ -21,7 +21,7 @@
 #include "core/Address.h"
 #include "core/PatchCable.h"
 #include "core/HardwareCfg.h"
-#include "services/ModuleFactory.h"
+#include "services/Modules.h"
 #include "services/SynthDisplay.h"
 #include "services/Modules.h"
 #include "services/Connections.h"
@@ -90,14 +90,14 @@ void setup() {
 
 	pinMode(pins::READ, INPUT_PULLDOWN);
 	
-	ModuleFactory::factory(Modules::active);
+	ModuleManager::factory();
 
 	pinMode(pins::READ, INPUT);
 
 }
 
 void loop() {
-	Modules::updateAll();
-	Connections::update();
+	ModuleManager::updateAll();
+	PatchCableManager::update();
 }
 

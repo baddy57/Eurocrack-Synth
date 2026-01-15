@@ -17,7 +17,7 @@ struct ModuleOutput {
 		const char* name = "mono out")
 	{
 		base = std::make_shared<OutputSocket>(a, id, detectorId, as, port, name);
-		Connections::registerOutput(base);
+		PatchCableManager::registerOutput(base);
 	}
 
 	inline ModuleOutput(const Address& a,
@@ -31,7 +31,7 @@ struct ModuleOutput {
 		const char* name = "poly out")
 	{
 		base = std::make_shared<OutputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name);
-		Connections::registerOutput(base);
+		PatchCableManager::registerOutput(base);
 	}
 
 	std::shared_ptr<OutputSocket> base;

@@ -53,7 +53,7 @@ PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputS
 	this->outputSocket = out;
 
 	// in cannot accept any other connections until this one is deleted
-	Connections::setInputBusy(in);
+	PatchCableManager::setInputBusy(in);
 
 	#if CONFIGURATION__LOGGER__CONNECTIONS
 	tft.print(out->getName());

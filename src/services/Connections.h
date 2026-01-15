@@ -8,7 +8,7 @@ class InputSocket;
 class OutputSocket;
 class PatchCable;
 
-class Connections {
+class PatchCableManager {
 	// Private: cable management
 	static std::list<std::unique_ptr<PatchCable>> _cables;
 	static void searchForCablesToAdd();

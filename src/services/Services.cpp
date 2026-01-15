@@ -34,33 +34,33 @@ void SynthAudio::setVolume(float vol) {
 	codec.volume(vol);
 }
 
-// Modules
-std::vector<Module*> Modules::active;
+// ModuleManager
+std::vector<Module*> ModuleManager::activeModules;
 
-void Modules::updateAll() {
-	for (auto* module : active) {
+void ModuleManager::updateAll() {
+	for (auto* module : activeModules) {
 		module->updateValues();
 	}
 }
 
-// Connections - unified socket and cable management
+// PatchCableManager - unified socket and cable management
 
-std::vector<std::shared_ptr<InputSocket>> Connections::inputs;
-std::vector<std::shared_ptr<OutputSocket>> Connections::outputs;
-std::list<std::shared_ptr<InputSocket>> Connections::availableInputs;
-std::list<std::shared_ptr<InputSocket>> Connections::busyInputs;
-std::list<std::shared_ptr<OutputSocket>> Connections::availableOutputs;
-std::list<std::unique_ptr<PatchCable>> Connections::_cables;
+std::vector<std::shared_ptr<InputSocket>> PatchCableManager::inputs;
+std::vector<std::shared_ptr<OutputSocket>> PatchCableManager::outputs;
+std::list<std::shared_ptr<InputSocket>> PatchCableManager::availableInputs;
+std::list<std::shared_ptr<InputSocket>> PatchCableManager::busyInputs;
+std::list<std::shared_ptr<OutputSocket>> PatchCableManager::availableOutputs;
+std::list<std::unique_ptr<PatchCable>> PatchCableManager::_cables;
 
-void Connections::registerInput(std::shared_ptr<InputSocket> socket) {
+void PatchCableManager::registerInput(std::shared_ptr<InputSocket> socket) {
 	inputs.push_back(socket);
 }
 
-void Connections::registerOutput(std::shared_ptr<OutputSocket> socket) {
+void PatchCableManager::registerOutput(std::shared_ptr<OutputSocket> socket) {
 	outputs.push_back(socket);
 }
 
-void Connections::update() {
+void PatchCableManager::update() {
 	// Poll all inputs for jack events
 	for (auto& inputSocket : inputs) {
 		if (inputSocket->jackJustPlugged())
@@ -80,48 +80,48 @@ void Connections::update() {
 
 // Helper functions for list management
 static void removeInputFromAvailable(std::shared_ptr<InputSocket> i) {
-	for (auto it = Connections::availableInputs.begin(); it != Connections::availableInputs.end(); ++it) {
+	for (auto it = PatchCableManager::availableInputs.begin(); it != PatchCableManager::availableInputs.end(); ++it) {
 		if ((*it)->uid == i->uid) {
-			Connections::availableInputs.erase(it);
+			PatchCableManager::availableInputs.erase(it);
 			return;
 		}
 	}
 }
 
 static void removeInputFromBusy(std::shared_ptr<InputSocket> i) {
-	for (auto it = Connections::busyInputs.begin(); it != Connections::busyInputs.end(); ++it) {
+	for (auto it = PatchCableManager::busyInputs.begin(); it != PatchCableManager::busyInputs.end(); ++it) {
 		if ((*it)->uid == i->uid) {
-			Connections::busyInputs.erase(it);
+			PatchCableManager::busyInputs.erase(it);
 			return;
 		}
 	}
 }
 
 static void removeOutputFromAvailable(std::shared_ptr<OutputSocket> out) {
-	for (auto it = Connections::availableOutputs.begin(); it != Connections::availableOutputs.end(); ++it) {
+	for (auto it = PatchCableManager::availableOutputs.begin(); it != PatchCableManager::availableOutputs.end(); ++it) {
 		if ((*it)->uid == out->uid) {
-			Connections::availableOutputs.erase(it);
+			PatchCableManager::availableOutputs.erase(it);
 			return;
 		}
 	}
 }
 
 // State transitions
-void Connections::setInputAvailable(std::shared_ptr<InputSocket> i) {
+void PatchCableManager::setInputAvailable(std::shared_ptr<InputSocket> i) {
 	availableInputs.push_back(i);
 	if (i->state == SocketState::BUSY)
 		removeInputFromBusy(i);
 	i->state = SocketState::AVAILABLE;
 }
 
-void Connections::setInputBusy(std::shared_ptr<InputSocket> i) {
+void PatchCableManager::setInputBusy(std::shared_ptr<InputSocket> i) {
 	busyInputs.push_back(i);
 	if (i->state == SocketState::AVAILABLE)
 		removeInputFromAvailable(i);
 	i->state = SocketState::BUSY;
 }
 
-void Connections::setInputInactive(std::shared_ptr<InputSocket> i) {
+void PatchCableManager::setInputInactive(std::shared_ptr<InputSocket> i) {
 	if (i->state == SocketState::AVAILABLE)
 		removeInputFromAvailable(i);
 	else if (i->state == SocketState::BUSY)
@@ -129,19 +129,19 @@ void Connections::setInputInactive(std::shared_ptr<InputSocket> i) {
 	i->state = SocketState::INACTIVE;
 }
 
-void Connections::setOutputAvailable(std::shared_ptr<OutputSocket> out) {
+void PatchCableManager::setOutputAvailable(std::shared_ptr<OutputSocket> out) {
 	availableOutputs.push_back(out);
 	out->state = SocketState::AVAILABLE;
 }
 
-void Connections::setOutputInactive(std::shared_ptr<OutputSocket> out) {
+void PatchCableManager::setOutputInactive(std::shared_ptr<OutputSocket> out) {
 	if (out->state == SocketState::AVAILABLE)
 		removeOutputFromAvailable(out);
 	out->state = SocketState::INACTIVE;
 }
 
 // Cable search - checks all available outputs against all available inputs
-void Connections::searchForCablesToAdd() {
+void PatchCableManager::searchForCablesToAdd() {
 	if (availableOutputs.empty() || availableInputs.empty())
 		return;
 
@@ -157,7 +157,7 @@ void Connections::searchForCablesToAdd() {
 }
 
 // Jack event handlers
-void Connections::onInputConnected(std::shared_ptr<InputSocket> i) {
+void PatchCableManager::onInputConnected(std::shared_ptr<InputSocket> i) {
 	#if CONFIGURATION__LOGGER__JACK_EVENTS
 	SynthDisplay::raw().print("Input connected: ");
 	SynthDisplay::raw().println(i->getName());
@@ -167,7 +167,7 @@ void Connections::onInputConnected(std::shared_ptr<InputSocket> i) {
 	searchForCablesToAdd();
 }
 
-void Connections::onOutputConnected(std::shared_ptr<OutputSocket> o) {
+void PatchCableManager::onOutputConnected(std::shared_ptr<OutputSocket> o) {
 	#if CONFIGURATION__LOGGER__JACK_EVENTS
 	SynthDisplay::raw().print("Output connected: ");
 	SynthDisplay::raw().println(o->getName());
@@ -177,7 +177,7 @@ void Connections::onOutputConnected(std::shared_ptr<OutputSocket> o) {
 	searchForCablesToAdd();
 }
 
-void Connections::onInputDisconnected(std::shared_ptr<InputSocket> input) {
+void PatchCableManager::onInputDisconnected(std::shared_ptr<InputSocket> input) {
 	#if CONFIGURATION__LOGGER__JACK_EVENTS
 	SynthDisplay::raw().print("Input disconnected: ");
 	SynthDisplay::raw().println(input->getName());
@@ -196,7 +196,7 @@ void Connections::onInputDisconnected(std::shared_ptr<InputSocket> input) {
 	setInputInactive(input);
 }
 
-void Connections::onOutputDisconnected(std::shared_ptr<OutputSocket> output) {
+void PatchCableManager::onOutputDisconnected(std::shared_ptr<OutputSocket> output) {
 	#if CONFIGURATION__LOGGER__JACK_EVENTS
 	SynthDisplay::raw().print("Output disconnected: ");
 	SynthDisplay::raw().println(output->getName());

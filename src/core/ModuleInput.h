@@ -17,7 +17,7 @@ struct ModuleInput {
 		const char* name = "mono in")
 	{
 		base = std::make_shared<InputSocket>(a, id, detectorId, as, port, name);
-		Connections::registerInput(base);
+		PatchCableManager::registerInput(base);
 	}
 
 	inline ModuleInput(const Address& a,
@@ -31,7 +31,7 @@ struct ModuleInput {
 		const char* name = "poly in")
 	{
 		base = std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name);
-		Connections::registerInput(base);
+		PatchCableManager::registerInput(base);
 	}
 
 	std::shared_ptr<InputSocket> base;
