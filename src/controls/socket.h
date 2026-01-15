@@ -6,9 +6,9 @@
 
 #include <Audio.h>
 
-#include "SocketState.h"
+#include "socket_state.h"
 #include "../core/Address.h"
-#include "Switch.h"
+#include "switch.h"
 
 class Socket
 {

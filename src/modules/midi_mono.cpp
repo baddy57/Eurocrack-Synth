@@ -1,4 +1,4 @@
-#include "MidiMono.h"
+#include "midi_mono.h"
 
 AudioSynthWaveformDc MidiMono::_gate;
 AudioSynthWaveformDc MidiMono::_cv;

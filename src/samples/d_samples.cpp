@@ -1,4 +1,4 @@
-#include "D_samples.h"
+#include "d_samples.h"
 const AudioSynthWavetable :: sample_data D_samples[61] = {
 	{
 		(int16_t*)sample_0_D_020, // sample

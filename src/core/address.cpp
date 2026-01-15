@@ -1,5 +1,5 @@
-#include "Address.h"
-#include "HardwareCfg.h"
+#include "address.h"
+#include "hardware_cfg.h"
 
 extern const uint_fast8_t IN_SEL[];
 extern const uint_fast8_t IN_SEL2[];

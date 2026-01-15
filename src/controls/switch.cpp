@@ -1,4 +1,4 @@
-#include "Switch.h"
+#include "switch.h"
 
 void
 Switch :: update() {

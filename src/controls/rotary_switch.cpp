@@ -1,4 +1,4 @@
-#include "RotarySwitch.h"
+#include "rotary_switch.h"
 
 RotarySwitch::RotarySwitch(const Address& a, int _positions, const uint_fast16_t* ids)
 	: positions(_positions)

@@ -31,7 +31,7 @@
 
 extern const uint_fast8_t MAX_MODULES;
 
-#include "SynthDisplay.h"
+#include "synth_display.h"
 #define tft SynthDisplay::raw()
 
 class Module;

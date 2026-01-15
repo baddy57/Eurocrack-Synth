@@ -1,4 +1,4 @@
-#include "ModuleTypeIdMux.h"
+#include "module_type_id_mux.h"
 
 extern const uint_fast8_t IN_SEL2[];
 extern const uint_fast8_t READ_PIN;

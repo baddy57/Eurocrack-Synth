@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Socket.h"
+#include "socket.h"
 
 class OutputSocket : public Socket
 {

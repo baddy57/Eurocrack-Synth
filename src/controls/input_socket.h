@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Socket.h"
+#include "socket.h"
 
 /// @brief an input socket that can receive audio signals
 

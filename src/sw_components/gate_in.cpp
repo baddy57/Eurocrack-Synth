@@ -1,4 +1,4 @@
-#include "GateIn.h"
+#include "gate_in.h"
 #include <Audio.h>
 #include <cstdint>
 

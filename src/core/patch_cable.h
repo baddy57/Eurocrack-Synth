@@ -5,7 +5,7 @@
 
 #include "controls/InputSocket.h"
 #include "controls/OutputSocket.h"
-#include "HardwareCfg.h"
+#include "hardware_cfg.h"
 
 #define POLYPHONY 4
 

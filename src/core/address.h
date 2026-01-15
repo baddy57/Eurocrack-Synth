@@ -4,7 +4,7 @@
 
 #include <Wire.h>
 
-#include "HardwareCfg.h"
+#include "hardware_cfg.h"
 
 //partial address for a module slot
 class Address{

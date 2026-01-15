@@ -1,4 +1,4 @@
-#include "Button2t.h"
+#include "button2t.h"
 
 //ctor
 Button2t :: Button2t (const Address& slotAddress, uint_fast8_t id) 

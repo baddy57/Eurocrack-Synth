@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Button.h"
+#include "button.h"
 
 /// @brief double tappable button
 class Button2t : public Button {

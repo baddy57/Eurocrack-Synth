@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Potentiometer.h"
+#include "potentiometer.h"
 
 class SelectorMulti : public Potentiometer
 {

@@ -1,10 +1,10 @@
 // Static member definitions for all services
 // This file exists because C++11 doesn't support inline static
 
-#include "SynthDisplay.h"
-#include "SynthAudio.h"
-#include "Modules.h"
-#include "Connections.h"
+#include "synth_display.h"
+#include "synth_audio.h"
+#include "modules.h"
+#include "connections.h"
 #include "../core/Module.h"
 #include "../core/PatchCable.h"
 

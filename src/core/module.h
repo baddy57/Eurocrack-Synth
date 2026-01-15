@@ -7,8 +7,8 @@
 #include <Audio.h>
 
 #include "list"
-#include "Address.h"
-#include "Control.h"
+#include "address.h"
+#include "control.h"
 #include "../controls/InputSocket.h"
 #include "../controls/OutputSocket.h"
 #include "../controls/Potentiometer.h"
@@ -22,8 +22,8 @@
 #include "sw_components/Scales.h"
 
 #include "../services/SynthDisplay.h"
-#include "ModuleInput.h"
-#include "ModuleOutput.h"
+#include "module_input.h"
+#include "module_output.h"
 
 #define tft SynthDisplay::raw()
 

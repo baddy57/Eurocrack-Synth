@@ -1,5 +1,5 @@
-#include "PatchCableConnectionType.h"
-#include "PatchCable.h"
+#include "patch_cable_connection_type.h"
+#include "patch_cable.h"
 #include <memory>
 #include "../services/SynthDisplay.h"
 #include "../services/Connections.h"
