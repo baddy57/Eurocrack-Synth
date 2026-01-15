@@ -22,7 +22,10 @@ void TestDisplay::drawHeader(const char* moduleName, uint8_t slot, uint8_t typeI
 	tft.print("Slot: ");
 	tft.print(slot);
 	tft.print("   Type: ");
-	tft.print(typeId);
+	// Print all 8 binary digits with leading zeros
+	for (int8_t i = 7; i >= 0; --i) {
+		tft.print((typeId >> i) & 1);
+	}
 }
 
 void TestDisplay::drawAnalogSection(const ModuleTestConfig* config) {
