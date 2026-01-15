@@ -91,14 +91,14 @@ public:
 	const char* getModuleName() const override { return "ADSR"; }
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
-		std::vector<TestControlInfo>& digital) const override
+		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back({"ATTACK", _att_pot1.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"DECAY", _dec_pot4.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"SUSTAIN", _sus_pot3.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"RELEASE", _rel_pot5.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"ATTACK", _att_pot1.getPinId(), TestControlType::POTENTIOMETER, &_att_pot1});
+		analog.push_back({"DECAY", _dec_pot4.getPinId(), TestControlType::POTENTIOMETER, &_dec_pot4});
+		analog.push_back({"SUSTAIN", _sus_pot3.getPinId(), TestControlType::POTENTIOMETER, &_sus_pot3});
+		analog.push_back({"RELEASE", _rel_pot5.getPinId(), TestControlType::POTENTIOMETER, &_rel_pot5});
 
-		digital.push_back({"GATE_JK", ADSR_pins::GATE_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"OUT_JK", ADSR_pins::SIGNAL_OUT_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"GATE_JK", ADSR_pins::GATE_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT_JK", ADSR_pins::SIGNAL_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
 };

@@ -187,22 +187,22 @@ public:
 	const char* getModuleName() const override { return "VCO_det"; }
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
-		std::vector<TestControlInfo>& digital) const override
+		std::vector<TestControlInfo>& digital) override
 	{
 		// Analog controls (potentiometers)
-		analog.push_back({"COARSE", _coarse_pot0.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"FINE", _fine_pot1.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"FM_CV", _freqmodcv_pot2.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"PM_CV", _phasemodcv_pot3.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"AMP", _amp_pot4.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"COARSE", _coarse_pot0.getPinId(), TestControlType::POTENTIOMETER, &_coarse_pot0});
+		analog.push_back({"FINE", _fine_pot1.getPinId(), TestControlType::POTENTIOMETER, &_fine_pot1});
+		analog.push_back({"FM_CV", _freqmodcv_pot2.getPinId(), TestControlType::POTENTIOMETER, &_freqmodcv_pot2});
+		analog.push_back({"PM_CV", _phasemodcv_pot3.getPinId(), TestControlType::POTENTIOMETER, &_phasemodcv_pot3});
+		analog.push_back({"AMP", _amp_pot4.getPinId(), TestControlType::POTENTIOMETER, &_amp_pot4});
 
 		// Digital controls (switch and jack detectors)
-		digital.push_back({"FM/PM", _freq_phase_sw4.getPinId(), TestControlType::SWITCH});
-		digital.push_back({"FREQ_JK", VCO_det_pins::FREQ_PHASE_CV_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"SHAP_JK", VCO_det_pins::SHAPE_CV_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"SIN_JK", VCO_det_pins::SIN_OUT_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"TRI_JK", VCO_det_pins::TRI_OUT_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"SAW_JK", VCO_det_pins::SAW_OUT_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"SQR_JK", VCO_det_pins::SQR_OUT_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"FM/PM", _freq_phase_sw4.getPinId(), TestControlType::SWITCH, nullptr});
+		digital.push_back({"FREQ_JK", VCO_det_pins::FREQ_PHASE_CV_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"SHAP_JK", VCO_det_pins::SHAPE_CV_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"SIN_JK", VCO_det_pins::SIN_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"TRI_JK", VCO_det_pins::TRI_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"SAW_JK", VCO_det_pins::SAW_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"SQR_JK", VCO_det_pins::SQR_OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
 };

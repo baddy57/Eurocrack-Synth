@@ -99,14 +99,14 @@ public:
 	const char* getModuleName() const override { return "MidiMono"; }
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
-		std::vector<TestControlInfo>& digital) const override
+		std::vector<TestControlInfo>& digital) override
 	{
 		// MidiMono has no analog controls
-		digital.push_back({"USB_SW", source_sw0.getPinId(), TestControlType::SWITCH});
-		digital.push_back({"CH+", chplus_btn0.getPinId(), TestControlType::BUTTON});
-		digital.push_back({"CH-", chminus_btn1.getPinId(), TestControlType::BUTTON});
-		digital.push_back({"GATE_JK", MidiMono_pins::GATE_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CV_JK", MidiMono_pins::CV_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"VEL_JK", MidiMono_pins::VEL_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"USB_SW", source_sw0.getPinId(), TestControlType::SWITCH, nullptr});
+		digital.push_back({"CH+", chplus_btn0.getPinId(), TestControlType::BUTTON, nullptr});
+		digital.push_back({"CH-", chminus_btn1.getPinId(), TestControlType::BUTTON, nullptr});
+		digital.push_back({"GATE_JK", MidiMono_pins::GATE_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CV_JK", MidiMono_pins::CV_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"VEL_JK", MidiMono_pins::VEL_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
 };

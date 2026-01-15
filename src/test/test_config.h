@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <vector>
 
+class Potentiometer;  // Forward declaration
+
 enum class TestControlType : uint8_t {
 	POTENTIOMETER,
 	BUTTON,
@@ -10,9 +12,10 @@ enum class TestControlType : uint8_t {
 	SELECTOR_MULTI
 };
 
-// Lightweight struct for test control info - no separate config files needed
+// Struct for analog test control info - includes pointer to control for computed value
 struct TestControlInfo {
 	const char* name;
 	uint8_t pinId;
 	TestControlType type;
+	Potentiometer* pot;  // Pointer to potentiometer for reading computed value (nullptr for digital)
 };

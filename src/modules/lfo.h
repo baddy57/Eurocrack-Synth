@@ -69,14 +69,14 @@ public:
 	const char* getModuleName() const override { return "LFO"; }
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
-		std::vector<TestControlInfo>& digital) const override
+		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back({"WAVE", waveShapeSel.getPinId(), TestControlType::SELECTOR_MULTI});
-		analog.push_back({"FREQ", freqPot.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"CV_AMT", cvPot.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"WAVE", waveShapeSel.getPinId(), TestControlType::SELECTOR_MULTI, &waveShapeSel});
+		analog.push_back({"FREQ", freqPot.getPinId(), TestControlType::POTENTIOMETER, &freqPot});
+		analog.push_back({"CV_AMT", cvPot.getPinId(), TestControlType::POTENTIOMETER, &cvPot});
 
-		digital.push_back({"CV_JK", LFO_pins::CV_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"SYNC_JK", LFO_pins::SYNC_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"OUT_JK", LFO_pins::OUT_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"CV_JK", LFO_pins::CV_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"SYNC_JK", LFO_pins::SYNC_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUT_JK", LFO_pins::OUT_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
 };

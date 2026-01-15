@@ -4,6 +4,7 @@
 #include <vector>
 #include "test_config.h"
 #include "../services/synth_display.h"
+#include "../controls/potentiometer.h"
 #include <ILI9341_t3.h>
 
 // Colors for test display
@@ -81,16 +82,31 @@ public:
 	}
 
 	// In-place value updates (no full redraw)
-	static inline void updateAnalog(uint8_t row, uint16_t raw) {
+	static inline void updateAnalog(uint8_t row, uint16_t raw, Potentiometer* pot) {
 		uint8_t y = ANALOG_START_Y + (row * ROW_HEIGHT);
 
-		// Clear raw value area
-		tft.fillRect(COL_RAW, y, 60, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+		// Clear raw and computed value areas
+		tft.fillRect(COL_RAW, y, 130, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
 
 		// Draw raw value with color coding
 		tft.setCursor(COL_RAW, y);
 		tft.setTextColor(getAnalogColor(raw));
 		tft.print(raw);
+
+		// Draw computed value if potentiometer available
+		if (pot != nullptr) {
+			tft.setCursor(COL_COMPUTED, y);
+			tft.setTextColor(TEST_COLOR_LABEL);
+			float computed = pot->read();
+			// Format based on value magnitude
+			if (computed >= 100 || computed <= -100) {
+				tft.print((int)computed);
+			} else if (computed >= 10 || computed <= -10) {
+				tft.print(computed, 1);
+			} else {
+				tft.print(computed, 2);
+			}
+		}
 	}
 
 	static inline void updateDigital(uint8_t row, bool state, TestControlType type) {
@@ -154,6 +170,7 @@ private:
 	static constexpr uint8_t COL_NAME = 4;
 	static constexpr uint8_t COL_PIN = 70;
 	static constexpr uint8_t COL_RAW = 100;
+	static constexpr uint8_t COL_COMPUTED = 140;
 	static constexpr uint8_t COL_VALUE = 100;  // For digital section
 };
 

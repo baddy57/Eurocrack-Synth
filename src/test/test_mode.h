@@ -148,7 +148,7 @@ private:
 		for (uint8_t i = 0; i < _analogControls.size(); ++i) {
 			const TestControlInfo& ctrl = _analogControls[i];
 			uint16_t raw = TestReader::readAnalog(_currentSlot, ctrl.pinId);
-			TestDisplay::updateAnalog(i, raw);
+			TestDisplay::updateAnalog(i, raw, ctrl.pot);
 		}
 	}
 

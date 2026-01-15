@@ -45,7 +45,7 @@ class Module{
 		virtual const char* getModuleName() const { return "Unknown"; }
 		virtual void getTestControls(
 			std::vector<TestControlInfo>& analog,
-			std::vector<TestControlInfo>& digital) const {}
+			std::vector<TestControlInfo>& digital) {}
 
 		const Address& getAddress() const { return moduleAddress; }
 };

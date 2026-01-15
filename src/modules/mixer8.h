@@ -91,27 +91,27 @@ public:
 	const char* getModuleName() const override { return "Mixer8"; }
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
-		std::vector<TestControlInfo>& digital) const override
+		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back({"GAIN0", _gain_pot0.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN1", _gain_pot1.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN2", _gain_pot2.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN3", _gain_pot3.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN4", _gain_pot4.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN5", _gain_pot5.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN6", _gain_pot6.getPinId(), TestControlType::POTENTIOMETER});
-		analog.push_back({"GAIN7", _gain_pot7.getPinId(), TestControlType::POTENTIOMETER});
+		analog.push_back({"GAIN0", _gain_pot0.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot0});
+		analog.push_back({"GAIN1", _gain_pot1.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot1});
+		analog.push_back({"GAIN2", _gain_pot2.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot2});
+		analog.push_back({"GAIN3", _gain_pot3.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot3});
+		analog.push_back({"GAIN4", _gain_pot4.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot4});
+		analog.push_back({"GAIN5", _gain_pot5.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot5});
+		analog.push_back({"GAIN6", _gain_pot6.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot6});
+		analog.push_back({"GAIN7", _gain_pot7.getPinId(), TestControlType::POTENTIOMETER, &_gain_pot7});
 
-		digital.push_back({"CH0_JK", Mixer8_pins::CH0_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH1_JK", Mixer8_pins::CH1_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH2_JK", Mixer8_pins::CH2_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH3_JK", Mixer8_pins::CH3_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH4_JK", Mixer8_pins::CH4_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH5_JK", Mixer8_pins::CH5_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH6_JK", Mixer8_pins::CH6_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"CH7_JK", Mixer8_pins::CH7_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"OUTL_JK", Mixer8_pins::OUT_STEREO_L_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"OUTR_JK", Mixer8_pins::OUT_STEREO_R_D, TestControlType::JACK_DETECTOR});
-		digital.push_back({"OUTM_JK", Mixer8_pins::OUT_MONO_D, TestControlType::JACK_DETECTOR});
+		digital.push_back({"CH0_JK", Mixer8_pins::CH0_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH1_JK", Mixer8_pins::CH1_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH2_JK", Mixer8_pins::CH2_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH3_JK", Mixer8_pins::CH3_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH4_JK", Mixer8_pins::CH4_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH5_JK", Mixer8_pins::CH5_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH6_JK", Mixer8_pins::CH6_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"CH7_JK", Mixer8_pins::CH7_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUTL_JK", Mixer8_pins::OUT_STEREO_L_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUTR_JK", Mixer8_pins::OUT_STEREO_R_D, TestControlType::JACK_DETECTOR, nullptr});
+		digital.push_back({"OUTM_JK", Mixer8_pins::OUT_MONO_D, TestControlType::JACK_DETECTOR, nullptr});
 	}
 };
