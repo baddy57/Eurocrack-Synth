@@ -4,7 +4,6 @@
 
 extern const float POT_DEADZONE;
 
-extern ILI9341_t3 tft;
 extern const uint_fast8_t POT_READS;
 
 #warning "Potentiometer pullup compensation is obsolete, use dedicated multiplexers instead"

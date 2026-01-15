@@ -30,7 +30,9 @@
 #include "../modules/Delay_multi.h"
 
 extern const uint_fast8_t MAX_MODULES;
-extern ILI9341_t3 tft;
+
+#include "../services/SynthDisplay.h"
+#define tft SynthDisplay::raw()
 
 class ModuleFactory
 {

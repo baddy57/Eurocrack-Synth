@@ -6,8 +6,6 @@
 #include <list>
 #include <Audio.h>
 
-extern ILI9341_t3 tft;
-
 /// @brief output sockets that are connected to a patch cable and available for connection
 std::list<std::shared_ptr<OutputSocket>> OutputSocket::availableOutputs;
 

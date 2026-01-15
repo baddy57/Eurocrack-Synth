@@ -1,8 +1,9 @@
 #include "PatchCableConnectionType.h"
 #include "PatchCable.h"
 #include <memory>
+#include "../services/SynthDisplay.h"
 
-extern ILI9341_t3 tft;
+#define tft SynthDisplay::raw()
 
 // definition of static member
 std::list<std::unique_ptr<PatchCable>> PatchCable::activeCables;

@@ -21,7 +21,8 @@
 #include "sw_components/Notes.h"
 #include "sw_components/Scales.h"
 
-extern ILI9341_t3 tft;
+#include "../services/SynthDisplay.h"
+#define tft SynthDisplay::raw()
 
 class Module{
 	private:

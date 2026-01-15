@@ -1,7 +1,5 @@
 #include "Switch.h"
 
-extern ILI9341_t3 tft;
-
 void
 Switch :: update() {
 	address.setForReading();

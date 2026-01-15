@@ -8,7 +8,6 @@ extern const uint_fast8_t OUT_SEL2[];
 extern const uint_fast8_t READ_PIN;
 extern const uint_fast8_t WRITE_PIN;
 extern const bool ID_MUX_LOCATION[];
-extern ILI9341_t3 tft;
 
 //ctor
 Address :: Address (uint_fast8_t id) {
