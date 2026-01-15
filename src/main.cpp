@@ -25,6 +25,10 @@
 #include "services/module_manager.h"
 #include "services/patch_cable_manager.h"
 
+#if TEST_MODE_ENABLED
+#include "test/test_mode.h"
+#endif
+
 //constants
 extern const uint_fast8_t HIGH_UPDATE_PRIORITY;
 extern const uint_fast8_t MEDIUM_UPDATE_PRIORITY;
@@ -75,6 +79,14 @@ void setup() {
 
 	SynthDisplay::init();
 
+	#if TEST_MODE_ENABLED
+	// Enter test mode and skip normal initialization
+	pinMode(pins::READ, INPUT_PULLDOWN);
+	TestMode::enter();
+	pinMode(pins::READ, INPUT);
+	return;
+	#endif
+
 	#if CONFIGURATION__USBHOST_ENABLED
 	usbHost.begin();
 	#endif
@@ -88,7 +100,7 @@ void setup() {
 	#endif
 
 	pinMode(pins::READ, INPUT_PULLDOWN);
-	
+
 	ModuleManager::factory();
 
 	pinMode(pins::READ, INPUT);
@@ -96,6 +108,13 @@ void setup() {
 }
 
 void loop() {
+	#if TEST_MODE_ENABLED
+	if (TestMode::isActive()) {
+		TestMode::update();
+		return;
+	}
+	#endif
+
 	ModuleManager::updateAll();
 	PatchCableManager::update();
 }

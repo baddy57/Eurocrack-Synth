@@ -175,3 +175,6 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 #define CONFIGURATION__SERIAL_ENABLED 0
 #define CONFIGURATION__SDCARD_ENABLED 0
 #define CONFIGURATION__USBHOST_ENABLED 0
+
+// Test mode for hardware debugging
+#define TEST_MODE_ENABLED 1
