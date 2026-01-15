@@ -24,6 +24,7 @@
 #include "core/ModuleFactory.h"
 #include "services/SynthDisplay.h"
 #include "services/Modules.h"
+#include "services/Connections.h"
 
 //constants
 extern const uint_fast8_t HIGH_UPDATE_PRIORITY;
@@ -97,6 +98,6 @@ void setup() {
 
 void loop() {
 	Modules::updateAll();
-	Module::updateConnections();
+	Connections::update();
 }
 

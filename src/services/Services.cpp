@@ -43,7 +43,10 @@ void Modules::updateAll() {
 	}
 }
 
-// Connections - stub implementations (will be filled in Phase 5)
+// Connections
+// For now, delegates to existing static methods in InputSocket/OutputSocket/PatchCable
+// Will be consolidated in later commits
+
 std::vector<std::shared_ptr<InputSocket>> Connections::inputs;
 std::vector<std::shared_ptr<OutputSocket>> Connections::outputs;
 std::list<std::shared_ptr<InputSocket>> Connections::availableInputs;
@@ -60,16 +63,51 @@ void Connections::registerOutput(std::shared_ptr<OutputSocket> socket) {
 }
 
 void Connections::update() {
-	// Stub - will be implemented in Phase 5
+	// Poll all inputs for jack events
+	for (auto& inputSocket : Module::inputSockets) {
+		if (inputSocket->jackJustPlugged())
+			PatchCable::onInputSocketConnected(inputSocket);
+		if (inputSocket->jackJustUnplugged())
+			PatchCable::onInputSocketDisconnected(inputSocket);
+	}
+
+	// Poll all outputs for jack events
+	for (auto& outputSocket : Module::outputSockets) {
+		if (outputSocket->jackJustPlugged())
+			PatchCable::onOutputSocketConnected(outputSocket);
+		if (outputSocket->jackJustUnplugged())
+			PatchCable::onOutputSocketDisconnected(outputSocket);
+	}
 }
 
-void Connections::onInputConnected(std::shared_ptr<InputSocket> socket) {}
-void Connections::onInputDisconnected(std::shared_ptr<InputSocket> socket) {}
-void Connections::onOutputConnected(std::shared_ptr<OutputSocket> socket) {}
-void Connections::onOutputDisconnected(std::shared_ptr<OutputSocket> socket) {}
-void Connections::setInputAvailable(std::shared_ptr<InputSocket> socket) {}
-void Connections::setInputBusy(std::shared_ptr<InputSocket> socket) {}
-void Connections::setInputInactive(std::shared_ptr<InputSocket> socket) {}
-void Connections::setOutputAvailable(std::shared_ptr<OutputSocket> socket) {}
-void Connections::setOutputInactive(std::shared_ptr<OutputSocket> socket) {}
-void Connections::searchForCablesToAdd() {}
+// Delegate to existing methods (will be consolidated later)
+void Connections::onInputConnected(std::shared_ptr<InputSocket> socket) {
+	PatchCable::onInputSocketConnected(socket);
+}
+void Connections::onInputDisconnected(std::shared_ptr<InputSocket> socket) {
+	PatchCable::onInputSocketDisconnected(socket);
+}
+void Connections::onOutputConnected(std::shared_ptr<OutputSocket> socket) {
+	PatchCable::onOutputSocketConnected(socket);
+}
+void Connections::onOutputDisconnected(std::shared_ptr<OutputSocket> socket) {
+	PatchCable::onOutputSocketDisconnected(socket);
+}
+void Connections::setInputAvailable(std::shared_ptr<InputSocket> socket) {
+	InputSocket::setAvailable(socket);
+}
+void Connections::setInputBusy(std::shared_ptr<InputSocket> socket) {
+	InputSocket::setBusy(socket);
+}
+void Connections::setInputInactive(std::shared_ptr<InputSocket> socket) {
+	InputSocket::setInactive(socket);
+}
+void Connections::setOutputAvailable(std::shared_ptr<OutputSocket> socket) {
+	OutputSocket::setAvailable(socket);
+}
+void Connections::setOutputInactive(std::shared_ptr<OutputSocket> socket) {
+	OutputSocket::setInactive(socket);
+}
+void Connections::searchForCablesToAdd() {
+	// Called internally by PatchCable - no external delegation needed
+}
