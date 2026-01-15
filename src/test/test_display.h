@@ -15,9 +15,9 @@
 #define TEST_COLOR_VALUE_ZERO   ILI9341_YELLOW
 #define TEST_COLOR_VALUE_MAX    ILI9341_RED
 #define TEST_COLOR_DIGITAL_ON   ILI9341_GREEN
-#define TEST_COLOR_DIGITAL_OFF  0x4208  // Dark gray
+#define TEST_COLOR_DIGITAL_OFF  0x8410  // Light gray
 #define TEST_COLOR_JACK_PRESENT ILI9341_MAGENTA
-#define TEST_COLOR_SEPARATOR    0x4208  // Dark gray
+#define TEST_COLOR_SEPARATOR    0x8410  // Light gray
 
 #define tft SynthDisplay::raw()
 
