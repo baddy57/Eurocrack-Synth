@@ -22,6 +22,7 @@
 #include "core/PatchCable.h"
 #include "core/HardwareCfg.h"
 #include "core/ModuleFactory.h"
+#include "services/SynthDisplay.h"
 
 //constants
 extern const uint_fast8_t HIGH_UPDATE_PRIORITY;
@@ -34,7 +35,6 @@ extern const uint_fast8_t WRITE_PIN;
 
 //global variables
 std::vector<Module*> activeModules;
-ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 
 USBHost usbHost;
 MIDIDevice midiOnUsbHost(usbHost);
@@ -74,9 +74,7 @@ void setup() {
 
 	delay(2000);
 
-	tft.begin();
-	tft.setRotation(4);	
-	tft.fillScreen(CONFIGURATION__BACKGROUND_COLOR);
+	SynthDisplay::init();
 
 	#if CONFIGURATION__USBHOST_ENABLED
 	usbHost.begin();
