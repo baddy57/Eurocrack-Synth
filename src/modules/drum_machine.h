@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../core/module.h"
-#include "../sw_components/gate_in.h"
+#include "../features/gate_in.h"
+#include "../features/drum_machine_voice.h"
 #include <MIDI.h>
 #include "../samples/D_samples.h"
 
@@ -9,38 +10,6 @@ extern USBHost usbHost;
 extern MIDIDevice midiOnUsbHost;
 
 const uint_fast8_t banks = 1;
-
-struct Voice {
-	Button b;
-	AudioSynthWavetable wavetable;
-	uint_fast8_t bank;
-	uint_fast8_t sample;
-	uint_fast8_t first_sample;
-	uint_fast8_t last_sample;
-	float gain;
-	const AudioSynthWavetable::instrument_data* active_sf2;
-
-	Voice(Address a, uint_fast8_t i) : b(a, i) {
-		gain = 1.0;
-		setBank(0);
-	}
-
-	void setBank(uint_fast8_t newBank) {
-		bank = newBank;
-		wavetable.setInstrument(D);
-		active_sf2 = &D;
-		first_sample = active_sf2->sample_note_ranges[0];
-		last_sample = first_sample + active_sf2->sample_count;
-		sample = first_sample;
-	}
-
-	void nextBank() { setBank(bank + 1); }
-	void prevBank() { setBank(bank - 1); }
-	void setSample(uint_fast8_t newSample) { sample = newSample; }
-	void nextSample() { setSample(sample + 1); }
-	void prevSample() { setSample(sample - 1); }
-	void setGain(float g) { gain = g; }
-};
 
 namespace DrumMachine_pins {
 	enum inputs { _B0=8, _B1, _B2, _B3, _B4, _B5, _B6, _B7,
@@ -50,8 +19,6 @@ namespace DrumMachine_pins {
 				  OUT_L_D=29, OUT_R_D, OUT_M_D };
 	enum outputs { OUT_L, OUT_R, OUT_M };
 }
-
-extern std::vector<Voice*> DrumMachine_voices;
 
 class DrumMachine : public Module {
 private:
@@ -91,14 +58,14 @@ public:
 		for (uint_fast8_t i = 0; i < 9; ++i)
 			mxr[i] = new AudioMixer4();
 
-		DrumMachine_voices.push_back(new Voice(a, _B0));
-		DrumMachine_voices.push_back(new Voice(a, _B1));
-		DrumMachine_voices.push_back(new Voice(a, _B2));
-		DrumMachine_voices.push_back(new Voice(a, _B3));
-		DrumMachine_voices.push_back(new Voice(a, _B4));
-		DrumMachine_voices.push_back(new Voice(a, _B5));
-		DrumMachine_voices.push_back(new Voice(a, _B6));
-		DrumMachine_voices.push_back(new Voice(a, _B7));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B0));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B1));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B2));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B3));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B4));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B5));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B6));
+		DrumMachine_voices.push_back(new DrumMachineVoice(a, _B7));
 
 		for (uint_fast8_t i = 0; i < 4; ++i)
 			for (uint_fast8_t j = 0; j < 3; ++j) {

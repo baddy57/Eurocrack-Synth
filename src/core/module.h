@@ -17,9 +17,9 @@
 #include "../controls/switch.h"
 #include "../controls/selector_multi.h"
 #include "../controls/rotary_switch.h"
-#include "sw_components/gate_in.h"
-#include "sw_components/notes.h"
-#include "sw_components/scales.h"
+#include "features/gate_in.h"
+#include "features/notes.h"
+#include "features/scales.h"
 
 #include "../services/synth_display.h"
 #include "module_input.h"

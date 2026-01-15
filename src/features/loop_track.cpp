@@ -1,3 +1,3 @@
-#include "looper.h"
+#include "loop_track.h"
 
 int LoopTrack::longest = 0;
