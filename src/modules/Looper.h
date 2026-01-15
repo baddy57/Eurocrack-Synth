@@ -119,8 +119,8 @@ private:
 	LoopTrack loops[TRACKS_COUNT];
 	AudioMixer4 mixer_a, mixer_b, masterMixer;
 	AudioAmplifier recorder;
-	Input in;
-	Output out;
+	ModuleInput in;
+	ModuleOutput out;
 
 public:
 	Looper() = delete;

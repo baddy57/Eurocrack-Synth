@@ -2,11 +2,9 @@
 #include "PatchCable.h"
 #include <memory>
 #include "../services/SynthDisplay.h"
+#include "../services/Connections.h"
 
 #define tft SynthDisplay::raw()
-
-// definition of static member
-std::list<std::unique_ptr<PatchCable>> PatchCable::activeCables;
 
 //ctor
 PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputSocket> in)
@@ -31,13 +29,6 @@ PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputS
 							out->getIndex(),
 							in->getLinkedStream(0),
 							in->getIndex());
-
-		// alternatively, connect to all voices of the poly input
-		// for (uint_fast8_t i = 0; i < POLYPHONY; ++i)
-		// 	ac[i] = new AudioConnection(out->getLinkedStream(),
-		// 								out->getIndex(),
-		// 								in->getLinkedStream(),
-		// 								i);
 	}
 	else if (out->isPolyphonic && !in->isPolyphonic)
 	{
@@ -47,7 +38,6 @@ PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputS
 							out->getIndex(),
 							in->getLinkedStream(),
 							in->getIndex());
-
 	}
 	else if(out->isPolyphonic && in->isPolyphonic)
 	{
@@ -58,13 +48,12 @@ PatchCable::PatchCable(std::shared_ptr<OutputSocket> out, std::shared_ptr<InputS
 										in->getLinkedStream(i),
 										in->getIndex());
 	}
-	// end
 
 	this->inputSocket = in;
 	this->outputSocket = out;
 
 	// in cannot accept any other connections until this one is deleted
-	InputSocket::setBusy(in);
+	Connections::setInputBusy(in);
 
 	#if CONFIGURATION__LOGGER__CONNECTIONS
 	tft.print(out->getName());
@@ -116,51 +105,6 @@ PatchCable::~PatchCable()
 	tft.print(" XXX ");
 	tft.println(inputSocket->getName());
 	#endif
-	
-}
-
-void PatchCable::onInputSocketConnected(std::shared_ptr<InputSocket> i)
-{
-	#if CONFIGURATION__LOGGER__JACK_EVENTS
-	tft.print("Input connected: ");
-	tft.println(i->getName());
-	#endif
-
-	InputSocket::setAvailable(i);
-
-	searchForCablesToAdd();
-}
-
-void PatchCable::onOutputSocketConnected(std::shared_ptr<OutputSocket> o)
-{
-	#if CONFIGURATION__LOGGER__JACK_EVENTS
-	tft.print("Output connected: ");
-	tft.println(o->getName());
-	#endif
-
-	OutputSocket::setAvailable(o);
-
-	searchForCablesToAdd();
-}
-
-void PatchCable::searchForCablesToAdd()
-{
-	if (OutputSocket::availableOutputs.empty() || InputSocket::availableInputs.empty())
-		return;
-
-	// check connection for every possible combination (out,in)
-	for (auto out = OutputSocket::availableOutputs.begin(), end = OutputSocket::availableOutputs.end(); out != end; ++out)
-	{
-		for (auto in = InputSocket::availableInputs.begin(), end2 = InputSocket::availableInputs.end(); in != end2; ++in)
-		{
-			if (checkConnection(*out, *in))
-			{
-				// if (out,in) are connected, instantiate a patchcable
-				// post increment the iterator because *in will be removed from available inputs
-				activeCables.push_back(std::make_unique<PatchCable>(*out, *(in++)));
-			}
-		}
-	}
 }
 
 /// @brief checks if an output socket is connected to an input socket
@@ -174,53 +118,6 @@ bool PatchCable::checkConnection(std::shared_ptr<OutputSocket> out, std::shared_
 		return true;
 	}
 
-	// else
 	out->resetSignal();
 	return false;
-}
-
-// destroy the patchcable that was disconnected from the input socket
-void PatchCable::onInputSocketDisconnected(std::shared_ptr<InputSocket> input)
-{
-	#if CONFIGURATION__LOGGER__JACK_EVENTS
-	tft.print("Input disconnected: ");
-	tft.println(input->getName());
-	#endif
-
-	if (!activeCables.empty())
-		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end; ++cable)
-			if ((*cable)->inputSocket->uid == input->uid)
-			{
-				activeCables.erase(cable);
-				break; // i have to destroy only one cable
-			}
-
-	InputSocket::setInactive(input);
-}
-
-// destroy the patchcable that was disconnected from the output socket
-void PatchCable::onOutputSocketDisconnected(std::shared_ptr<OutputSocket> output)
-{
-	#if CONFIGURATION__LOGGER__JACK_EVENTS
-	tft.print("Output disconnected: ");
-	tft.println(output->getName());
-	#endif
-
-	if (!activeCables.empty())
-	{
-		for (auto cable = activeCables.begin(), end = activeCables.end(); cable != end;)
-		{
-			if ((*cable)->outputSocket->uid == output->uid)
-			{
-				// the inputs that were connected to this output must be set available again
-				InputSocket::setAvailable((*cable)->inputSocket);
-
-				activeCables.erase(cable++);
-			}
-			else
-				++cable;
-		}
-	}
-
-	OutputSocket::setInactive(output);
 }

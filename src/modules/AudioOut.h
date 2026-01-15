@@ -15,10 +15,10 @@ private:
 	AudioOutputI2S _analogOut;
 	AudioOutputUSB _usbOut;
 	Potentiometer _volume_pot0;
-	Input analogOutL;
-	Input analogOutR;
-	Input usbOutL;
-	Input usbOutR;
+	ModuleInput analogOutL;
+	ModuleInput analogOutR;
+	ModuleInput usbOutL;
+	ModuleInput usbOutR;
 
 public:
 	inline AudioOut(const Address& a)

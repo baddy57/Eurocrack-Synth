@@ -15,11 +15,11 @@ private:
 	Potentiometer _freq_pot0;
 	Potentiometer _res_pot1;
 	Potentiometer _oct_pot2;
-	Input in;
-	Input cv;
-	Output lpf;
-	Output bpf;
-	Output hpf;
+	ModuleInput in;
+	ModuleInput cv;
+	ModuleOutput lpf;
+	ModuleOutput bpf;
+	ModuleOutput hpf;
 	AudioFilterStateVariable _filter;
 
 public:

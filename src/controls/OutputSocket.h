@@ -2,23 +2,22 @@
 
 #include "Socket.h"
 
-class OutputSocket : public Socket 
+class OutputSocket : public Socket
 {
-	protected:
+protected:
 	OutputSocketAddress* address;
-	static void removeFromAvailable(std::shared_ptr<OutputSocket> out);
-	
-	public:
+
+public:
 	//mono
-	OutputSocket(	const Address&, 
+	OutputSocket(	const Address&,
 		uint_fast8_t,
 		uint_fast8_t,
-		AudioStream&, 
+		AudioStream&,
 		uint_fast8_t,
-		const char* = "mono out");		
-		
+		const char* = "mono out");
+
 	//poly
-	OutputSocket(	const Address&, 
+	OutputSocket(	const Address&,
 		uint_fast8_t,
 		uint_fast8_t,
 		AudioStream&,
@@ -27,12 +26,7 @@ class OutputSocket : public Socket
 		AudioStream&,
 		uint_fast8_t,
 		const char* = "poly out");
-		
+
 	void sendSignal() const;
 	void resetSignal() const;
-	
-	static std::list<std::shared_ptr<OutputSocket>> availableOutputs;
-	
-	static void setAvailable(std::shared_ptr<OutputSocket>);
-	static void setInactive(std::shared_ptr<OutputSocket>);
 };

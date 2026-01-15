@@ -18,9 +18,9 @@ private:
 	Potentiometer freqPot;
 	Potentiometer cvPot;
 
-	Input syncIn;
-	Input cvIn;
-	Output out;
+	ModuleInput syncIn;
+	ModuleInput cvIn;
+	ModuleOutput out;
 
 	GateIn sync;
 	int currentWave = -1;

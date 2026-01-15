@@ -43,9 +43,7 @@ void Modules::updateAll() {
 	}
 }
 
-// Connections
-// For now, delegates to existing static methods in InputSocket/OutputSocket/PatchCable
-// Will be consolidated in later commits
+// Connections - unified socket and cable management
 
 std::vector<std::shared_ptr<InputSocket>> Connections::inputs;
 std::vector<std::shared_ptr<OutputSocket>> Connections::outputs;
@@ -64,50 +62,158 @@ void Connections::registerOutput(std::shared_ptr<OutputSocket> socket) {
 
 void Connections::update() {
 	// Poll all inputs for jack events
-	for (auto& inputSocket : Module::inputSockets) {
+	for (auto& inputSocket : inputs) {
 		if (inputSocket->jackJustPlugged())
-			PatchCable::onInputSocketConnected(inputSocket);
+			onInputConnected(inputSocket);
 		if (inputSocket->jackJustUnplugged())
-			PatchCable::onInputSocketDisconnected(inputSocket);
+			onInputDisconnected(inputSocket);
 	}
 
 	// Poll all outputs for jack events
-	for (auto& outputSocket : Module::outputSockets) {
+	for (auto& outputSocket : outputs) {
 		if (outputSocket->jackJustPlugged())
-			PatchCable::onOutputSocketConnected(outputSocket);
+			onOutputConnected(outputSocket);
 		if (outputSocket->jackJustUnplugged())
-			PatchCable::onOutputSocketDisconnected(outputSocket);
+			onOutputDisconnected(outputSocket);
 	}
 }
 
-// Delegate to existing methods (will be consolidated later)
-void Connections::onInputConnected(std::shared_ptr<InputSocket> socket) {
-	PatchCable::onInputSocketConnected(socket);
+// Helper functions for list management
+static void removeInputFromAvailable(std::shared_ptr<InputSocket> i) {
+	for (auto it = Connections::availableInputs.begin(); it != Connections::availableInputs.end(); ++it) {
+		if ((*it)->uid == i->uid) {
+			Connections::availableInputs.erase(it);
+			return;
+		}
+	}
 }
-void Connections::onInputDisconnected(std::shared_ptr<InputSocket> socket) {
-	PatchCable::onInputSocketDisconnected(socket);
+
+static void removeInputFromBusy(std::shared_ptr<InputSocket> i) {
+	for (auto it = Connections::busyInputs.begin(); it != Connections::busyInputs.end(); ++it) {
+		if ((*it)->uid == i->uid) {
+			Connections::busyInputs.erase(it);
+			return;
+		}
+	}
 }
-void Connections::onOutputConnected(std::shared_ptr<OutputSocket> socket) {
-	PatchCable::onOutputSocketConnected(socket);
+
+static void removeOutputFromAvailable(std::shared_ptr<OutputSocket> out) {
+	for (auto it = Connections::availableOutputs.begin(); it != Connections::availableOutputs.end(); ++it) {
+		if ((*it)->uid == out->uid) {
+			Connections::availableOutputs.erase(it);
+			return;
+		}
+	}
 }
-void Connections::onOutputDisconnected(std::shared_ptr<OutputSocket> socket) {
-	PatchCable::onOutputSocketDisconnected(socket);
+
+// State transitions
+void Connections::setInputAvailable(std::shared_ptr<InputSocket> i) {
+	availableInputs.push_back(i);
+	if (i->state == SocketState::BUSY)
+		removeInputFromBusy(i);
+	i->state = SocketState::AVAILABLE;
 }
-void Connections::setInputAvailable(std::shared_ptr<InputSocket> socket) {
-	InputSocket::setAvailable(socket);
+
+void Connections::setInputBusy(std::shared_ptr<InputSocket> i) {
+	busyInputs.push_back(i);
+	if (i->state == SocketState::AVAILABLE)
+		removeInputFromAvailable(i);
+	i->state = SocketState::BUSY;
 }
-void Connections::setInputBusy(std::shared_ptr<InputSocket> socket) {
-	InputSocket::setBusy(socket);
+
+void Connections::setInputInactive(std::shared_ptr<InputSocket> i) {
+	if (i->state == SocketState::AVAILABLE)
+		removeInputFromAvailable(i);
+	else if (i->state == SocketState::BUSY)
+		removeInputFromBusy(i);
+	i->state = SocketState::INACTIVE;
 }
-void Connections::setInputInactive(std::shared_ptr<InputSocket> socket) {
-	InputSocket::setInactive(socket);
+
+void Connections::setOutputAvailable(std::shared_ptr<OutputSocket> out) {
+	availableOutputs.push_back(out);
+	out->state = SocketState::AVAILABLE;
 }
-void Connections::setOutputAvailable(std::shared_ptr<OutputSocket> socket) {
-	OutputSocket::setAvailable(socket);
+
+void Connections::setOutputInactive(std::shared_ptr<OutputSocket> out) {
+	if (out->state == SocketState::AVAILABLE)
+		removeOutputFromAvailable(out);
+	out->state = SocketState::INACTIVE;
 }
-void Connections::setOutputInactive(std::shared_ptr<OutputSocket> socket) {
-	OutputSocket::setInactive(socket);
-}
+
+// Cable search - checks all available outputs against all available inputs
 void Connections::searchForCablesToAdd() {
-	// Called internally by PatchCable - no external delegation needed
+	if (availableOutputs.empty() || availableInputs.empty())
+		return;
+
+	for (auto out = availableOutputs.begin(); out != availableOutputs.end(); ++out) {
+		for (auto in = availableInputs.begin(); in != availableInputs.end(); ++in) {
+			if (PatchCable::checkConnection(*out, *in)) {
+				// if (out,in) are connected, instantiate a patchcable
+				// post increment the iterator because *in will be removed from available inputs
+				_cables.push_back(std::make_unique<PatchCable>(*out, *(in++)));
+			}
+		}
+	}
+}
+
+// Jack event handlers
+void Connections::onInputConnected(std::shared_ptr<InputSocket> i) {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	SynthDisplay::raw().print("Input connected: ");
+	SynthDisplay::raw().println(i->getName());
+	#endif
+
+	setInputAvailable(i);
+	searchForCablesToAdd();
+}
+
+void Connections::onOutputConnected(std::shared_ptr<OutputSocket> o) {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	SynthDisplay::raw().print("Output connected: ");
+	SynthDisplay::raw().println(o->getName());
+	#endif
+
+	setOutputAvailable(o);
+	searchForCablesToAdd();
+}
+
+void Connections::onInputDisconnected(std::shared_ptr<InputSocket> input) {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	SynthDisplay::raw().print("Input disconnected: ");
+	SynthDisplay::raw().println(input->getName());
+	#endif
+
+	// Find and destroy the cable connected to this input
+	if (!_cables.empty()) {
+		for (auto cable = _cables.begin(); cable != _cables.end(); ++cable) {
+			if ((*cable)->inputSocket->uid == input->uid) {
+				_cables.erase(cable);
+				break;
+			}
+		}
+	}
+
+	setInputInactive(input);
+}
+
+void Connections::onOutputDisconnected(std::shared_ptr<OutputSocket> output) {
+	#if CONFIGURATION__LOGGER__JACK_EVENTS
+	SynthDisplay::raw().print("Output disconnected: ");
+	SynthDisplay::raw().println(output->getName());
+	#endif
+
+	// Find and destroy all cables connected to this output
+	if (!_cables.empty()) {
+		for (auto cable = _cables.begin(); cable != _cables.end();) {
+			if ((*cable)->outputSocket->uid == output->uid) {
+				// Return connected inputs to available state
+				setInputAvailable((*cable)->inputSocket);
+				cable = _cables.erase(cable);
+			} else {
+				++cable;
+			}
+		}
+	}
+
+	setOutputInactive(output);
 }

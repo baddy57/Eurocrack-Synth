@@ -1,22 +1,15 @@
 #include "OutputSocket.h"
 
-#include "InputSocket.h"
-#include "../core/PatchCable.h"
-
-#include <list>
 #include <Audio.h>
-
-/// @brief output sockets that are connected to a patch cable and available for connection
-std::list<std::shared_ptr<OutputSocket>> OutputSocket::availableOutputs;
 
 //ctor mono
 OutputSocket :: OutputSocket (
-	const Address& slotAddress, 
+	const Address& slotAddress,
 	uint_fast8_t id,
 	uint_fast8_t detectorId,
 	AudioStream& as,
 	uint_fast8_t i,
-	const char* n	
+	const char* n
 )
 	:	Socket(slotAddress, detectorId, as, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
@@ -26,7 +19,7 @@ OutputSocket :: OutputSocket (
 
 //ctor poly
 OutputSocket :: OutputSocket (
-	const Address& slotAddress, 
+	const Address& slotAddress,
 	uint_fast8_t id,
 	uint_fast8_t detectorId,
 	AudioStream& as0,
@@ -34,7 +27,7 @@ OutputSocket :: OutputSocket (
 	AudioStream& as2,
 	AudioStream& as3,
 	uint_fast8_t i,
-	const char* n	
+	const char* n
 )
 	:	Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n)
 	,	address(new OutputSocketAddress(slotAddress, id))
@@ -42,7 +35,7 @@ OutputSocket :: OutputSocket (
 	uid = address->_id;
 }
 
-void OutputSocket :: sendSignal() const 
+void OutputSocket :: sendSignal() const
 {
 	resetSignal();
 	address->setForWriting();
@@ -51,34 +44,9 @@ void OutputSocket :: sendSignal() const
 	return;
 }
 
-void OutputSocket :: resetSignal() const 
+void OutputSocket :: resetSignal() const
 {
 	//address.setForWriting(); is already set
-	digitalWrite(WRITE_PIN, HIGH); 
+	digitalWrite(WRITE_PIN, HIGH);
 	return;
-}
-
-void OutputSocket::removeFromAvailable(std::shared_ptr<OutputSocket> out)
-{
-	for (auto o = availableOutputs.begin(), end = availableOutputs.end(); o != end; ++o) {
-		if ((*o)->uid == out->uid) {
-			availableOutputs.erase(o);
-			return;
-		}
-	}
-}
-
-void OutputSocket::setAvailable(std::shared_ptr<OutputSocket> out)
-{
-	availableOutputs.push_back(out);
-
-	out->state = SocketState::AVAILABLE;
-}
-
-void OutputSocket::setInactive(std::shared_ptr<OutputSocket> out) 
-{
-	if(out->state == SocketState::AVAILABLE)
-		removeFromAvailable(out);
-	
-	out->state = SocketState::INACTIVE;
 }

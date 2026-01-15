@@ -62,9 +62,9 @@ private:
 
 	Potentiometer pan_pot;
 	Potentiometer gain_pot;
-	Output left;
-	Output right;
-	Output mono;
+	ModuleOutput left;
+	ModuleOutput right;
+	ModuleOutput mono;
 
 	AudioMixer4* mxr[9];
 

@@ -4,11 +4,11 @@
 #include <cstdint>
 #include <vector>
 
-#include "Address.h"
-#include "Module.h"
-#include "HardwareCfg.h"
+#include "../core/Address.h"
+#include "../core/Module.h"
+#include "../core/HardwareCfg.h"
 
-#include "ModuleTypeIds.h"
+#include "../core/ModuleTypeIds.h"
 #include "../controls/ModuleTypeIdMux.h"
 
 #include "../modules/EmptyModule.h"
@@ -31,7 +31,7 @@
 
 extern const uint_fast8_t MAX_MODULES;
 
-#include "../services/SynthDisplay.h"
+#include "SynthDisplay.h"
 #define tft SynthDisplay::raw()
 
 class ModuleFactory
@@ -158,12 +158,12 @@ public:
 			#if CONFIGURATION__LOGGER__MODULE_FACTORY
 			if (MAX_MODULES > 16 && slotAddress.toInt() % 16 == 15)
 				Serial.printf("---------end of bank %i-------------\n", i);
-			#endif		
+			#endif
 		}
 
 		#if CONFIGURATION__LOGGER__MODULE_FACTORY
 		tft.println("----------------------------------------");
-		#endif	
+		#endif
 	}
 
 	static void logModuleDetected(uint_fast8_t moduleType, String moduleName, const Address &slotAddress)

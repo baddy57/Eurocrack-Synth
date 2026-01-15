@@ -22,8 +22,8 @@ private:
 	Potentiometer _sus_pot3;
 	Potentiometer _dec_pot4;
 	Potentiometer _rel_pot5;
-	Input gateIn;
-	Output out;
+	ModuleInput gateIn;
+	ModuleOutput out;
 
 	AudioEffectEnvelope _envelope;
 	AudioRecordQueue _gate;

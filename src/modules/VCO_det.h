@@ -39,12 +39,12 @@ private:
 		_tri,
 		_saw,
 		_sqr;
-	Input freqCv;
-	Input shapeCv;
-	Output sine;
-	Output triangle;
-	Output sawtooth;
-	Output square;
+	ModuleInput freqCv;
+	ModuleInput shapeCv;
+	ModuleOutput sine;
+	ModuleOutput triangle;
+	ModuleOutput sawtooth;
+	ModuleOutput square;
 	float
 		_freq0,
 		_freq1,

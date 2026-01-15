@@ -14,10 +14,10 @@ private:
 	AudioAmplifier _preamp;
 	AudioInputUSB _usbIn;
 	Potentiometer _micGain;
-	Output lineInL;
-	Output lineInR;
-	Output usbInL;
-	Output usbInR;
+	ModuleOutput lineInL;
+	ModuleOutput lineInR;
+	ModuleOutput usbInL;
+	ModuleOutput usbInR;
 
 public:
 	inline AudioIn(const Address& a)
