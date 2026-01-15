@@ -21,9 +21,9 @@ bool TestReader::readDigital(const Address& slot, uint8_t pinId, TestControlType
 
 	bool raw = digitalRead(READ_PIN);
 
-	// BUTTON and JACK_DETECTOR are active LOW (inverted)
-	// SWITCH reads directly
-	if (type == TestControlType::BUTTON || type == TestControlType::JACK_DETECTOR) {
+	// BUTTON is active LOW (inverted)
+	// SWITCH and JACK_DETECTOR read directly (jack detector inversion handled in display)
+	if (type == TestControlType::BUTTON) {
 		return !raw;
 	}
 

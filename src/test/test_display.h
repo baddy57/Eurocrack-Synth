@@ -23,7 +23,7 @@ public:
 	static void drawDigitalSection(const ModuleTestConfig* config);
 
 	// In-place value updates (no full redraw)
-	static void updateAnalog(uint8_t row, uint16_t raw);
+	static void updateAnalog(uint8_t row, uint16_t raw, const TestControl& ctrl);
 	static void updateDigital(uint8_t row, bool state, TestControlType type);
 
 	static void showError(const char* message);
@@ -42,6 +42,11 @@ private:
 
 	// Column positions
 	static constexpr uint8_t COL_NAME = 4;
-	static constexpr uint8_t COL_PIN = 80;
-	static constexpr uint8_t COL_VALUE = 120;
+	static constexpr uint8_t COL_PIN = 60;
+	static constexpr uint8_t COL_RAW = 90;
+	static constexpr uint8_t COL_PROCESSED = 140;
+	static constexpr uint8_t COL_VALUE = 90;  // For digital section
+
+	// Helper to calculate processed value from raw
+	static float calculateProcessed(uint16_t raw, float minVal, float maxVal);
 };

@@ -14,6 +14,9 @@ struct TestControl {
 	uint8_t pinId;           // Control ID within module (0-63)
 	TestControlType type;
 	float pullupRes;         // For pots: pullup resistor (0 if none)
+	float minValue;          // Processed value range min
+	float maxValue;          // Processed value range max
+	const char* unit;        // Unit label (Hz, ms, etc.) - nullptr for no unit
 };
 
 struct ModuleTestConfig {

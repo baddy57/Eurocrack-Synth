@@ -29,7 +29,7 @@ void TestDisplay::drawAnalogSection(const ModuleTestConfig* config) {
 	// Section header
 	tft.setTextColor(TEST_COLOR_SEPARATOR);
 	tft.setCursor(COL_NAME, ANALOG_HEADER_Y);
-	tft.print("ANALOG       PIN   RAW");
+	tft.print("ANALOG    PIN  RAW   VALUE");
 
 	// Draw labels for each analog control
 	tft.setTextColor(TEST_COLOR_LABEL);
@@ -46,7 +46,7 @@ void TestDisplay::drawDigitalSection(const ModuleTestConfig* config) {
 	// Section header
 	tft.setTextColor(TEST_COLOR_SEPARATOR);
 	tft.setCursor(COL_NAME, DIGITAL_HEADER_Y);
-	tft.print("DIGITAL      PIN   STATE");
+	tft.print("DIGITAL   PIN  STATE");
 
 	// Draw labels for each digital control
 	tft.setTextColor(TEST_COLOR_LABEL);
@@ -59,16 +59,44 @@ void TestDisplay::drawDigitalSection(const ModuleTestConfig* config) {
 	}
 }
 
-void TestDisplay::updateAnalog(uint8_t row, uint16_t raw) {
+float TestDisplay::calculateProcessed(uint16_t raw, float minVal, float maxVal) {
+	// Linear interpolation from 0-1023 to minVal-maxVal
+	float normalized = raw / 1023.0f;
+	return minVal + normalized * (maxVal - minVal);
+}
+
+void TestDisplay::updateAnalog(uint8_t row, uint16_t raw, const TestControl& ctrl) {
 	uint8_t y = ANALOG_START_Y + (row * ROW_HEIGHT);
 
-	// Clear value area
-	tft.fillRect(COL_VALUE, y, 60, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+	// Clear raw and processed value areas
+	tft.fillRect(COL_RAW, y, 45, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+	tft.fillRect(COL_PROCESSED, y, 180, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
 
-	// Draw new value with appropriate color
-	tft.setCursor(COL_VALUE, y);
+	// Draw raw value with color coding
+	tft.setCursor(COL_RAW, y);
 	tft.setTextColor(getAnalogColor(raw));
 	tft.print(raw);
+
+	// Draw processed value
+	tft.setCursor(COL_PROCESSED, y);
+	tft.setTextColor(TEST_COLOR_LABEL);
+
+	float processed = calculateProcessed(raw, ctrl.minValue, ctrl.maxValue);
+
+	// Format based on range - use fewer decimals for large ranges
+	if (ctrl.maxValue - ctrl.minValue > 100) {
+		tft.print((int)processed);
+	} else if (ctrl.maxValue - ctrl.minValue > 10) {
+		tft.print(processed, 1);
+	} else {
+		tft.print(processed, 2);
+	}
+
+	// Add unit if specified
+	if (ctrl.unit != nullptr) {
+		tft.print(" ");
+		tft.print(ctrl.unit);
+	}
 }
 
 void TestDisplay::updateDigital(uint8_t row, bool state, TestControlType type) {

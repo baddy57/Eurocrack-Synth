@@ -80,7 +80,7 @@ void TestMode::pollAnalogControls() {
 	for (uint8_t i = 0; i < _config->numAnalog; ++i) {
 		const TestControl& ctrl = _config->analogControls[i];
 		uint16_t raw = TestReader::readAnalog(_currentSlot, ctrl.pinId);
-		TestDisplay::updateAnalog(i, raw);
+		TestDisplay::updateAnalog(i, raw, ctrl);
 	}
 }
 
