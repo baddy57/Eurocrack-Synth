@@ -49,21 +49,36 @@ public:
 			return;
 		}
 
-		// Get test controls from the module
+		// Get test controls from the module and separate them
+		std::vector<TestControlInfo> allDigital;
 		_analogControls.clear();
+		allDigital.clear();
 		_digitalControls.clear();
-		_module->getTestControls(_analogControls, _digitalControls);
+		_jackDetectors.clear();
+
+		_module->getTestControls(_analogControls, allDigital);
+
+		// Separate digital controls from jack detectors
+		for (const auto& ctrl : allDigital) {
+			if (ctrl.type == TestControlType::JACK_DETECTOR) {
+				_jackDetectors.push_back(ctrl);
+			} else {
+				_digitalControls.push_back(ctrl);
+			}
+		}
 
 		// Draw static UI
 		TestDisplay::drawHeader(_module->getModuleName(), _currentSlot.toInt(), _module->getModuleTypeId());
 		TestDisplay::drawAnalogSection(_analogControls);
 		TestDisplay::drawDigitalSection(_digitalControls);
+		TestDisplay::drawJackDetectorSection(_jackDetectors);
 
 		_lastUpdate = millis();
 
 		// Initial poll to show current values
 		pollAnalogControls();
 		pollDigitalControls();
+		pollJackDetectors();
 	}
 
 	// Main loop update - polls controls and updates display
@@ -76,6 +91,7 @@ public:
 
 		pollAnalogControls();
 		pollDigitalControls();
+		pollJackDetectors();
 	}
 
 private:
@@ -84,6 +100,7 @@ private:
 	static inline uint8_t _detectedTypeId = 0;
 	static inline std::vector<TestControlInfo> _analogControls;
 	static inline std::vector<TestControlInfo> _digitalControls;
+	static inline std::vector<TestControlInfo> _jackDetectors;
 	static inline uint32_t _lastUpdate = 0;
 
 	// Update rate (20 Hz = 50ms interval)
@@ -149,6 +166,16 @@ private:
 			const TestControlInfo& ctrl = _digitalControls[i];
 			bool state = TestReader::readDigital(_currentSlot, ctrl.pinId, ctrl.type);
 			TestDisplay::updateDigital(i, state, ctrl.type);
+		}
+	}
+
+	static inline void pollJackDetectors() {
+		if (_jackDetectors.empty()) return;
+
+		for (uint8_t i = 0; i < _jackDetectors.size(); ++i) {
+			const TestControlInfo& ctrl = _jackDetectors[i];
+			bool state = TestReader::readDigital(_currentSlot, ctrl.pinId, ctrl.type);
+			TestDisplay::updateJackDetector(i, state);
 		}
 	}
 };

@@ -83,6 +83,25 @@ public:
 		}
 	}
 
+	static inline void drawJackDetectorSection(const std::vector<TestControlInfo>& controls) {
+		if (controls.empty()) return;
+
+		// Section header
+		tft.setTextColor(TEST_COLOR_SEPARATOR);
+		tft.setCursor(COL_NAME, JACK_HEADER_Y);
+		tft.print("JACKS      PIN  DETECT");
+
+		// Draw labels for each jack detector
+		tft.setTextColor(TEST_COLOR_LABEL);
+		for (uint8_t i = 0; i < controls.size(); ++i) {
+			uint8_t y = JACK_START_Y + (i * ROW_HEIGHT);
+			tft.setCursor(COL_NAME, y);
+			tft.print(controls[i].name);
+			tft.setCursor(COL_PIN, y);
+			tft.print(controls[i].pinId);
+		}
+	}
+
 	// In-place value updates (no full redraw)
 	static inline void updateAnalog(uint8_t row, uint16_t raw, Potentiometer* pot) {
 		uint8_t y = ANALOG_START_Y + (row * ROW_HEIGHT);
@@ -121,23 +140,31 @@ public:
 		// Draw state with appropriate color and label
 		tft.setCursor(COL_VALUE, y);
 
-		if (type == TestControlType::JACK_DETECTOR) {
-			if (state) {
-				tft.setTextColor(TEST_COLOR_JACK_PRESENT);
-				tft.print("[JACK]");
-			} else {
-				tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
-				tft.print("[----]");
-			}
+		// BUTTON, SWITCH, or SELECTOR_MULTI
+		if (state) {
+			tft.setTextColor(TEST_COLOR_DIGITAL_ON);
+			tft.print("[ ON ]");
 		} else {
-			// BUTTON, SWITCH, or SELECTOR_MULTI
-			if (state) {
-				tft.setTextColor(TEST_COLOR_DIGITAL_ON);
-				tft.print("[ ON ]");
-			} else {
-				tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
-				tft.print("[OFF ]");
-			}
+			tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
+			tft.print("[OFF ]");
+		}
+	}
+
+	static inline void updateJackDetector(uint8_t row, bool state) {
+		uint8_t y = JACK_START_Y + (row * ROW_HEIGHT);
+
+		// Clear state area
+		tft.fillRect(COL_VALUE, y, 60, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+
+		// Draw state
+		tft.setCursor(COL_VALUE, y);
+
+		if (state) {
+			tft.setTextColor(TEST_COLOR_JACK_PRESENT);
+			tft.print("[JACK]");
+		} else {
+			tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
+			tft.print("[----]");
 		}
 	}
 
@@ -161,6 +188,8 @@ private:
 	static constexpr uint8_t ANALOG_START_Y = 52;
 	static constexpr uint8_t DIGITAL_HEADER_Y = 140;
 	static constexpr uint8_t DIGITAL_START_Y = 156;
+	static constexpr uint8_t JACK_HEADER_Y = 200;
+	static constexpr uint8_t JACK_START_Y = 216;
 	static constexpr uint8_t ROW_HEIGHT = 12;
 
 	// Column positions
