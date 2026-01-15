@@ -14,6 +14,9 @@ private:
 	Switch _bypass;
 	AudioAmplifier _pre, _post;
 
+	ModuleOutput out;
+	ModuleInput in;
+
 public:
 	Distortion_amp() = delete;
 
@@ -21,12 +24,9 @@ public:
 		: Module(a)
 		, _gain_pot0(a, Distortion_amp_pins::POT0, 4700)
 		, _bypass(a, Distortion_amp_pins::BYPASS_SW)
+		, out(a, Distortion_amp_pins::OUT, Distortion_amp_pins::OUT_D, _post, 0, "Distortion_amp OUT")
+		, in(a, Distortion_amp_pins::IN, Distortion_amp_pins::IN_D, _pre, 0, "Distortion_amp IN")
 	{
-		using namespace Distortion_amp_pins;
-
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT, OUT_D, _post, 0, "Distortion_amp OUT"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, IN, IN_D, _pre, 0, "Distortion_amp IN"));
-
 		internalConns.push_back(new AudioConnection(_pre, 0, _post, 0));
 
 		_gain_pot0.setRange(0, 1, EXP);

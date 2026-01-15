@@ -15,6 +15,9 @@ private:
 	Switch _bypass;
 	AudioEffectFreeverb _rev;
 
+	ModuleOutput out;
+	ModuleInput in;
+
 public:
 	Reverb() = delete;
 
@@ -23,12 +26,9 @@ public:
 		, _roomsize_pot0(a, Reverb_pins::POT0)
 		, _damping_pot1(a, Reverb_pins::POT1)
 		, _bypass(a, Reverb_pins::BYPASS_SW)
+		, out(a, Reverb_pins::OUT, Reverb_pins::OUT_D, _rev, 0, "REVERB OUT")
+		, in(a, Reverb_pins::IN, Reverb_pins::IN_D, _rev, 0, "REVERB IN")
 	{
-		using namespace Reverb_pins;
-
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT, OUT_D, _rev, 0, "REVERB OUT"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, IN, IN_D, _rev, 0, "REVERB IN"));
-
 		_roomsize_pot0.setRange(0, 1, LIN);
 		_damping_pot1.setRange(0, 1, LIN);
 	}

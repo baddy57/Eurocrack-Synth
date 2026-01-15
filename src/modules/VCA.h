@@ -12,12 +12,17 @@ class VCA : public Module {
 private:
 	AudioEffectMultiply _amp0, _amp1;
 
+	ModuleOutput out1;
+	ModuleInput in1;
+	ModuleInput cv1;
+
 public:
-	inline VCA(const Address& a) : Module(a) {
-		using namespace VCA_pins;
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT1, OUT1_D, _amp1, 0, "VCA_1_out"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, IN1, IN1_D, _amp1, 0, "VCA_1_in"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CV1, CV1_D, _amp1, 1, "VCA_1_cv"));
+	inline VCA(const Address& a)
+		: Module(a)
+		, out1(a, VCA_pins::OUT1, VCA_pins::OUT1_D, _amp1, 0, "VCA_1_out")
+		, in1(a, VCA_pins::IN1, VCA_pins::IN1_D, _amp1, 0, "VCA_1_in")
+		, cv1(a, VCA_pins::CV1, VCA_pins::CV1_D, _amp1, 1, "VCA_1_cv")
+	{
 	}
 
 	inline void updateValues() override {

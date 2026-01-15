@@ -16,18 +16,18 @@ protected:
 	Potentiometer pot0;
 	AudioEffectDelay delay;
 
+	ModuleInput in;
+	ModuleOutput out;
+
 public:
 	Delay_single() = delete;
 
 	inline Delay_single(const Address& a)
 		: Module(a)
 		, pot0(a, Delay_single_pins::POT0, 4700)
+		, in(a, Delay_single_pins::IN0, Delay_single_pins::IN0_D, delay, 0, "delay")
+		, out(a, Delay_single_pins::OUT0, Delay_single_pins::OUT0_D, delay, 0, "delay")
 	{
-		using namespace Delay_single_pins;
-
-		inputSockets.push_back(std::make_shared<InputSocket>(a, IN0, IN0_D, delay, 0, "delay"));
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT0, OUT0_D, delay, 0, "delay"));
-
 		delay.disable(1);
 		delay.disable(2);
 		delay.disable(3);

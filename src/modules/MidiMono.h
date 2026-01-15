@@ -20,6 +20,10 @@ private:
 	midi::SerialMIDI<HardwareSerial> serialTransport;
 	midi::MidiInterface<midi::SerialMIDI<HardwareSerial>> midiHardware;
 
+	ModuleOutput gateOut;
+	ModuleOutput cvOut;
+	ModuleOutput velOut;
+
 public:
 	MidiMono() = delete;
 
@@ -35,13 +39,10 @@ public:
 		, chminus_btn1(a, MidiMono_pins::CHMINUS)
 		, serialTransport(Serial1)
 		, midiHardware(serialTransport)
+		, gateOut(a, MidiMono_pins::GATE, MidiMono_pins::GATE_D, _gate, 0, "midi gate")
+		, cvOut(a, MidiMono_pins::CV, MidiMono_pins::CV_D, _cv, 0, "midi cv")
+		, velOut(a, MidiMono_pins::VEL, MidiMono_pins::VEL_D, _vel, 0, "midi vel")
 	{
-		using namespace MidiMono_pins;
-
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, GATE, GATE_D, _gate, 0, "midi gate"));
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, CV, CV_D, _cv, 0, "midi cv"));
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, VEL, VEL_D, _vel, 0, "midi vel"));
-
 		_channel = 1;
 
 		midiHardware.setHandleNoteOn(handleNoteOn);

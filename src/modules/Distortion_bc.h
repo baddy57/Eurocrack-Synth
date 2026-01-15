@@ -16,6 +16,9 @@ private:
 	Switch _bypass;
 	AudioEffectBitcrusher _dist;
 
+	ModuleOutput out;
+	ModuleInput in;
+
 public:
 	Distortion_bc() = delete;
 
@@ -24,12 +27,9 @@ public:
 		, _bits_pot0(a, Distortion_bc_pins::POT0, 4700)
 		, _sampleRate_pot1(a, Distortion_bc_pins::POT1, 4700)
 		, _bypass(a, Distortion_bc_pins::BYPASS_SW)
+		, out(a, Distortion_bc_pins::OUT, Distortion_bc_pins::OUT_D, _dist, 0, "Distortion_bc OUT")
+		, in(a, Distortion_bc_pins::IN, Distortion_bc_pins::IN_D, _dist, 0, "Distortion_bc IN")
 	{
-		using namespace Distortion_bc_pins;
-
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT, OUT_D, _dist, 0, "Distortion_bc OUT"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, IN, IN_D, _dist, 0, "Distortion_bc IN"));
-
 		_bits_pot0.setRange(16, 1, LIN);
 		_sampleRate_pot1.setRange(44100, 1, EXP);
 	}

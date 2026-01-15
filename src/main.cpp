@@ -21,7 +21,7 @@
 #include "core/Address.h"
 #include "core/PatchCable.h"
 #include "core/HardwareCfg.h"
-#include "core/ModuleFactory.h"
+#include "services/ModuleFactory.h"
 #include "services/SynthDisplay.h"
 #include "services/Modules.h"
 #include "services/Connections.h"

@@ -18,6 +18,11 @@ private:
 
 	AudioMixer4 _channels0_3, _channels4_7, _mono_out;
 
+	ModuleOutput outMono;
+	ModuleOutput outStereoL;
+	ModuleOutput outStereoR;
+	ModuleInput ch0, ch1, ch2, ch3, ch4, ch5, ch6, ch7;
+
 public:
 	Mixer8() = delete;
 
@@ -31,22 +36,18 @@ public:
 		, _gain_pot5(a, Mixer8_pins::GAIN5, 4700.f)
 		, _gain_pot6(a, Mixer8_pins::GAIN6, 4700.f)
 		, _gain_pot7(a, Mixer8_pins::GAIN7, 4700.f)
+		, outMono(a, Mixer8_pins::OUT_MONO, Mixer8_pins::OUT_MONO_D, _mono_out, 0, "MIXR_OUT_MONO")
+		, outStereoL(a, Mixer8_pins::OUT_STEREO_L, Mixer8_pins::OUT_STEREO_L_D, _channels0_3, 0, "MIXR_OUT_L")
+		, outStereoR(a, Mixer8_pins::OUT_STEREO_R, Mixer8_pins::OUT_STEREO_R_D, _channels4_7, 0, "MIXR_OUT_R")
+		, ch0(a, Mixer8_pins::CH0, Mixer8_pins::CH0_D, _channels0_3, 0, "CH0")
+		, ch1(a, Mixer8_pins::CH1, Mixer8_pins::CH1_D, _channels0_3, 1, "CH1")
+		, ch2(a, Mixer8_pins::CH2, Mixer8_pins::CH2_D, _channels0_3, 2, "CH2")
+		, ch3(a, Mixer8_pins::CH3, Mixer8_pins::CH3_D, _channels0_3, 3, "CH3")
+		, ch4(a, Mixer8_pins::CH4, Mixer8_pins::CH4_D, _channels4_7, 0, "CH4")
+		, ch5(a, Mixer8_pins::CH5, Mixer8_pins::CH5_D, _channels4_7, 1, "CH5")
+		, ch6(a, Mixer8_pins::CH6, Mixer8_pins::CH6_D, _channels4_7, 2, "CH6")
+		, ch7(a, Mixer8_pins::CH7, Mixer8_pins::CH7_D, _channels4_7, 3, "CH7")
 	{
-		using namespace Mixer8_pins;
-
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_MONO, OUT_MONO_D, _mono_out, 0, "MIXR_OUT_MONO"));
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_STEREO_L, OUT_STEREO_L_D, _channels0_3, 0, "MIXR_OUT_L"));
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT_STEREO_R, OUT_STEREO_R_D, _channels4_7, 0, "MIXR_OUT_R"));
-
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH0, CH0_D, _channels0_3, 0, "CH0"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH1, CH1_D, _channels0_3, 1, "CH1"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH2, CH2_D, _channels0_3, 2, "CH2"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH3, CH3_D, _channels0_3, 3, "CH3"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH4, CH4_D, _channels4_7, 0, "CH4"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH5, CH5_D, _channels4_7, 1, "CH5"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH6, CH6_D, _channels4_7, 2, "CH6"));
-		inputSockets.push_back(std::make_shared<InputSocket>(a, CH7, CH7_D, _channels4_7, 3, "CH7"));
-
 		internalConns.push_back(new AudioConnection(_channels0_3, 0, _mono_out, 0));
 		internalConns.push_back(new AudioConnection(_channels4_7, 0, _mono_out, 1));
 

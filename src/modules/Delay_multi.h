@@ -18,6 +18,9 @@ protected:
 	AudioEffectDelay delay;
 	AudioMixer4 intmixer0, intmixer1, outmix;
 
+	ModuleInput in;
+	ModuleOutput out;
+
 public:
 	Delay_multi() = delete;
 
@@ -25,11 +28,9 @@ public:
 		: Module(a)
 		, pot0(a, Delay_multi_pins::POT0, 4700)
 		, pot1(a, Delay_multi_pins::POT1, 4700)
+		, in(a, Delay_multi_pins::IN0, Delay_multi_pins::IN0_D, delay, 0, "delay")
+		, out(a, Delay_multi_pins::OUT0, Delay_multi_pins::OUT0_D, outmix, 0, "delay")
 	{
-		using namespace Delay_multi_pins;
-
-		inputSockets.push_back(std::make_shared<InputSocket>(a, IN0, IN0_D, delay, 0, "delay"));
-
 		internalConns.push_back(new AudioConnection(delay, 0, intmixer0, 0));
 		internalConns.push_back(new AudioConnection(delay, 1, intmixer0, 1));
 		internalConns.push_back(new AudioConnection(delay, 2, intmixer0, 2));
@@ -40,8 +41,6 @@ public:
 		internalConns.push_back(new AudioConnection(delay, 7, intmixer1, 3));
 		internalConns.push_back(new AudioConnection(intmixer0, 0, outmix, 0));
 		internalConns.push_back(new AudioConnection(intmixer1, 0, outmix, 1));
-
-		outputSockets.push_back(std::make_shared<OutputSocket>(a, OUT0, OUT0_D, outmix, 0, "delay"));
 
 		intmixer0.gain(0, 0.64);
 		intmixer0.gain(1, 0.32);

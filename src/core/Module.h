@@ -24,6 +24,7 @@
 #include "../services/SynthDisplay.h"
 #include "ModuleInput.h"
 #include "ModuleOutput.h"
+
 #define tft SynthDisplay::raw()
 
 class Module{
@@ -34,7 +35,7 @@ class Module{
 		std :: vector <AudioConnection*> internalConns;
 		bool verbose;
 	public:
-		Module(const Address&);
+		inline Module(const Address& address): moduleAddress(address), verbose(false){};
 
 		virtual void updateValues()=0;
 };
