@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/Module.h"
+#include "../services/SynthAudio.h"
 
 namespace AudioIn_pins {
 	enum inputs { MIC_GAIN=16, MIC_IN_D, SW, LINE_IN_L_D, LINE_IN_R_D, USB_IN_L_D, USB_IN_R_D=23 };
@@ -27,8 +28,8 @@ public:
 		, usbInL(a, AudioIn_pins::USB_IN_L, AudioIn_pins::USB_IN_L_D, _usbIn, 0, "USB_IN_L")
 		, usbInR(a, AudioIn_pins::USB_IN_R, AudioIn_pins::USB_IN_R_D, _usbIn, 1, "USB_IN_R")
 	{
-		_audioCtrl.adcHighPassFilterDisable();
-		_audioCtrl.lineInLevel(1);
+		SynthAudio::codec.adcHighPassFilterDisable();
+		SynthAudio::codec.lineInLevel(1);
 		internalConns.push_back(new AudioConnection(_lineIn, 0, _preamp, 0));
 		_preamp.gain(10);
 		_micGain.setRange(0, 1, EXP);

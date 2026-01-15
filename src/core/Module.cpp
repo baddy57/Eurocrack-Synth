@@ -7,11 +7,8 @@ std::vector<std::shared_ptr<InputSocket>> Module::inputSockets;
 
 std::vector<std::shared_ptr<OutputSocket>> Module::outputSockets;
 
-AudioControlSGTL5000 Module::_audioCtrl;
-
 //ctor
 Module :: Module(const Address& address) : moduleAddress(address), verbose(false){
-	//_audioCtrl.enable();
 }
 
 //ok
