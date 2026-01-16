@@ -63,12 +63,15 @@ public:
 		analog.push_back(TestControlInfo::createAnalog("FREQ", _freq_pot0.getPinId(), &_freq_pot0));
 		analog.push_back(TestControlInfo::createAnalog("RESO", _res_pot1.getPinId(), &_res_pot1));
 		analog.push_back(TestControlInfo::createAnalog("OCTAVE", _oct_pot2.getPinId(), &_oct_pot2));
+		// Jack detectors are shown in socket section
+	}
 
-		digital.push_back(TestControlInfo::createDigital("IN_JK", VCF_pins::SIG_IN_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CV_JK", VCF_pins::FREQ_CV_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("HPF_JK", VCF_pins::HPF_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("BPF_JK", VCF_pins::BPF_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("LPF_JK", VCF_pins::LPF_D, TestControlType::JACK_DETECTOR));
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in.base));
+		sockets.push_back(TestSocketInfo::createInput(cv.base));
+		sockets.push_back(TestSocketInfo::createOutput(lpf.base));
+		sockets.push_back(TestSocketInfo::createOutput(bpf.base));
+		sockets.push_back(TestSocketInfo::createOutput(hpf.base));
 	}
 	#endif
 };

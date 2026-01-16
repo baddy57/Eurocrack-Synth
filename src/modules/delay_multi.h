@@ -80,5 +80,10 @@ public:
 	{
 		analog.push_back(TestControlInfo::createAnalog("TIME", pot0.getPinId(), &pot0));
 	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
+	}
 	#endif
 };

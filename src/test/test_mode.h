@@ -50,35 +50,26 @@ public:
 		}
 
 		// Get test controls from the module and separate them
-		std::vector<TestControlInfo> allDigital;
 		_analogControls.clear();
-		allDigital.clear();
 		_digitalControls.clear();
-		_jackDetectors.clear();
+		_sockets.clear();
 
-		_module->getTestControls(_analogControls, allDigital);
-
-		// Separate digital controls from jack detectors
-		for (const auto& ctrl : allDigital) {
-			if (ctrl.type == TestControlType::JACK_DETECTOR) {
-				_jackDetectors.push_back(ctrl);
-			} else {
-				_digitalControls.push_back(ctrl);
-			}
-		}
+		_module->getTestControls(_analogControls, _digitalControls);
+		_module->getTestSockets(_sockets);
 
 		// Draw static UI
 		TestDisplay::drawHeader(_module->getModuleName(), _currentSlot.toInt(), _module->getModuleTypeId());
 		TestDisplay::drawAnalogSection(_analogControls);
 		TestDisplay::drawDigitalSection(_digitalControls);
-		TestDisplay::drawJackDetectorSection(_jackDetectors);
+		TestDisplay::drawSocketSection(_sockets);
 
 		_lastUpdate = millis();
+		_lastSocketToggle = millis();
 
 		// Initial poll to show current values
 		pollAnalogControls();
 		pollDigitalControls();
-		pollJackDetectors();
+		pollSockets();
 	}
 
 	// Main loop update - polls controls and updates display
@@ -91,7 +82,7 @@ public:
 
 		pollAnalogControls();
 		pollDigitalControls();
-		pollJackDetectors();
+		pollSockets();
 	}
 
 private:
@@ -100,11 +91,15 @@ private:
 	static inline uint8_t _detectedTypeId = 0;
 	static inline std::vector<TestControlInfo> _analogControls;
 	static inline std::vector<TestControlInfo> _digitalControls;
-	static inline std::vector<TestControlInfo> _jackDetectors;
+	static inline std::vector<TestSocketInfo> _sockets;
 	static inline uint32_t _lastUpdate = 0;
+	static inline uint32_t _lastSocketToggle = 0;
+	static inline bool _outputSignalState = false;
 
 	// Update rate (20 Hz = 50ms interval)
 	static constexpr uint32_t UPDATE_INTERVAL_MS = 50;
+	// Socket toggle rate (every 5 seconds)
+	static constexpr uint32_t SOCKET_TOGGLE_INTERVAL_MS = 5000;
 
 	// Helper to create module by type ID
 	static inline Module* createModuleByType(uint8_t typeId, const Address& addr) {
@@ -169,13 +164,46 @@ private:
 		}
 	}
 
-	static inline void pollJackDetectors() {
-		if (_jackDetectors.empty()) return;
+	static inline void pollSockets() {
+		if (_sockets.empty()) return;
 
-		for (uint8_t i = 0; i < _jackDetectors.size(); ++i) {
-			const TestControlInfo& ctrl = _jackDetectors[i];
+		//poll jack detectors
+		for (uint8_t i = 0; i < _sockets.size(); ++i) {
+			const TestControlInfo& ctrl = _sockets[i].detector;
 			bool state = TestReader::readDigital(_currentSlot, ctrl.pinId, ctrl.type);
 			TestDisplay::updateJackDetector(i, state);
+		}
+
+		uint32_t now = millis();
+
+		// Toggle output sockets every 5 seconds
+		if (now - _lastSocketToggle >= SOCKET_TOGGLE_INTERVAL_MS) {
+			_lastSocketToggle = now;
+			_outputSignalState = !_outputSignalState;
+
+			// Toggle all output sockets
+			for (const auto& socket : _sockets) {
+				if (socket.isOutput && socket.outputSocket) {
+					if (_outputSignalState) {
+						socket.outputSocket->sendSignal();
+					} else {
+						socket.outputSocket->resetSignal();
+					}
+				}
+			}
+		}
+
+		// Update display for all sockets
+		for (uint8_t i = 0; i < _sockets.size(); ++i) {
+			const TestSocketInfo& socket = _sockets[i];
+			if (socket.isOutput) {
+				// Output socket - show TX when signal is being sent
+				TestDisplay::updateJackSending(i, _outputSignalState);
+			} else if (socket.inputSocket) {
+				// Input socket - check if receiving
+				bool receiving = socket.inputSocket->isReceiving();
+				TestDisplay::updateJackReceiving(i, receiving);
+			}
 		}
 	}
 };

@@ -4,6 +4,8 @@
 
 class OutputSocket : public Socket
 {
+	friend class TestDisplay;
+
 protected:
 	OutputSocketAddress* address;
 

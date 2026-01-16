@@ -5,6 +5,9 @@
 /// @brief an input socket that can receive audio signals
 
 class InputSocket : public Socket {
+
+	friend class TestDisplay;
+
 protected:
 	ControlAddress* address;
 

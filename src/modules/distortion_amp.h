@@ -59,8 +59,12 @@ public:
 	{
 		analog.push_back(TestControlInfo::createAnalog("GAIN", Distortion_amp_pins::POT0, &_gain_pot0));
 		digital.push_back(TestControlInfo::createDigital("BYPASS_SW", Distortion_amp_pins::BYPASS_SW, TestControlType::SWITCH));
-		digital.push_back(TestControlInfo::createDigital("IN_JK", Distortion_amp_pins::IN_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT_JK", Distortion_amp_pins::OUT_D, TestControlType::JACK_DETECTOR));
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
 	}
 #endif
 };

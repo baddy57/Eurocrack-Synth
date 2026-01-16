@@ -166,5 +166,10 @@ public:
 	{
 		//todo
 	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
+	}
 	#endif
 };

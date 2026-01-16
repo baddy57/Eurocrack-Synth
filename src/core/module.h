@@ -51,6 +51,9 @@ class Module{
 		virtual void getTestControls(
 			std::vector<TestControlInfo>& analog,
 			std::vector<TestControlInfo>& digital) = 0;
+
+		// Test mode support - modules override to provide their socket info
+		virtual void getTestSockets(std::vector<TestSocketInfo>& sockets) {}
 		#endif
 
 		const Address& getAddress() const { return moduleAddress; }

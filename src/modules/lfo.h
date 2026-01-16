@@ -73,13 +73,16 @@ public:
 		std::vector<TestControlInfo>& digital) override
 	{
 		// analog.push_back(TestControlInfo::createAnalog("WAVE", waveShapeSel.getPinId(), TestControlType::SELECTOR_MULTI, &waveShapeSel)); //todo
-		
+
 		analog.push_back(TestControlInfo::createAnalog("FREQ", freqPot.getPinId(), &freqPot));
 		analog.push_back(TestControlInfo::createAnalog("CV_AMT", cvPot.getPinId(), &cvPot));
+		// Jack detectors are shown in socket section
+	}
 
-		digital.push_back(TestControlInfo::createDigital("CV_JK", LFO_pins::CV_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("SYNC_JK", LFO_pins::SYNC_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT_JK", LFO_pins::OUT_D, TestControlType::JACK_DETECTOR));
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(syncIn.base));
+		sockets.push_back(TestSocketInfo::createInput(cvIn.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
 	}
 	#endif
 };

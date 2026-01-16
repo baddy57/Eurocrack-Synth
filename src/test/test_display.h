@@ -21,6 +21,9 @@
 
 #define tft SynthDisplay::raw()
 
+#include "../controls/output_socket.h"
+#include "../controls/input_socket.h"
+
 class TestDisplay {
 	
 	private:
@@ -29,10 +32,10 @@ class TestDisplay {
 	static constexpr uint8_t INFO_Y = 16;
 	static constexpr uint8_t ANALOG_HEADER_Y = 36;
 	static constexpr uint8_t ANALOG_START_Y = 52;
-	static uint8_t DIGITAL_HEADER_Y;
-	static uint8_t DIGITAL_START_Y;
-	static uint8_t JACK_HEADER_Y;
-	static uint8_t JACK_START_Y;
+	inline static uint8_t DIGITAL_HEADER_Y;
+	inline static uint8_t DIGITAL_START_Y;
+	inline static uint8_t SOCKET_HEADER_Y;
+	inline static uint8_t SOCKET_START_Y;
 	static constexpr uint8_t ROW_HEIGHT = 12;
 	
 	// Column positions
@@ -41,6 +44,7 @@ class TestDisplay {
 	static constexpr uint8_t COL_RAW = 100;
 	static constexpr uint8_t COL_COMPUTED = 140;
 	static constexpr uint8_t COL_VALUE = 100;  // For digital section
+	static constexpr uint8_t COL_DETECTOR = 112;  
 	
 	public:
 	static inline void init() {
@@ -91,15 +95,15 @@ class TestDisplay {
 			tft.print(controls[i].pot->read());
 		}
 
-		DIGITAL_HEADER_Y = ANALOG_START_Y + (controls.size() * ROW_HEIGHT) + 20;
+		DIGITAL_HEADER_Y = ANALOG_START_Y + (controls.size() * ROW_HEIGHT) + 10;
 		DIGITAL_START_Y = DIGITAL_HEADER_Y + ROW_HEIGHT + 4;
 	}
 
 	static inline void drawDigitalSection(const std::vector<TestControlInfo>& controls) {
 
 		if(controls.empty()) {
-			JACK_HEADER_Y = DIGITAL_HEADER_Y;
-			JACK_START_Y = DIGITAL_START_Y;
+			SOCKET_HEADER_Y = DIGITAL_HEADER_Y;
+			SOCKET_START_Y = DIGITAL_START_Y;
 			return;
 		}
 
@@ -117,25 +121,34 @@ class TestDisplay {
 			tft.setCursor(COL_PIN, y);
 			tft.print(controls[i].pinId);
 		}
+
+		SOCKET_HEADER_Y = DIGITAL_START_Y + (controls.size() * ROW_HEIGHT) + 10;
+		SOCKET_START_Y = SOCKET_HEADER_Y + ROW_HEIGHT + 4;
 	}
 
-	static inline void drawJackDetectorSection(const std::vector<TestControlInfo>& controls) {
-		if (controls.empty())
+	static inline void drawSocketSection(const std::vector<TestSocketInfo>& sockets) {
+		if (sockets.empty())
 			return;
 
 		// Section header
 		tft.setTextColor(TEST_COLOR_SEPARATOR);
-		tft.setCursor(COL_NAME, JACK_HEADER_Y);
-		tft.print("JACKS      PIN  DETECT  DATA");
+		tft.setCursor(COL_NAME, SOCKET_HEADER_Y);
+		tft.print("JACKS      PIN(D) DETECT  DATA");
 
 		// Draw labels for each jack detector
 		tft.setTextColor(TEST_COLOR_LABEL);
-		for (uint8_t i = 0; i < controls.size(); ++i) {
-			uint8_t y = JACK_START_Y + (i * ROW_HEIGHT);
+		for (uint8_t i = 0; i < sockets.size(); ++i) {
+
+			auto s = sockets[i];
+
+			uint8_t y = SOCKET_START_Y + (i * ROW_HEIGHT);
 			tft.setCursor(COL_NAME, y);
-			tft.print(controls[i].name);
+			tft.print(sockets[i].name);
 			tft.setCursor(COL_PIN, y);
-			tft.print(controls[i].pinId);
+			tft.print(s.isOutput ? sockets[i].outputSocket->address->getPin() : sockets[i].inputSocket->address->getPin());
+			tft.print('(');
+			tft.print(sockets[i].detector.pinId);
+			tft.print(')');
 		}
 	}
 
@@ -188,13 +201,13 @@ class TestDisplay {
 	}
 
 	static inline void updateJackDetector(uint8_t row, bool state) {
-		uint8_t y = JACK_START_Y + (row * ROW_HEIGHT);
+		uint8_t y = SOCKET_START_Y + (row * ROW_HEIGHT);
 
 		// Clear state area
-		tft.fillRect(COL_VALUE, y, 60, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+		tft.fillRect(COL_DETECTOR, y, 60, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
 
 		// Draw state
-		tft.setCursor(COL_VALUE, y);
+		tft.setCursor(COL_DETECTOR, y);
 
 		if (state) {
 			tft.setTextColor(TEST_COLOR_JACK_PRESENT);
@@ -206,13 +219,13 @@ class TestDisplay {
 	}
 
 	static inline void updateJackReceiving(uint8_t row, bool receiving) {
-		uint8_t y = JACK_START_Y + (row * ROW_HEIGHT);
+		uint8_t y = SOCKET_START_Y + (row * ROW_HEIGHT);
 
 		// Clear receiving area
-		tft.fillRect(COL_VALUE + 70, y, 80, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+		tft.fillRect(COL_VALUE + 60, y, 80, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
 
 		// Draw receiving state
-		tft.setCursor(COL_VALUE + 70, y);
+		tft.setCursor(COL_VALUE + 60, y);
 
 		if (receiving) {
 			tft.setTextColor(TEST_COLOR_JACK_PRESENT);
@@ -224,13 +237,13 @@ class TestDisplay {
 	}
 
 	static inline void updateJackSending(uint8_t row, bool sending) {
-		uint8_t y = JACK_START_Y + (row * ROW_HEIGHT);
+		uint8_t y = SOCKET_START_Y + (row * ROW_HEIGHT);
 
 		// Clear sending area
-		tft.fillRect(COL_VALUE + 70, y, 80, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+		tft.fillRect(COL_VALUE + 60, y, 80, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
 
 		// Draw sending state
-		tft.setCursor(COL_VALUE + 70, y);
+		tft.setCursor(COL_VALUE + 60, y);
 
 		if (sending) {
 			tft.setTextColor(TEST_COLOR_JACK_PRESENT);

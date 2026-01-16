@@ -103,18 +103,21 @@ public:
 		analog.push_back(TestControlInfo::createAnalog("GAIN6", _gain_pot6.getPinId(), &_gain_pot6));
 		analog.push_back(TestControlInfo::createAnalog("GAIN7", _gain_pot7.getPinId(), &_gain_pot7));
 
-		digital.push_back(TestControlInfo::createDigital("CH0_JK", Mixer8_pins::CH0_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CH1_JK", Mixer8_pins::CH1_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CH2_JK", Mixer8_pins::CH2_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CH3_JK", Mixer8_pins::CH3_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CH4_JK", Mixer8_pins::CH4_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CH6_JK", Mixer8_pins::CH6_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CH7_JK", Mixer8_pins::CH7_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUTL_JK", Mixer8_pins::OUT_STEREO_L_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUTR_JK", Mixer8_pins::OUT_STEREO_R_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUTM_JK", Mixer8_pins::OUT_MONO_D, TestControlType::JACK_DETECTOR));
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(ch0.base));
+		sockets.push_back(TestSocketInfo::createInput(ch1.base));
+		sockets.push_back(TestSocketInfo::createInput(ch2.base));
+		sockets.push_back(TestSocketInfo::createInput(ch3.base));
+		sockets.push_back(TestSocketInfo::createInput(ch4.base));
+		sockets.push_back(TestSocketInfo::createInput(ch5.base));
+		sockets.push_back(TestSocketInfo::createInput(ch6.base));
+		sockets.push_back(TestSocketInfo::createInput(ch7.base));
+		sockets.push_back(TestSocketInfo::createOutput(outMono.base));
+		sockets.push_back(TestSocketInfo::createOutput(outStereoL.base));
+		sockets.push_back(TestSocketInfo::createOutput(outStereoR.base));
 	}
 	#endif
-
-
 };

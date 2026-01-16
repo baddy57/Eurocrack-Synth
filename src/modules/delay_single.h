@@ -55,9 +55,13 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back(TestControlInfo::createAnalog("POT0", Delay_single_pins::POT0, &pot0));
-		digital.push_back(TestControlInfo::createDigital("IN0_JK", Delay_single_pins::IN0_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT0_JK", Delay_single_pins::OUT0_D, TestControlType::JACK_DETECTOR));
+		analog.push_back(TestControlInfo::createAnalog("TIME", Delay_single_pins::POT0, &pot0));
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
 	}
 #endif
 };

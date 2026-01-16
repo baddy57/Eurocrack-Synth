@@ -106,9 +106,13 @@ public:
 		digital.push_back(TestControlInfo::createDigital("USB_SW", source_sw0.getPinId(), TestControlType::SWITCH));
 		digital.push_back(TestControlInfo::createDigital("CH+", chplus_btn0.getPinId(), TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("CH-", chminus_btn1.getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("GATE_JK", MidiMono_pins::GATE_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CV_JK", MidiMono_pins::CV_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("VEL_JK", MidiMono_pins::VEL_D, TestControlType::JACK_DETECTOR));
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createOutput(gateOut.base));
+		sockets.push_back(TestSocketInfo::createOutput(cvOut.base));
+		sockets.push_back(TestSocketInfo::createOutput(velOut.base));
 	}
 	#endif
 };

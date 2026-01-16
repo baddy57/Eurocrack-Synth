@@ -173,9 +173,6 @@ public:
 		digital.push_back(TestControlInfo::createDigital("S1", DrumMachine_pins::S1, TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("S2", DrumMachine_pins::S2, TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("S3", DrumMachine_pins::S3, TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("OUT_L_JK", DrumMachine_pins::OUT_L_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT_R_JK", DrumMachine_pins::OUT_R_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT_M_JK", DrumMachine_pins::OUT_M_D, TestControlType::JACK_DETECTOR));
 		digital.push_back(TestControlInfo::createDigital("B0", DrumMachine_pins::_B0, TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("B1", DrumMachine_pins::_B1, TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("B2", DrumMachine_pins::_B2, TestControlType::BUTTON));
@@ -184,7 +181,12 @@ public:
 		digital.push_back(TestControlInfo::createDigital("B5", DrumMachine_pins::_B5, TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("B6", DrumMachine_pins::_B6, TestControlType::BUTTON));
 		digital.push_back(TestControlInfo::createDigital("B7", DrumMachine_pins::_B7, TestControlType::BUTTON));
+	}
 
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createOutput(left.base));
+		sockets.push_back(TestSocketInfo::createOutput(right.base));
+		sockets.push_back(TestSocketInfo::createOutput(mono.base));
 	}
 	#endif
 };

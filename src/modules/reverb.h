@@ -64,8 +64,12 @@ public:
 		analog.push_back(TestControlInfo::createAnalog("ROOMSIZE", Reverb_pins::POT0, &_roomsize_pot0));
 		analog.push_back(TestControlInfo::createAnalog("DAMPING", Reverb_pins::POT1, &_damping_pot1));
 		digital.push_back(TestControlInfo::createDigital("BYPASS_SW", Reverb_pins::BYPASS_SW, TestControlType::SWITCH));
-		digital.push_back(TestControlInfo::createDigital("IN_JK", Reverb_pins::IN_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT_JK", Reverb_pins::OUT_D, TestControlType::JACK_DETECTOR));
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
 	}
 #endif
 };

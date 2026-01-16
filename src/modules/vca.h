@@ -37,13 +37,14 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		// VCA has no analog controls
-		digital.push_back(TestControlInfo::createDigital("OUT0_JK", VCA_pins::OUT0_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("IN0_JK", VCA_pins::IN0_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CV0_JK", VCA_pins::CV0_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("IN1_JK", VCA_pins::IN1_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("CV1_JK", VCA_pins::CV1_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT1_JK", VCA_pins::OUT1_D, TestControlType::JACK_DETECTOR));
+		// VCA has no analog controls or digital controls
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(in1.base));
+		sockets.push_back(TestSocketInfo::createInput(cv1.base));
+		sockets.push_back(TestSocketInfo::createOutput(out1.base));
 	}
 	#endif
 };

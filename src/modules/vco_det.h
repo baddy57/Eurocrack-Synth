@@ -197,12 +197,16 @@ public:
 		analog.push_back(TestControlInfo::createAnalog("AMP", _amp_pot4.getPinId(), &_amp_pot4));
 
 		digital.push_back(TestControlInfo::createDigital("FM/PM", _freq_phase_sw4.getPinId(), TestControlType::SWITCH));
-		digital.push_back(TestControlInfo::createDigital("FREQ_JK", VCO_det_pins::FREQ_PHASE_CV_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("SHAP_JK", VCO_det_pins::SHAPE_CV_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("SIN_JK", VCO_det_pins::SIN_OUT_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("TRI_JK", VCO_det_pins::TRI_OUT_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("SAW_JK", VCO_det_pins::SAW_OUT_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("SQR_JK", VCO_det_pins::SQR_OUT_D, TestControlType::JACK_DETECTOR));
+		// Jack detectors are shown in socket section
+	}
+
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(freqCv.base));
+		sockets.push_back(TestSocketInfo::createInput(shapeCv.base));
+		sockets.push_back(TestSocketInfo::createOutput(sine.base));
+		sockets.push_back(TestSocketInfo::createOutput(triangle.base));
+		sockets.push_back(TestSocketInfo::createOutput(sawtooth.base));
+		sockets.push_back(TestSocketInfo::createOutput(square.base));
 	}
 	#endif
 };

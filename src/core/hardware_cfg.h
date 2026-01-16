@@ -143,6 +143,7 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 
 
 //fix big module address
+//#warning "Obsolete, should be fixed via hardware"
 #define fix(x)                  \
     (x)>32 && (x)%16>=8 ?       \
         (x) :                   \
@@ -160,6 +161,12 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 	if (i % 16 >= 8)
 		return i + 24;
 	return i;
+
+	BANK A (8-15) ←→ BANK D (32-39)
+	BANK C (24-31) ←→ BANK F (48-55)
+	BANK B (16-23) OK
+	BANK E (40-47) OK
+	BANK G (56-63) OK
 }*/
 
 
@@ -176,3 +183,4 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 #define CONFIGURATION__SDCARD_ENABLED 0
 #define CONFIGURATION__USBHOST_ENABLED 0
 
+#define TEST_MODE_ENABLED 1

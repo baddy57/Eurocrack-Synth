@@ -98,9 +98,12 @@ public:
 		analog.push_back(TestControlInfo::createAnalog("DECAY", _dec_pot4.getPinId(), &_dec_pot4));
 		analog.push_back(TestControlInfo::createAnalog("SUSTAIN", _sus_pot3.getPinId(), &_sus_pot3));
 		analog.push_back(TestControlInfo::createAnalog("RELEASE", _rel_pot5.getPinId(), &_rel_pot5));
+		// Jack detectors are shown in socket section
+	}
 
-		digital.push_back(TestControlInfo::createDigital("GATE_JK", ADSR_pins::GATE_D, TestControlType::JACK_DETECTOR));
-		digital.push_back(TestControlInfo::createDigital("OUT_JK", ADSR_pins::SIGNAL_OUT_D, TestControlType::JACK_DETECTOR));
+	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
+		sockets.push_back(TestSocketInfo::createInput(gateIn.base));
+		sockets.push_back(TestSocketInfo::createOutput(out.base));
 	}
 	#endif
 };
