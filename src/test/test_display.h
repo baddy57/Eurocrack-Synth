@@ -42,7 +42,7 @@ class TestDisplay {
 	static constexpr uint8_t COL_COMPUTED = 140;
 	static constexpr uint8_t COL_VALUE = 100;  // For digital section
 	
-public:
+	public:
 	static inline void init() {
 		tft.fillScreen(TEST_COLOR_BACKGROUND);
 		tft.setTextSize(1);
@@ -126,7 +126,7 @@ public:
 		// Section header
 		tft.setTextColor(TEST_COLOR_SEPARATOR);
 		tft.setCursor(COL_NAME, JACK_HEADER_Y);
-		tft.print("JACKS      PIN  DETECT");
+		tft.print("JACKS      PIN  DETECT  DATA");
 
 		// Draw labels for each jack detector
 		tft.setTextColor(TEST_COLOR_LABEL);
@@ -202,6 +202,42 @@ public:
 		} else {
 			tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
 			tft.print("[----]");
+		}
+	}
+
+	static inline void updateJackReceiving(uint8_t row, bool receiving) {
+		uint8_t y = JACK_START_Y + (row * ROW_HEIGHT);
+
+		// Clear receiving area
+		tft.fillRect(COL_VALUE + 70, y, 80, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+
+		// Draw receiving state
+		tft.setCursor(COL_VALUE + 70, y);
+
+		if (receiving) {
+			tft.setTextColor(TEST_COLOR_JACK_PRESENT);
+			tft.print("[RX]");
+		} else {
+			tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
+			tft.print("[--]");
+		}
+	}
+
+	static inline void updateJackSending(uint8_t row, bool sending) {
+		uint8_t y = JACK_START_Y + (row * ROW_HEIGHT);
+
+		// Clear sending area
+		tft.fillRect(COL_VALUE + 70, y, 80, ROW_HEIGHT - 2, TEST_COLOR_BACKGROUND);
+
+		// Draw sending state
+		tft.setCursor(COL_VALUE + 70, y);
+
+		if (sending) {
+			tft.setTextColor(TEST_COLOR_JACK_PRESENT);
+			tft.print("[TX]");
+		} else {
+			tft.setTextColor(TEST_COLOR_DIGITAL_OFF);
+			tft.print("[--]");
 		}
 	}
 
