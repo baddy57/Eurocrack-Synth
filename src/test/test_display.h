@@ -22,6 +22,26 @@
 #define tft SynthDisplay::raw()
 
 class TestDisplay {
+	
+	private:
+	// Screen layout constants
+	static constexpr uint8_t HEADER_Y = 0;
+	static constexpr uint8_t INFO_Y = 16;
+	static constexpr uint8_t ANALOG_HEADER_Y = 36;
+	static constexpr uint8_t ANALOG_START_Y = 52;
+	static uint8_t DIGITAL_HEADER_Y;
+	static uint8_t DIGITAL_START_Y;
+	static uint8_t JACK_HEADER_Y;
+	static uint8_t JACK_START_Y;
+	static constexpr uint8_t ROW_HEIGHT = 12;
+	
+	// Column positions
+	static constexpr uint8_t COL_NAME = 4;
+	static constexpr uint8_t COL_PIN = 70;
+	static constexpr uint8_t COL_RAW = 100;
+	static constexpr uint8_t COL_COMPUTED = 140;
+	static constexpr uint8_t COL_VALUE = 100;  // For digital section
+	
 public:
 	static inline void init() {
 		tft.fillScreen(TEST_COLOR_BACKGROUND);
@@ -48,6 +68,12 @@ public:
 	}
 
 	static inline void drawAnalogSection(const std::vector<TestControlInfo>& controls) {
+		if(controls.empty()) {
+			DIGITAL_HEADER_Y = ANALOG_HEADER_Y;
+			DIGITAL_START_Y = ANALOG_START_Y;
+			return;
+		}
+
 		// Section header
 		tft.setTextColor(TEST_COLOR_SEPARATOR);
 		tft.setCursor(COL_NAME, ANALOG_HEADER_Y);
@@ -64,9 +90,19 @@ public:
 			tft.setCursor(COL_RAW, y);
 			tft.print(controls[i].pot->read());
 		}
+
+		DIGITAL_HEADER_Y = ANALOG_START_Y + (controls.size() * ROW_HEIGHT) + 20;
+		DIGITAL_START_Y = DIGITAL_HEADER_Y + ROW_HEIGHT + 4;
 	}
 
 	static inline void drawDigitalSection(const std::vector<TestControlInfo>& controls) {
+
+		if(controls.empty()) {
+			JACK_HEADER_Y = DIGITAL_HEADER_Y;
+			JACK_START_Y = DIGITAL_START_Y;
+			return;
+		}
+
 		// Section header
 		tft.setTextColor(TEST_COLOR_SEPARATOR);
 		tft.setCursor(COL_NAME, DIGITAL_HEADER_Y);
@@ -84,7 +120,8 @@ public:
 	}
 
 	static inline void drawJackDetectorSection(const std::vector<TestControlInfo>& controls) {
-		if (controls.empty()) return;
+		if (controls.empty())
+			return;
 
 		// Section header
 		tft.setTextColor(TEST_COLOR_SEPARATOR);
@@ -180,24 +217,6 @@ public:
 		tft.println(message);
 	}
 
-private:
-	// Screen layout constants
-	static constexpr uint8_t HEADER_Y = 0;
-	static constexpr uint8_t INFO_Y = 16;
-	static constexpr uint8_t ANALOG_HEADER_Y = 36;
-	static constexpr uint8_t ANALOG_START_Y = 52;
-	static constexpr uint8_t DIGITAL_HEADER_Y = 140;
-	static constexpr uint8_t DIGITAL_START_Y = 156;
-	static constexpr uint8_t JACK_HEADER_Y = 200;
-	static constexpr uint8_t JACK_START_Y = 216;
-	static constexpr uint8_t ROW_HEIGHT = 12;
-
-	// Column positions
-	static constexpr uint8_t COL_NAME = 4;
-	static constexpr uint8_t COL_PIN = 70;
-	static constexpr uint8_t COL_RAW = 100;
-	static constexpr uint8_t COL_COMPUTED = 140;
-	static constexpr uint8_t COL_VALUE = 100;  // For digital section
 };
 
 #undef tft
