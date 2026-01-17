@@ -2,6 +2,7 @@
 
 #include "potentiometer.h"
 
+//rotary selector implemented as a multi-position potentiometer
 class SelectorMulti : public Potentiometer
 {
 public:
