@@ -20,7 +20,7 @@ class Address{
 		virtual void setForWriting() const{};
 		uint_fast8_t getArduinoPin() const{return this->arduinoPin;};
 		uint_fast8_t getId() const{return _id;};
-		uint_fast8_t getModulePin() const {return _id %16;};
+		uint_fast8_t getModulePin() const {return _id/64;};
 };
 
 //address of a switch, a button, a pot or an inputSocket
