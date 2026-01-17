@@ -6,15 +6,11 @@
 
 const int TRACKS_COUNT = 6;
 
-namespace Looper_pins {
-	const uint
-		IN = 29, IN_D = 28,
-		CLOCK = 9, CLOCK_D = 8,
-		_BTN[TRACKS_COUNT] = { 10, 12, 11, 13, 27, 25 },
-		OUT = 6, OUT_D = 30;
+namespace LoopStates{
 
-	enum loopStates { IDLE, RECORDING, PLAYING, STOPPED, QUEUED };
+    enum { IDLE, RECORDING, PLAYING, STOPPED, QUEUED };
 }
+
 
 struct LoopTrack {
 	AudioPlaySdRaw player;
@@ -26,14 +22,13 @@ struct LoopTrack {
 	uint state;
 
 	inline void startRec() {
-		using namespace Looper_pins;
 		Serial.printf("recording loop %i \n", filename[4]);
 
 		if (SD.exists(filename))
 			SD.remove(filename);
 		file = SD.open(filename, FILE_WRITE);
 		recorder.begin();
-		state = RECORDING;
+		state = LoopStates::RECORDING;
 	}
 
 	inline void continueRec() {
@@ -48,16 +43,14 @@ struct LoopTrack {
 	}
 
 	inline void cancelRec() {
-		using namespace Looper_pins;
 		recorder.end();
 		recorder.freeBuffer();
 		SD.remove(filename);
 		file.close();
-		state = IDLE;
+		state = LoopStates::IDLE;
 	}
 
 	inline void stopRec() {
-		using namespace Looper_pins;
 		Serial.printf("saving loop %i \n", filename[4]);
 
 		recorder.end();
@@ -66,11 +59,10 @@ struct LoopTrack {
 			recorder.freeBuffer();
 		}
 		file.close();
-		state = IDLE;
+		state = LoopStates::IDLE;
 	}
 
 	inline void enqueue() {
-		using namespace Looper_pins;
 		Serial.printf("loop %i in queue ", filename[4]);
 
 		player.play(filename);
@@ -81,31 +73,28 @@ struct LoopTrack {
 
 		if (trackLength > longest)
 			longest = trackLength;
-		state = QUEUED;
+		state = LoopStates::QUEUED;
 	}
 
 	inline void play() {
-		using namespace Looper_pins;
 		Serial.printf("playing loop %i ", filename[4]);
 		Serial.printf("of length = %i \n", trackLength);
 		player.play(filename);
-		state = PLAYING;
+		state = LoopStates::PLAYING;
 	}
 
 	inline void stop() {
-		using namespace Looper_pins;
 		Serial.printf("stopped loop %i \n", filename[4]);
 		player.stop();
-		state = STOPPED;
+		state = LoopStates::STOPPED;
 	}
 
 	inline void deleteRec() {
-		using namespace Looper_pins;
 		Serial.printf("deleted loop %i \n", filename[4]);
 		SD.remove(filename);
 		file.close();
 		trackLength = 0;
-		state = IDLE;
+		state = LoopStates::IDLE;
 	}
 
 	inline void overdub() {

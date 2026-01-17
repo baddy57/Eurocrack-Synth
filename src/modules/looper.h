@@ -3,6 +3,15 @@
 #include "../core/module.h"
 #include "../features/loop_track.h"
 
+namespace Looper_pins {
+	const uint
+		IN = 29, IN_D = 28,
+		CLOCK = 9, CLOCK_D = 8,
+		_BTN[TRACKS_COUNT] = { 10, 12, 11, 13, 27, 25 },
+		OUT = 6, OUT_D = 30;
+
+}
+
 class Looper : public Module {
 private:
 	int playingCount = 0;
@@ -37,7 +46,7 @@ public:
 			loops[i].filename[7] = 'A';
 			loops[i].filename[8] = 'W';
 			loops[i].filename[9] = '\0';
-			loops[i].state = IDLE;
+			loops[i].state = LoopStates::IDLE;
 		}
 
 		internalConns.push_back(new AudioConnection(loops[0].player, 0, mixer_a, 0));
@@ -59,7 +68,7 @@ public:
 	}
 
 	inline void updateValues() override {
-		using namespace Looper_pins;
+		using namespace LoopStates;
 
 		for (int i = 0; i < TRACKS_COUNT; ++i) {
 			LoopTrack& loop = loops[i];
@@ -164,12 +173,26 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		//todo
+		digital.push_back(TestControlInfo::createDigital("TRACK 0", buttons[0]->getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 1", buttons[1]->getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 2", buttons[2]->getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 3", buttons[3]->getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 4", buttons[4]->getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 5", buttons[5]->getPinId(), TestControlType::BUTTON));
 	}
 
 	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {
 		sockets.push_back(TestSocketInfo::createInput(in.base));
 		sockets.push_back(TestSocketInfo::createOutput(out.base));
+
+		//WIP test led
+		// sockets.push_back(TestSocketInfo::createOutput(std::make_shared<OutputSocket>(
+		// 	this->moduleAddress,
+		// 	0,//todo pin id
+		// 	0,
+		// 	nullptr,
+		// 	0,
+		// 	"LED")));
 	}
 	#endif
 };

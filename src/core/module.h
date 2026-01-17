@@ -42,9 +42,9 @@ class Module{
 
 		virtual void updateValues()=0;
 
-		virtual uint8_t getModuleTypeId() const { return 0; }
+		virtual uint8_t getModuleTypeId() const =0;
 		
-		virtual const char* getModuleName() const { return "Unknown"; }
+		virtual const char* getModuleName() const =0;
 		
 		#if TEST_MODE_ENABLED
 		// Test mode support - modules override to provide their control info

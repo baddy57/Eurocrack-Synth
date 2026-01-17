@@ -24,8 +24,8 @@ public:
 	inline AudioOut(const Address& a)
 		: Module(a)
 		, _volume_pot0(pins::VOLUME)
-		, analogOutL(a, AudioOut_pins::ANALOG_OUT_L, AudioOut_pins::ANALOG_OUT_L_D, _analogOut, 0, "ANALOG_OUT_L")
-		, analogOutR(a, AudioOut_pins::ANALOG_OUT_R, AudioOut_pins::ANALOG_OUT_R_D, _analogOut, 1, "ANALOG_OUT_R")
+		, analogOutL(a, AudioOut_pins::ANALOG_OUT_L, AudioOut_pins::ANALOG_OUT_L_D, _analogOut, 0, "LINE_OUT_L")
+		, analogOutR(a, AudioOut_pins::ANALOG_OUT_R, AudioOut_pins::ANALOG_OUT_R_D, _analogOut, 1, "LINE_OUT_R")
 		, usbOutL(a, AudioOut_pins::USB_OUT_L, AudioOut_pins::USB_OUT_L_D, _usbOut, 0, "USB_OUT_L")
 		, usbOutR(a, AudioOut_pins::USB_OUT_R, AudioOut_pins::USB_OUT_R_D, _usbOut, 1, "USB_OUT_R")
 	{
@@ -39,6 +39,10 @@ public:
 			SynthAudio::codec.volume(_volume_pot0.read());
 		}
 	}
+
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::AUDIO_OUT; }
+
+	const char* getModuleName() const override { return "AUDIO OUT"; }
 
 	#if TEST_MODE_ENABLED
 	void getTestControls(

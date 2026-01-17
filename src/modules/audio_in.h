@@ -38,6 +38,10 @@ public:
 	inline void updateValues() override {
 	}
 
+	uint8_t getModuleTypeId() const override { return ModuleTypeIds::AUDIO_IN; }
+	
+	const char* getModuleName() const override { return "AUDIO IN"; }
+
 	#if TEST_MODE_ENABLED
 	void getTestControls(
 		std::vector<TestControlInfo>& analog,
