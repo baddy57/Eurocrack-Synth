@@ -41,7 +41,7 @@ void PatchCableManager::update() {
 // Helper functions for list management
 static void removeInputFromAvailable(std::shared_ptr<InputSocket> i) {
 	for (auto it = PatchCableManager::availableInputs.begin(); it != PatchCableManager::availableInputs.end(); ++it) {
-		if ((*it)->uid == i->uid) {
+		if ((*it)->getId() == i->getId()) {
 			PatchCableManager::availableInputs.erase(it);
 			return;
 		}
@@ -50,7 +50,7 @@ static void removeInputFromAvailable(std::shared_ptr<InputSocket> i) {
 
 static void removeInputFromBusy(std::shared_ptr<InputSocket> i) {
 	for (auto it = PatchCableManager::busyInputs.begin(); it != PatchCableManager::busyInputs.end(); ++it) {
-		if ((*it)->uid == i->uid) {
+		if ((*it)->getId() == i->getId()) {
 			PatchCableManager::busyInputs.erase(it);
 			return;
 		}
@@ -59,7 +59,7 @@ static void removeInputFromBusy(std::shared_ptr<InputSocket> i) {
 
 static void removeOutputFromAvailable(std::shared_ptr<OutputSocket> out) {
 	for (auto it = PatchCableManager::availableOutputs.begin(); it != PatchCableManager::availableOutputs.end(); ++it) {
-		if ((*it)->uid == out->uid) {
+		if ((*it)->getId() == out->getId()) {
 			PatchCableManager::availableOutputs.erase(it);
 			return;
 		}
@@ -146,7 +146,7 @@ void PatchCableManager::onInputDisconnected(std::shared_ptr<InputSocket> input) 
 	// Find and destroy the cable connected to this input
 	if (!_cables.empty()) {
 		for (auto cable = _cables.begin(); cable != _cables.end(); ++cable) {
-			if ((*cable)->inputSocket->uid == input->uid) {
+			if ((*cable)->inputSocket->getId() == input->getId()) {
 				_cables.erase(cable);
 				break;
 			}
@@ -165,7 +165,7 @@ void PatchCableManager::onOutputDisconnected(std::shared_ptr<OutputSocket> outpu
 	// Find and destroy all cables connected to this output
 	if (!_cables.empty()) {
 		for (auto cable = _cables.begin(); cable != _cables.end();) {
-			if ((*cable)->outputSocket->uid == output->uid) {
+			if ((*cable)->outputSocket->getId() == output->getId()) {
 				// Return connected inputs to available state
 				setInputAvailable((*cable)->inputSocket);
 				cable = _cables.erase(cable);

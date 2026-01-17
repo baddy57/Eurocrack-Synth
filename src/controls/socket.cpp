@@ -2,12 +2,12 @@
 
 Socket::Socket(
 	const Address& slotAddress,
-	uint_fast8_t detectorId, 
+	uint_fast8_t detectormodulePin, 
 	AudioStream& as, 
 	uint_fast8_t i, 
 	const char* n
 ):
-	jackDetector(slotAddress, detectorId),
+	jackDetector(slotAddress, detectormodulePin),
 	name(n),
 	linkedStream0(as),
 	linkedStream1(as),//references need to be initialized
@@ -21,7 +21,7 @@ Socket::Socket(
 
 Socket::Socket(
 	const Address& slotAddress,
-	uint_fast8_t detectorId,
+	uint_fast8_t detectormodulePin,
 	AudioStream& as0,
 	AudioStream& as1,
 	AudioStream& as2,
@@ -29,7 +29,7 @@ Socket::Socket(
 	uint_fast8_t i,
 	const char* n
 ) :
-	jackDetector(slotAddress, detectorId),
+	jackDetector(slotAddress, detectormodulePin),
 	name(n),
 	linkedStream0(as0),
 	linkedStream1(as1),

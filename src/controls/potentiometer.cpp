@@ -54,7 +54,7 @@ void Potentiometer :: update()
 	int r_sum =0;
 
 	for (uint_fast16_t i = 0; i < POT_READS; ++i)
-		r_sum +=analogRead(address.getPin());
+		r_sum +=analogRead(address.getArduinoPin());
 
 	float avg = r_sum / POT_READS;
 	

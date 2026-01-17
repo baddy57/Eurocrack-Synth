@@ -9,8 +9,8 @@ public:
 	/// @brief constructor
 	/// @param a module address
 	/// @param positions number of positions 
-	/// @param ids array of single pins ids, ordered clockwise
-	RotarySwitch(const Address& a, int _positions, const uint_fast16_t* ids);
+	/// @param modulePins array of single module pins, ordered clockwise
+	RotarySwitch(const Address& a, int _positions, const uint_fast16_t* modulePins);
 	void update();
 	inline int read() { return lastValue; }
 	inline bool wasUpdated() { return read() != lastValue; }

@@ -5,22 +5,21 @@
 // ctor MONO ONLY
 InputSocket ::InputSocket( // param
 	const Address &slotAddress,
-	uint_fast8_t id,
-	uint_fast8_t detectorId,
+	uint_fast8_t modulePin,
+	uint_fast8_t detectormodulePin,
 	AudioStream &as,
 	uint_fast8_t i,
 	const char *n)
 	// init list
-	: Socket(slotAddress, detectorId, as, i, n), address(new ControlAddress(slotAddress, id))
+	: Socket(slotAddress, detectormodulePin, as, i, n), address(new ControlAddress(slotAddress, modulePin))
 {
-	uid = address->_id;
 }
 
 // POLY CTOR
 InputSocket ::InputSocket( // param
 	const Address &slotAddress,
-	uint_fast8_t id,
-	uint_fast8_t detectorId,
+	uint_fast8_t modulePin,
+	uint_fast8_t detectormodulePin,
 	AudioStream &as0,
 	AudioStream &as1,
 	AudioStream &as2,
@@ -28,14 +27,13 @@ InputSocket ::InputSocket( // param
 	uint_fast8_t i,
 	const char *n)
 	// init list
-	: Socket(slotAddress, detectorId, as0, as1, as2, as3, i, n), address(new ControlAddress(slotAddress, id))
+	: Socket(slotAddress, detectormodulePin, as0, as1, as2, as3, i, n), address(new ControlAddress(slotAddress, modulePin))
 {
-	uid = address->_id;
 }
 
 bool InputSocket::isReceiving() const
 {
 	address->setForReading();
 
-	return !digitalRead(address->getPin());
+	return !digitalRead(address->getArduinoPin());
 }

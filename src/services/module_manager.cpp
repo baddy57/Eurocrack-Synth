@@ -110,7 +110,7 @@ void ModuleManager::factory()
 		}
 
 		#if CONFIGURATION__LOGGER__MODULE_FACTORY
-		if (MAX_MODULES > 16 && slotAddress.toInt() % 16 == 15)
+		if (MAX_MODULES > 16 && slotAddress.getId() % 16 == 15)
 			Serial.printf("---------end of bank %i-------------\n", i);
 		#endif
 	}
@@ -128,7 +128,7 @@ void ModuleManager::logModuleDetected(uint_fast8_t moduleType, String moduleName
 	tft.print("  ");
 	tft.print(moduleName);
 	tft.print("  @  ");
-	tft.println(slotAddress.toInt());
+	tft.println(slotAddress.getId());
 	#endif
 }
 

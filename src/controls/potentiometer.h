@@ -28,14 +28,14 @@ public:
 
 	/// @brief constructor
 	/// @param a address of the module
-	/// @param id pin on the module pcb
+	/// @param modulePin pin on the module pcb
 	/// @param pullup_res value of the pullup resistor
-	Potentiometer(const Address& a, uint_fast8_t id, float pullup_res = 0.f) 
-		: Control(a, id), value(0) { setPullUpResistorCompensation(pullup_res); };
+	Potentiometer(const Address& a, uint_fast8_t modulePin, float pullup_res = 0.f) 
+		: Control(a, modulePin), value(0) { setPullUpResistorCompensation(pullup_res); };
 
 	/// @brief constructor for pots connected directly to the board
-	/// @param pin
-	Potentiometer(uint_fast8_t pin) : Control(pin), value(0) {};
+	/// @param arduinoPin
+	Potentiometer(uint_fast8_t arduinoPin) : Control(arduinoPin), value(0) {};
 
 	/// @brief set the value of the pullup to fix readings
 	/// @param value of the pullup resistor in ohm

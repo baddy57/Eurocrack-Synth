@@ -173,12 +173,12 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		digital.push_back(TestControlInfo::createDigital("TRACK 0", buttons[0]->getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("TRACK 1", buttons[1]->getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("TRACK 2", buttons[2]->getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("TRACK 3", buttons[3]->getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("TRACK 4", buttons[4]->getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("TRACK 5", buttons[5]->getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 0", buttons[0]->getModulePin(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 1", buttons[1]->getModulePin(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 2", buttons[2]->getModulePin(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 3", buttons[3]->getModulePin(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 4", buttons[4]->getModulePin(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("TRACK 5", buttons[5]->getModulePin(), TestControlType::BUTTON));
 	}
 
 	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {

@@ -78,7 +78,7 @@ struct TestControl {
     const char* name;           // Display name (max 8 chars for grid)
     uint8_t controlId;          // ID within module (0-63)
     ControlType type;           // Control type
-    uint8_t detectorId;         // For sockets: jack detector ID
+    uint8_t detectormodulePin;         // For sockets: jack detector ID
     float pullupRes;            // For pots: pullup resistor value (0 if none)
 };
 
@@ -139,7 +139,7 @@ public:
     static bool readDigital(const Address& slot, uint8_t controlId);
 
     // Read jack detector specifically (uses different address)
-    static bool readJackDetector(const Address& slot, uint8_t detectorId);
+    static bool readJackDetector(const Address& slot, uint8_t detectormodulePin);
 
 private:
     static void setMuxAddress(const Address& slot, uint8_t controlId);
@@ -271,10 +271,10 @@ bool TestControlReader::readDigital(const Address& slot, uint8_t controlId) {
     return digitalRead(READ_PIN);
 }
 
-bool TestControlReader::readJackDetector(const Address& slot, uint8_t detectorId) {
+bool TestControlReader::readJackDetector(const Address& slot, uint8_t detectormodulePin) {
     // Jack detectors use a different addressing scheme
     // Based on Socket::hasJack() implementation
-    ControlAddress addr(slot, detectorId);
+    ControlAddress addr(slot, detectormodulePin);
     addr.setForReading();
     delayMicroseconds(MUX_DELAY);
     return !digitalRead(READ_PIN);  // Active low

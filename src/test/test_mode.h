@@ -45,7 +45,7 @@ public:
 
 		if (_module == nullptr) {
 			// Module detected but no implementation - show type ID anyway
-			TestDisplay::drawHeader("UNKNOWN", _currentSlot.toInt(), _detectedTypeId);
+			TestDisplay::drawHeader("UNKNOWN", _currentSlot.getId(), _detectedTypeId);
 			return;
 		}
 
@@ -58,7 +58,7 @@ public:
 		_module->getTestSockets(_sockets);
 
 		// Draw static UI
-		TestDisplay::drawHeader(_module->getModuleName(), _currentSlot.toInt(), _module->getModuleTypeId());
+		TestDisplay::drawHeader(_module->getModuleName(), _currentSlot.getId(), _module->getModuleTypeId());
 		TestDisplay::drawAnalogSection(_analogControls);
 		TestDisplay::drawDigitalSection(_digitalControls);
 		TestDisplay::drawSocketSection(_sockets);

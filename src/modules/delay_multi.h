@@ -78,7 +78,7 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back(TestControlInfo::createAnalog("TIME", pot0.getPinId(), &pot0));
+		analog.push_back(TestControlInfo::createAnalog("TIME", pot0.getModulePin(), &pot0));
 	}
 
 	void getTestSockets(std::vector<TestSocketInfo>& sockets) override {

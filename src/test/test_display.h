@@ -145,7 +145,9 @@ class TestDisplay {
 			tft.setCursor(COL_NAME, y);
 			tft.print(sockets[i].name);
 			tft.setCursor(COL_PIN, y);
-			tft.print(s.isOutput ? sockets[i].outputSocket->address->getPin() : sockets[i].inputSocket->address->getPin()); // todo fixme arriva ilo pin sbagliato
+			tft.print(s.isOutput 
+				? sockets[i].outputSocket->address->getModulePin() 
+				: sockets[i].inputSocket->address->getModulePin()); // todo fixme arriva ilo pin sbagliato
 			tft.print('(');
 			tft.print(sockets[i].detector.pinId);
 			tft.print(')');

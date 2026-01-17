@@ -103,9 +103,9 @@ public:
 		std::vector<TestControlInfo>& digital) override
 	{
 		// MidiMono has no analog controls
-		digital.push_back(TestControlInfo::createDigital("USB_SW", source_sw0.getPinId(), TestControlType::SWITCH));
-		digital.push_back(TestControlInfo::createDigital("CH+", chplus_btn0.getPinId(), TestControlType::BUTTON));
-		digital.push_back(TestControlInfo::createDigital("CH-", chminus_btn1.getPinId(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("USB_SW", source_sw0.getModulePin(), TestControlType::SWITCH));
+		digital.push_back(TestControlInfo::createDigital("CH+", chplus_btn0.getModulePin(), TestControlType::BUTTON));
+		digital.push_back(TestControlInfo::createDigital("CH-", chminus_btn1.getModulePin(), TestControlType::BUTTON));
 		// Jack detectors are shown in socket section
 	}
 

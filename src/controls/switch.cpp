@@ -3,11 +3,13 @@
 void
 Switch :: update() {
 	address.setForReading();
-	bool r=digitalRead(address.getPin());
+
+	bool r=digitalRead(address.getArduinoPin());
+
 	if (r!=value) {
 		_wasUpdated = true;
 		value = r;
 	}
-	else _wasUpdated = false;
-	return;
+	else 
+		_wasUpdated = false;
 }

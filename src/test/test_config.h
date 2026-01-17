@@ -41,10 +41,10 @@ struct TestSocketInfo {
 	TestControlInfo detector;  // Jack detector control info
 
 	static TestSocketInfo createOutput(std::shared_ptr<OutputSocket> socket) {
-		return {socket->getName(), true, socket, nullptr, TestControlInfo::createDigital(socket->getName(), socket->jackDetector._pinId, TestControlType::JACK_DETECTOR) };
+		return {socket->getName(), true, socket, nullptr, TestControlInfo::createDigital(socket->getName(), socket->jackDetector._modulePin, TestControlType::JACK_DETECTOR) };
 	}
 
 	static TestSocketInfo createInput(std::shared_ptr<InputSocket> socket) {
-		return {socket->getName(), false, nullptr, socket, TestControlInfo::createDigital(socket->getName(), socket->jackDetector._pinId, TestControlType::JACK_DETECTOR) };
+		return {socket->getName(), false, nullptr, socket, TestControlInfo::createDigital(socket->getName(), socket->jackDetector._modulePin, TestControlType::JACK_DETECTOR) };
 	}
 };

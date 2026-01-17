@@ -1,8 +1,8 @@
 #include "button2t.h"
 
 //ctor
-Button2t :: Button2t (const Address& slotAddress, uint_fast8_t id) 
-: Button (slotAddress, id) 
+Button2t :: Button2t (const Address& slotAddress, uint_fast8_t modulePin) 
+: Button (slotAddress, modulePin) 
 {}
 
 bool Button2t::tap()

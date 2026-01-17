@@ -10,19 +10,19 @@
 
 struct ModuleInput {
 	inline  ModuleInput(const Address& a,
-		uint_fast8_t id,
-		uint_fast8_t detectorId,
+		uint_fast8_t modulePin,
+		uint_fast8_t detectormodulePin,
 		AudioStream& as,
 		uint_fast8_t port,
 		const char* name = "mono in")
 	{
-		base = std::make_shared<InputSocket>(a, id, detectorId, as, port, name);
+		base = std::make_shared<InputSocket>(a, modulePin, detectormodulePin, as, port, name);
 		PatchCableManager::registerInput(base);
 	}
 
 	inline ModuleInput(const Address& a,
-		uint_fast8_t id,
-		uint_fast8_t detectorId,
+		uint_fast8_t modulePin,
+		uint_fast8_t detectormodulePin,
 		AudioStream& as0,
 		AudioStream& as1,
 		AudioStream& as2,
@@ -30,7 +30,7 @@ struct ModuleInput {
 		uint_fast8_t port,
 		const char* name = "poly in")
 	{
-		base = std::make_shared<InputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name);
+		base = std::make_shared<InputSocket>(a, modulePin, detectormodulePin, as0, as1, as2, as3, port, name);
 		PatchCableManager::registerInput(base);
 	}
 

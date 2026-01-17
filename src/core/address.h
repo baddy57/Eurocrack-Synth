@@ -9,18 +9,18 @@
 //partial address for a module slot
 class Address{
 	protected:
-		uint_fast8_t pin;
+		uint_fast8_t arduinoPin;
 		bool sel[6]; //module slot selectors
-	public:
 		unsigned int _id;
+	public:
 		Address(uint_fast8_t);
 		Address(const Address&);
 		bool getSel(uint_fast8_t i) const{return sel[i];};
 		void setForReading() const;
 		virtual void setForWriting() const{};
-		uint_fast8_t getPin() const{return this->pin;};
-		uint_fast8_t toInt()const{return _id;};
-		uint_fast8_t getLocalId() const {return _id %16;};
+		uint_fast8_t getArduinoPin() const{return this->arduinoPin;};
+		uint_fast8_t getId() const{return _id;};
+		uint_fast8_t getModulePin() const {return _id %16;};
 };
 
 //address of a switch, a button, a pot or an inputSocket
@@ -31,7 +31,6 @@ class ControlAddress : public Address {
 		ControlAddress(const Address&, uint_fast8_t);
 		ControlAddress(uint_fast8_t);
 		void setForReading()const;
-		
 };
 
 //address of an OutputSocket, has different pins
@@ -41,7 +40,7 @@ class OutputSocketAddress : public Address {
 	public:
 		OutputSocketAddress(const Address&, uint_fast8_t);
 		void setForWriting() const;
-		uint_fast8_t getPin() const{return this-> pin;};
+		uint_fast8_t getArduinoPin() const{return this-> arduinoPin;};
 };
 
 

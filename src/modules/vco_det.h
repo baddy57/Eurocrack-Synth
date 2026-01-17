@@ -190,13 +190,13 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back(TestControlInfo::createAnalog("COARSE", _coarse_pot0.getPinId(), &_coarse_pot0));
-		analog.push_back(TestControlInfo::createAnalog("FINE", _fine_pot1.getPinId(), &_fine_pot1));
-		analog.push_back(TestControlInfo::createAnalog("FM_CV", _freqmodcv_pot2.getPinId(), &_freqmodcv_pot2));
-		analog.push_back(TestControlInfo::createAnalog("PM_CV", _phasemodcv_pot3.getPinId(), &_phasemodcv_pot3));
-		analog.push_back(TestControlInfo::createAnalog("AMP", _amp_pot4.getPinId(), &_amp_pot4));
+		analog.push_back(TestControlInfo::createAnalog("COARSE", _coarse_pot0.getModulePin(), &_coarse_pot0));
+		analog.push_back(TestControlInfo::createAnalog("FINE", _fine_pot1.getModulePin(), &_fine_pot1));
+		analog.push_back(TestControlInfo::createAnalog("FM_CV", _freqmodcv_pot2.getModulePin(), &_freqmodcv_pot2));
+		analog.push_back(TestControlInfo::createAnalog("PM_CV", _phasemodcv_pot3.getModulePin(), &_phasemodcv_pot3));
+		analog.push_back(TestControlInfo::createAnalog("AMP", _amp_pot4.getModulePin(), &_amp_pot4));
 
-		digital.push_back(TestControlInfo::createDigital("FM/PM", _freq_phase_sw4.getPinId(), TestControlType::SWITCH));
+		digital.push_back(TestControlInfo::createDigital("FM/PM", _freq_phase_sw4.getModulePin(), TestControlType::SWITCH));
 		// Jack detectors are shown in socket section
 	}
 

@@ -10,11 +10,11 @@ extern const uint_fast8_t WRITE_PIN;
 extern const bool ID_MUX_LOCATION[];
 
 //ctor
-Address :: Address (uint_fast8_t id) {
-	_id=id;
-	//pin = READ_PIN;
+Address :: Address (uint_fast8_t modulePin) {
+	_id=modulePin;
+	//arduinoPin = READ_PIN;
 	for (uint_fast8_t i=0; i<6; ++i)
-		sel[5-i] = bitRead(id, i);
+		sel[5-i] = bitRead(modulePin, i);
 }
 
 //copy ctor
@@ -33,15 +33,15 @@ Address :: setForReading() const {
 }
 
 //ctor
-ControlAddress :: ControlAddress (const Address& slotAddress, uint_fast8_t id) : Address(slotAddress){
-	pin = READ_PIN;
+ControlAddress :: ControlAddress (const Address& slotAddress, uint_fast8_t modulePin) : Address(slotAddress){
+	arduinoPin = READ_PIN;
 	for (uint_fast8_t i=0; i<6; ++i)
-		sel2[5-i] = bitRead(id, i);
-	this->_id = slotAddress._id + 64*id;					/////////2021.01.14
+		sel2[5-i] = bitRead(modulePin, i);
+	this->_id = slotAddress.getId() + 64*modulePin;					/////////2021.01.14
 }
 //ctor used for volume pot etc
 ControlAddress :: ControlAddress (uint_fast8_t p) : Address(0){
-	pin = p;
+	arduinoPin = p;
 }
 
 void
@@ -53,13 +53,13 @@ ControlAddress :: setForReading() const {
 }
 
 //ctor
-OutputSocketAddress :: OutputSocketAddress (const Address& slotAddress, uint_fast8_t id) : Address(slotAddress){
-	pin = WRITE_PIN;  
+OutputSocketAddress :: OutputSocketAddress (const Address& slotAddress, uint_fast8_t modulePin) : Address(slotAddress){
+	arduinoPin = WRITE_PIN;  
 	for (uint_fast8_t i=0; i<6; ++i)
 		sel[i] = slotAddress.getSel(i);				////////////////202009052152 (5-) wrong cause getsel is already ok
 	for (uint_fast8_t i=0; i<3; ++i)
-		sel2[2-i] = bitRead(id, i);					////////////202009042209
-	this->_id = slotAddress._id + 64*id;		/////////2021.01.14	
+		sel2[2-i] = bitRead(modulePin, i);					////////////202009042209
+	this->_id = slotAddress.getId() + 64*modulePin;		/////////2021.01.14	
 }
 
 void

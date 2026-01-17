@@ -46,7 +46,7 @@ protected:
 		
 	bool isPolyphonic;
 	
-	unsigned int uid;
+	virtual unsigned int getId()=0;
 	
 	// aka isAvailable
 	inline bool hasJack() { return !jackDetector.b_read(); };

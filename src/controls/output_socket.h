@@ -31,4 +31,6 @@ public:
 
 	void sendSignal() const;
 	void resetSignal() const;
+
+	unsigned int getId() override { return address->getId(); }
 };

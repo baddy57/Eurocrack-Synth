@@ -2,9 +2,9 @@
 
 //ctor
 Button :: Button
-(const Address& slotAddress, uint_fast8_t id) 
+(const Address& slotAddress, uint_fast8_t modulePin) 
 : 
-Control (slotAddress, id) 
+Control (slotAddress, modulePin) 
 {
 	state = false;
 }
@@ -42,7 +42,7 @@ Button :: isPressed(){
 void
 Button :: update(){
 	address.setForReading();
-	bool r = !digitalRead(address.getPin());
+	bool r = !digitalRead(address.getArduinoPin());
 	if(r!= state){
 		state = r;
 		_wasUpdated=true;

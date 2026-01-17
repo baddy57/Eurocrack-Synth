@@ -94,10 +94,10 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back(TestControlInfo::createAnalog("ATTACK", _att_pot1.getPinId(), &_att_pot1));
-		analog.push_back(TestControlInfo::createAnalog("DECAY", _dec_pot4.getPinId(), &_dec_pot4));
-		analog.push_back(TestControlInfo::createAnalog("SUSTAIN", _sus_pot3.getPinId(), &_sus_pot3));
-		analog.push_back(TestControlInfo::createAnalog("RELEASE", _rel_pot5.getPinId(), &_rel_pot5));
+		analog.push_back(TestControlInfo::createAnalog("ATTACK", _att_pot1.getModulePin(), &_att_pot1));
+		analog.push_back(TestControlInfo::createAnalog("DECAY", _dec_pot4.getModulePin(), &_dec_pot4));
+		analog.push_back(TestControlInfo::createAnalog("SUSTAIN", _sus_pot3.getModulePin(), &_sus_pot3));
+		analog.push_back(TestControlInfo::createAnalog("RELEASE", _rel_pot5.getModulePin(), &_rel_pot5));
 		// Jack detectors are shown in socket section
 	}
 

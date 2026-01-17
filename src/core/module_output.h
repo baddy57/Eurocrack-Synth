@@ -10,19 +10,19 @@
 
 struct ModuleOutput {
 	inline  ModuleOutput(const Address& a,
-		uint_fast8_t id,
-		uint_fast8_t detectorId,
+		uint_fast8_t modulePin,
+		uint_fast8_t detectormodulePin,
 		AudioStream& as,
 		uint_fast8_t port,
 		const char* name = "mono out")
 	{
-		base = std::make_shared<OutputSocket>(a, id, detectorId, as, port, name);
+		base = std::make_shared<OutputSocket>(a, modulePin, detectormodulePin, as, port, name);
 		PatchCableManager::registerOutput(base);
 	}
 
 	inline ModuleOutput(const Address& a,
-		uint_fast8_t id,
-		uint_fast8_t detectorId,
+		uint_fast8_t modulePin,
+		uint_fast8_t detectormodulePin,
 		AudioStream& as0,
 		AudioStream& as1,
 		AudioStream& as2,
@@ -30,7 +30,7 @@ struct ModuleOutput {
 		uint_fast8_t port,
 		const char* name = "poly out")
 	{
-		base = std::make_shared<OutputSocket>(a, id, detectorId, as0, as1, as2, as3, port, name);
+		base = std::make_shared<OutputSocket>(a, modulePin, detectormodulePin, as0, as1, as2, as3, port, name);
 		PatchCableManager::registerOutput(base);
 	}
 

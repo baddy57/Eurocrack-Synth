@@ -60,9 +60,9 @@ public:
 		std::vector<TestControlInfo>& analog,
 		std::vector<TestControlInfo>& digital) override
 	{
-		analog.push_back(TestControlInfo::createAnalog("FREQ", _freq_pot0.getPinId(), &_freq_pot0));
-		analog.push_back(TestControlInfo::createAnalog("RESO", _res_pot1.getPinId(), &_res_pot1));
-		analog.push_back(TestControlInfo::createAnalog("OCTAVE", _oct_pot2.getPinId(), &_oct_pot2));
+		analog.push_back(TestControlInfo::createAnalog("FREQ", _freq_pot0.getModulePin(), &_freq_pot0));
+		analog.push_back(TestControlInfo::createAnalog("RESO", _res_pot1.getModulePin(), &_res_pot1));
+		analog.push_back(TestControlInfo::createAnalog("OCTAVE", _oct_pot2.getModulePin(), &_oct_pot2));
 		// Jack detectors are shown in socket section
 	}
 

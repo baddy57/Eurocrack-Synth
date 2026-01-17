@@ -32,4 +32,6 @@ public:
 					const char* = "poly in"	);
 
 	bool isReceiving() const;
+
+	unsigned int getId() override { return address->getId(); }
 };
