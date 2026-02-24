@@ -66,6 +66,16 @@ public:
 		_lastUpdate = millis();
 		_lastSocketToggle = millis();
 
+		// Find first output socket
+		_currentOutputSocketIndex = 0;
+		while (_currentOutputSocketIndex < _sockets.size() && !_sockets[_currentOutputSocketIndex].isOutput) {
+			_currentOutputSocketIndex++;
+		}
+		// Activate first output socket if found
+		if (_currentOutputSocketIndex < _sockets.size() && _sockets[_currentOutputSocketIndex].outputSocket) {
+			_sockets[_currentOutputSocketIndex].outputSocket->sendSignal();
+		}
+
 		// Initial poll to show current values
 		pollAnalogControls();
 		pollDigitalControls();
@@ -94,12 +104,12 @@ private:
 	static inline std::vector<TestSocketInfo> _sockets;
 	static inline uint32_t _lastUpdate = 0;
 	static inline uint32_t _lastSocketToggle = 0;
-	static inline bool _outputSignalState = false;
+	static inline uint8_t _currentOutputSocketIndex = 0;
 
 	// Update rate (20 Hz = 50ms interval)
 	static constexpr uint32_t UPDATE_INTERVAL_MS = 50;
-	// Socket toggle rate (every 5 seconds)
-	static constexpr uint32_t SOCKET_TOGGLE_INTERVAL_MS = 5000;
+	// Socket toggle rate (1 second per output)
+	static constexpr uint32_t SOCKET_TOGGLE_INTERVAL_MS = 1000;
 
 	// Helper to create module by type ID
 	static inline Module* createModuleByType(uint8_t typeId, const Address& addr) {
@@ -176,19 +186,40 @@ private:
 
 		uint32_t now = millis();
 
-		// Toggle output sockets every 5 seconds
+		// Cycle through output sockets one at a time, 1 second each
 		if (now - _lastSocketToggle >= SOCKET_TOGGLE_INTERVAL_MS) {
 			_lastSocketToggle = now;
-			_outputSignalState = !_outputSignalState;
 
-			// Toggle all output sockets
-			for (const auto& socket : _sockets) {
-				if (socket.isOutput && socket.outputSocket) {
-					if (_outputSignalState) {
-						socket.outputSocket->sendSignal();
-					} else {
-						socket.outputSocket->resetSignal();
-					}
+			// Reset current output socket
+			if (_currentOutputSocketIndex < _sockets.size()) {
+				const auto& currentSocket = _sockets[_currentOutputSocketIndex];
+				if (currentSocket.isOutput && currentSocket.outputSocket) {
+					currentSocket.outputSocket->resetSignal();
+				}
+			}
+
+			// Move to next output socket
+			_currentOutputSocketIndex++;
+
+			// Find next output socket (skip input sockets)
+			while (_currentOutputSocketIndex < _sockets.size() && !_sockets[_currentOutputSocketIndex].isOutput) {
+				_currentOutputSocketIndex++;
+			}
+
+			// Wrap around to first output socket
+			if (_currentOutputSocketIndex >= _sockets.size()) {
+				_currentOutputSocketIndex = 0;
+				// Find first output socket
+				while (_currentOutputSocketIndex < _sockets.size() && !_sockets[_currentOutputSocketIndex].isOutput) {
+					_currentOutputSocketIndex++;
+				}
+			}
+
+			// Activate current output socket
+			if (_currentOutputSocketIndex < _sockets.size()) {
+				const auto& currentSocket = _sockets[_currentOutputSocketIndex];
+				if (currentSocket.isOutput && currentSocket.outputSocket) {
+					currentSocket.outputSocket->sendSignal();
 				}
 			}
 		}
@@ -197,8 +228,9 @@ private:
 		for (uint8_t i = 0; i < _sockets.size(); ++i) {
 			const TestSocketInfo& socket = _sockets[i];
 			if (socket.isOutput) {
-				// Output socket - show TX when signal is being sent
-				TestDisplay::updateJackSending(i, _outputSignalState);
+				// Output socket - show TX only for currently active socket
+				bool isActive = (i == _currentOutputSocketIndex);
+				TestDisplay::updateJackSending(i, isActive);
 			} else if (socket.inputSocket) {
 				// Input socket - check if receiving
 				bool receiving = socket.inputSocket->isReceiving();
