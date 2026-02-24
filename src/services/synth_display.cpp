@@ -1,7 +1,7 @@
 #include "synth_display.h"
 
 // Static member definition
-ILI9341_t3 SynthDisplay::_tft = ILI9341_t3(TFT_CS, TFT_DC);
+ILI9341_t3 SynthDisplay::_tft = ILI9341_t3(pins::LCD_CS, pins::LCD_DC);
 
 void SynthDisplay::init() {
 	_tft.begin();

@@ -15,80 +15,92 @@
 #if MOBO_REV_3
 //PINS
 namespace pins {
-	enum {
-		RX, 
-		TX, 
-		WD, 
-		WE, 
-		WF, 
-		LCD_DC, 
-		WG, 
-		TOUCH_CS=9, 
-		WH, 
-		SPI_MOSI, 
-		SPI_MISO, 
-		SPI_SCK, 
-		READ, 
-		VOLUME,
-		TOUCH_IRQ=16, 
-		WC, 
-		WRITE=22, 
-		WA=24, 
-		RGB1_3, 
-		WB, 
-		RGB0_3, 
-		WI, 
-		RL, 
-		RK, 
-		RJ, 
-		RI, 
-		RA, 
-		RB, 
-		RC, 
-		LCD_CS, 
-		RH, 
-		RG, 
-		RF, 
-		RE, 
-		RD
-	};
+	const byte RX = 0;
+	const byte TX = 1;
+
+	const byte WA = 24;
+	const byte WB = 26;
+	const byte WC = 17;
+	const byte WD = 2;
+	const byte WE = 3;
+	const byte WF = 4;
+	const byte WG = 6;
+	const byte WH = 10;
+	const byte WI = 28;
+
+	const byte SPI_MOSI = 11;
+	const byte SPI_MISO = 12;
+	const byte SPI_SCK = 13;
+
+	const byte LCD_CS = 36;
+	const byte LCD_DC = 5;
+	
+	const byte TOUCH_CS = 9;
+	const byte TOUCH_IRQ = 16;
+
+	const byte READ = 14;
+	const byte WRITE = 22;
+	
+	const byte RA = 33;
+	const byte RB = 34;
+	const byte RC = 35;
+	const byte RD = 41;
+	const byte RE = 40;
+	const byte RF = 39;
+	const byte RG = 38;
+	const byte RH = 37;
+	const byte RI = 32;
+	const byte RJ = 31;
+	const byte RK = 30;
+	const byte RL = 29;
+	
+	const byte VOLUME = 15;
+	
+	const byte RGB1_3 = 25;
+	const byte RGB0_3 = 27;
+};
 #elif MOBO_REV_4
 namespace pins {
-	enum {
-		WD=2,
-		WE,
-		WF,
-		LCD_DC,
-		WG,
-		TOUCH_CS = 9,
-		WH,
-		SPI_MOSI,
-		SPI_MISO,
-		SPI_SCK,
-		READ,
-		VOLUME, // unused
-		TOUCH_IRQ = 16,
-		WC,
-		WRITE = 22,
-		TX = 24,
-		RX,
-		WB,
-		WA,
-		WI,
-		RL,
-		RK,
-		RJ,
-		RI,
-		RA,
-		RB,
-		RC,
-		LCD_CS,
-		RH,
-		RG,
-		RF,
-		RE,
-		RD
-	};
+	const byte WA = 27;
+	const byte WB = 26;
+	const byte WC = 17;
+	const byte WD = 2;
+	const byte WE = 3;
+	const byte WF = 4;
+	const byte WG = 6;
+	const byte WH = 10;
+	const byte WI = 28;
+
+	const byte SPI_MOSI = 11;
+	const byte SPI_MISO = 12;
+	const byte SPI_SCK = 13;
+
+	const byte LCD_CS = 36;
+	const byte LCD_DC = 5;
+
+	const byte TOUCH_CS = 9;
+	const byte TOUCH_IRQ = 16;
+
+	const byte READ = 14;
+	const byte WRITE = 22;
+
+	const byte TX = 24;
+	const byte RX = 25;
+
+	const byte RA = 33;
+	const byte RB = 34;
+	const byte RC = 35;
+	const byte RD = 41;
+	const byte RE = 40;
+	const byte RF = 39;
+	const byte RG = 38;
+	const byte RH = 37;
+	const byte RI = 32;
+	const byte RJ = 31;
+	const byte RK = 30;
+	const byte RL = 29;
+
+	const byte VOLUME = 15;
 };
 #elif MOBO_REV_5
 namespace pins {
@@ -160,15 +172,6 @@ const uint_fast8_t VOLUME_PIN 	=	pins::VOLUME;
 
 const bool ID_MUX_LOCATION [3] = {0, 0, 0}; //IN_SEL2[0, 1, 2] --->pins::RG, pins::RH, pins::RI
 
-
-
-#define CS_PIN pins::TOUCH_CS //14
-#define TFT_DC pins::LCD_DC	//5
-#define TFT_CS pins::LCD_CS	//36
-// MOSI=11, MISO=12, SCK=13
-
-
-
 #define MUX_DELAY 5
 const float POT_DEADZONE = 5.f;
 const uint_fast8_t POT_READS = 5;
@@ -183,10 +186,10 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 //USBHost usbHost;
 
 #define TIRQ_PIN 16//pins::__IRQS
-//XPT2046_Touchscreen ts(CS_PIN, TIRQ_PIN);
-//XPT2046_Touchscreen ts(CS_PIN); // Param 2 - NULL - No interrupts
-//XPT2046_Touchscreen ts(CS_PIN, 255); // Param 2 - 255 - No interrupts
-//XPT2046_Touchscreen ts(CS_PIN, TIRQ_PIN); // Param 2 - Touch IRQ Pin - interrupt enabled polling
+//XPT2046_Touchscreen ts(pins::TOUCH_CS, TIRQ_PIN);
+//XPT2046_Touchscreen ts(pins::TOUCH_CS); // Param 2 - NULL - No interrupts
+//XPT2046_Touchscreen ts(pins::TOUCH_CS, 255); // Param 2 - 255 - No interrupts
+//XPT2046_Touchscreen ts(pins::TOUCH_CS, TIRQ_PIN); // Param 2 - Touch IRQ Pin - interrupt enabled polling
 
 
 //fix big module address
