@@ -70,8 +70,8 @@ void setup() {
 	pinMode(pins::WRITE, OUTPUT);
 	pinMode(pins::READ, INPUT);
 	pinMode(pins::VOLUME, INPUT);
-	pinMode(pins::RGB1_3, OUTPUT);
-	pinMode(pins::RGB0_3, OUTPUT);
+	// pinMode(pins::RGB1_3, OUTPUT);
+	// pinMode(pins::RGB0_3, OUTPUT);
 
 	AudioMemory(1500);
 
@@ -105,6 +105,28 @@ void setup() {
 
 	pinMode(pins::READ, INPUT);
 
+	//reset all mux selectors
+	digitalWrite(pins::RA, LOW);
+	digitalWrite(pins::RB, LOW);
+	digitalWrite(pins::RC, LOW);
+	digitalWrite(pins::RD, LOW);
+	digitalWrite(pins::RE, LOW);
+	digitalWrite(pins::RF, LOW);
+	digitalWrite(pins::RG, LOW);
+	digitalWrite(pins::RH, LOW);
+	digitalWrite(pins::RI, LOW);
+	digitalWrite(pins::RJ, LOW);
+	digitalWrite(pins::RK, LOW);
+	digitalWrite(pins::RL, LOW);
+	digitalWrite(pins::WA, LOW);
+	digitalWrite(pins::WB, LOW);
+	digitalWrite(pins::WC, LOW);
+	digitalWrite(pins::WD, LOW);
+	digitalWrite(pins::WE, LOW);
+	digitalWrite(pins::WF, LOW);
+	digitalWrite(pins::WG, LOW);
+	digitalWrite(pins::WH, LOW);
+	digitalWrite(pins::WI, LOW);
 }
 
 void loop() {
