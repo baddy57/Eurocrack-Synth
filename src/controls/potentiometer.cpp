@@ -2,9 +2,9 @@
 
 #include <math.h>
 
-extern const float POT_DEADZONE;
+extern const float CONFIGURATION__POT_DEADZONE;
 
-extern const uint_fast8_t POT_READS;
+extern const uint_fast8_t CONFIGURATION__POT_READS;
 
 #warning "Potentiometer pullup compensation is obsolete, use dedicated multiplexers instead"
 void Potentiometer::setPullUpResistorCompensation(float pullup)
@@ -53,10 +53,10 @@ void Potentiometer :: update()
 	address.setForReading();
 	int r_sum =0;
 
-	for (uint_fast16_t i = 0; i < POT_READS; ++i)
+	for (uint_fast16_t i = 0; i < CONFIGURATION__POT_READS; ++i)
 		r_sum +=analogRead(address.getArduinoPin());
 
-	float avg = r_sum / POT_READS;
+	float avg = r_sum / CONFIGURATION__POT_READS;
 	
 	avg -= minRead;
 	avg *= range;
@@ -67,7 +67,7 @@ void Potentiometer :: update()
 	if (avg > 1020.f) 
 		avg = 1023.f;
 	
-	if (avg > value+POT_DEADZONE || avg < value-POT_DEADZONE) {
+	if (avg > value+CONFIGURATION__POT_DEADZONE || avg < value-CONFIGURATION__POT_DEADZONE) {
 		value = avg;
 		_wasUpdated = true;
 		return;

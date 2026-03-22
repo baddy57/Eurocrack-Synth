@@ -75,7 +75,7 @@ This blocks the entire audio system, causing audio glitches.
 
 **ModuleTypeIdMux.cpp:16**:
 ```cpp
-delay(MUX_DELAY);  // Called 8 times in loop = 40ms blocking at startup
+delay(CONFIGURATION__MUX_DELAY_MICROSECONDS);  // Called 8 times in loop = 40ms blocking at startup
 ```
 
 ---
@@ -173,7 +173,7 @@ Mix of styles throughout:
 
 - **main.cpp:73**: `AudioMemory(1500)` - why 1500?
 - **main.cpp:75**: `delay(2000)` - arbitrary startup delay
-- **HardwareCfg.h:125**: `MUX_DELAY 5` - units unclear
+- **HardwareCfg.h:125**: `CONFIGURATION__MUX_DELAY_MICROSECONDS 5` - units unclear
 
 ---
 

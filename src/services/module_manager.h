@@ -28,7 +28,7 @@
 #include "../modules/Delay_single.h"
 #include "../modules/Delay_multi.h"
 
-extern const uint_fast8_t MAX_MODULES;
+extern const uint_fast8_t CONFIGURATION__MAX_MODULES;
 
 #include "synth_display.h"
 #define tft SynthDisplay::raw()

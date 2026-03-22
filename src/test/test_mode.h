@@ -141,7 +141,7 @@ private:
 		_detectedTypeId = 0;  // Reset
 
 		// Scan slots for first connected module
-		for (uint8_t slot = 0; slot < MAX_MODULES; ++slot) {
+		for (uint8_t slot = 0; slot < CONFIGURATION__MAX_MODULES; ++slot) {
 			Address addr(slot);
 			uint8_t typeId = ModuleTypeIdMux(addr).getModuleId();
 

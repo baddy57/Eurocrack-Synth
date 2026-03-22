@@ -5,7 +5,7 @@ std::vector<Module*> ModuleManager::activeModules;
 
 void ModuleManager::factory()
 {
-	for (uint_fast8_t i = 0; i < MAX_MODULES; ++i)
+	for (uint_fast8_t i = 0; i < CONFIGURATION__MAX_MODULES; ++i)
 	{
 		Address slotAddress(i);
 
@@ -110,7 +110,7 @@ void ModuleManager::factory()
 		}
 
 		#if CONFIGURATION__LOGGER__MODULE_FACTORY
-		if (MAX_MODULES > 16 && slotAddress.getId() % 16 == 15)
+		if (CONFIGURATION__MAX_MODULES > 16 && slotAddress.getId() % 16 == 15)
 			Serial.printf("---------end of bank %i-------------\n", i);
 		#endif
 	}

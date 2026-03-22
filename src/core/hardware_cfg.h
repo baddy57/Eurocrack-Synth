@@ -59,6 +59,7 @@ namespace pins {
 	const byte RGB1_3 = 25;
 	const byte RGB0_3 = 27;
 };
+
 #elif MOBO_REV_4
 namespace pins {
 	const byte WA = 27;
@@ -150,10 +151,6 @@ namespace pins {
 #endif
 };
 
-const uint_fast8_t MIDI_OUT_PIN = 	pins::TX;
-const uint_fast8_t MIDI_IN_PIN 	= 	pins::RX;
-
-
 const uint_fast8_t IN_SEL[6]	= 	{pins::RC, pins::RB, pins::RA, pins::RF, pins::RE, pins::RD};	//IN SEL
 const uint_fast8_t IN_SEL2[6] 	=	{pins::RG, pins::RH, pins::RI, pins::RL, pins::RK, pins::RJ};	//IN SEL2
 //ok for small module (4053)
@@ -165,31 +162,20 @@ const uint_fast8_t OUT_SEL[6]	= 	{pins::WC, pins::WB, pins::WA, pins::WF, pins::
 const uint_fast8_t OUT_SEL2[3]	= 	{pins::WI, pins::WH, pins::WG};									//OUT SEL2
 
 
-
-const uint_fast8_t READ_PIN 	=	pins::READ;  
-const uint_fast8_t WRITE_PIN 	=	pins::WRITE;
-const uint_fast8_t VOLUME_PIN 	=	pins::VOLUME;
-
 const bool ID_MUX_LOCATION [3] = {0, 0, 0}; //IN_SEL2[0, 1, 2] --->pins::RG, pins::RH, pins::RI
 
-#define MUX_DELAY 5
-const float POT_DEADZONE = 5.f;
-const uint_fast8_t POT_READS = 5;
+#define CONFIGURATION__MUX_DELAY_MICROSECONDS 5
+const float CONFIGURATION__POT_DEADZONE = 5.f;
+const uint_fast8_t CONFIGURATION__POT_READS = 5;
 
-const uint_fast8_t MAX_MODULES = 16;
-
-
-const uint_fast8_t HIGH_UPDATE_PRIORITY = 255;
-const uint_fast8_t MEDIUM_UPDATE_PRIORITY = 128;
-const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
+const uint_fast8_t CONFIGURATION__MAX_MODULES = 16;
 
 //USBHost usbHost;
 
-#define TIRQ_PIN 16//pins::__IRQS
-//XPT2046_Touchscreen ts(pins::TOUCH_CS, TIRQ_PIN);
+//XPT2046_Touchscreen ts(pins::TOUCH_CS, pins::TOUCH_IRQ);
 //XPT2046_Touchscreen ts(pins::TOUCH_CS); // Param 2 - NULL - No interrupts
 //XPT2046_Touchscreen ts(pins::TOUCH_CS, 255); // Param 2 - 255 - No interrupts
-//XPT2046_Touchscreen ts(pins::TOUCH_CS, TIRQ_PIN); // Param 2 - Touch IRQ Pin - interrupt enabled polling
+//XPT2046_Touchscreen ts(pins::TOUCH_CS, pins::TOUCH_IRQ); // Param 2 - Touch IRQ Pin - interrupt enabled polling
 
 
 //fix big module address
@@ -233,4 +219,4 @@ const uint_fast8_t LOW_UPDATE_PRIORITY = 1;
 #define CONFIGURATION__SDCARD_ENABLED 0
 #define CONFIGURATION__USBHOST_ENABLED 0
 
-#define TEST_MODE_ENABLED 0
+#define TEST_MODE_ENABLED 1

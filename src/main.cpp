@@ -29,13 +29,6 @@
 #include "test/test_mode.h"
 #endif
 
-//constants
-extern const uint_fast8_t HIGH_UPDATE_PRIORITY;
-extern const uint_fast8_t MEDIUM_UPDATE_PRIORITY;
-extern const uint_fast8_t LOW_UPDATE_PRIORITY;
-extern const uint_fast8_t READ_PIN;
-extern const uint_fast8_t WRITE_PIN;
-
 //AudioControlSGTL5000     sgtl5000_1;
 
 //global variables

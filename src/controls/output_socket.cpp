@@ -45,6 +45,6 @@ void OutputSocket :: sendSignal() const
 void OutputSocket :: resetSignal() const
 {
 	//address.setForWriting(); is already set
-	digitalWrite(WRITE_PIN, HIGH);
+	digitalWrite(pins::WRITE, HIGH);
 	return;
 }

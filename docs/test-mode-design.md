@@ -259,7 +259,7 @@ uint16_t TestControlReader::readAnalogRaw(const Address& slot, uint8_t controlId
     // Multi-sample for stability (like Potentiometer does)
     uint32_t sum = 0;
     for (int i = 0; i < 5; i++) {
-        sum += analogRead(READ_PIN);
+        sum += analogRead(pins::READ);
     }
     return sum / 5;
 }
@@ -267,8 +267,8 @@ uint16_t TestControlReader::readAnalogRaw(const Address& slot, uint8_t controlId
 bool TestControlReader::readDigital(const Address& slot, uint8_t controlId) {
     ControlAddress addr(slot, controlId);
     addr.setForReading();
-    delayMicroseconds(MUX_DELAY);
-    return digitalRead(READ_PIN);
+    delayMicroseconds(CONFIGURATION__MUX_DELAY_MICROSECONDS);
+    return digitalRead(pins::READ);
 }
 
 bool TestControlReader::readJackDetector(const Address& slot, uint8_t detectormodulePin) {
@@ -276,8 +276,8 @@ bool TestControlReader::readJackDetector(const Address& slot, uint8_t detectormo
     // Based on Socket::hasJack() implementation
     ControlAddress addr(slot, detectormodulePin);
     addr.setForReading();
-    delayMicroseconds(MUX_DELAY);
-    return !digitalRead(READ_PIN);  // Active low
+    delayMicroseconds(CONFIGURATION__MUX_DELAY_MICROSECONDS);
+    return !digitalRead(pins::READ);  // Active low
 }
 ```
 
@@ -473,7 +473,7 @@ const ModuleTestConfig* findConfigByTypeId(uint8_t typeId) {
 
 ```cpp
 void TestMode::detectModule() {
-    for (uint8_t slot = 0; slot < MAX_MODULES; slot++) {
+    for (uint8_t slot = 0; slot < CONFIGURATION__MAX_MODULES; slot++) {
         Address addr(slot);
         uint8_t typeId = ModuleTypeIdMux(addr).getModuleId();
 

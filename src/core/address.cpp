@@ -5,14 +5,12 @@ extern const uint_fast8_t IN_SEL[];
 extern const uint_fast8_t IN_SEL2[];
 extern const uint_fast8_t OUT_SEL[];
 extern const uint_fast8_t OUT_SEL2[];
-extern const uint_fast8_t READ_PIN;
-extern const uint_fast8_t WRITE_PIN;
 extern const bool ID_MUX_LOCATION[];
 
 //ctor
 Address :: Address (uint_fast8_t modulePin) {
 	_id=modulePin;
-	//arduinoPin = READ_PIN;
+	//arduinoPin = pins::READ;
 	for (uint_fast8_t i=0; i<6; ++i)
 		sel[5-i] = bitRead(modulePin, i);
 }
@@ -28,13 +26,13 @@ void
 Address :: setForReading() const {
 	for (uint_fast8_t i=0; i<6; ++i)
 		digitalWrite(IN_SEL[i], sel[i]);
-//	delayMicroseconds(MUX_DELAY);
+//	delayMicroseconds(CONFIGURATION__MUX_DELAY_MICROSECONDS);
 	return;
 }
 
 //ctor
 ControlAddress :: ControlAddress (const Address& slotAddress, uint_fast8_t modulePin) : Address(slotAddress){
-	arduinoPin = READ_PIN;
+	arduinoPin = pins::READ;
 	for (uint_fast8_t i=0; i<6; ++i)
 		sel2[5-i] = bitRead(modulePin, i);
 	this->_id = slotAddress.getId() + 64*modulePin;					/////////2021.01.14
@@ -49,12 +47,12 @@ ControlAddress :: setForReading() const {
 	Address :: setForReading();
 	for (uint_fast8_t i=0; i<6; ++i)
 		digitalWrite(IN_SEL2[i], sel2[i]);
-    delayMicroseconds(MUX_DELAY);
+    delayMicroseconds(CONFIGURATION__MUX_DELAY_MICROSECONDS);
 }
 
 //ctor
 OutputSocketAddress :: OutputSocketAddress (const Address& slotAddress, uint_fast8_t modulePin) : Address(slotAddress){
-	arduinoPin = WRITE_PIN;  
+	arduinoPin = pins::WRITE;  
 	for (uint_fast8_t i=0; i<6; ++i)
 		sel[i] = slotAddress.getSel(i);				////////////////202009052152 (5-) wrong cause getsel is already ok
 	for (uint_fast8_t i=0; i<3; ++i)
@@ -68,7 +66,7 @@ OutputSocketAddress :: setForWriting() const {
 		digitalWrite(OUT_SEL[i], sel[i]);
 	for (uint_fast8_t i=0; i<3; ++i)
 		digitalWrite(OUT_SEL2[i], sel2[i]);
-    delayMicroseconds(MUX_DELAY);
+    delayMicroseconds(CONFIGURATION__MUX_DELAY_MICROSECONDS);
 }
 
 //ctor
@@ -83,5 +81,5 @@ IdMuxAddress :: setForReading() const {
 	Address :: setForReading();
 	for (uint_fast8_t i=0; i<3; ++i)
 		digitalWrite(IN_SEL2[2-i], sel2[i]);
-    delayMicroseconds(MUX_DELAY);
+    delayMicroseconds(CONFIGURATION__MUX_DELAY_MICROSECONDS);
 }

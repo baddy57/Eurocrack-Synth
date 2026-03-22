@@ -1,7 +1,6 @@
 #include "module_type_id_mux.h"
 
 extern const uint_fast8_t IN_SEL2[];
-extern const uint_fast8_t READ_PIN;
 
 
 ModuleTypeIdMux :: ModuleTypeIdMux(const Address& a){
@@ -12,8 +11,8 @@ ModuleTypeIdMux :: ModuleTypeIdMux(const Address& a){
 		digitalWrite(pins::RJ, bitRead(i, 0));
 		digitalWrite(pins::RK, bitRead(i, 1));
 		digitalWrite(pins::RL, bitRead(i, 2));
-		delay(MUX_DELAY);
-		bool digit(digitalRead(READ_PIN));
+		delay(CONFIGURATION__MUX_DELAY_MICROSECONDS);
+		bool digit(digitalRead(pins::READ));
 		bitWrite(moduleId, i, digit);
 	}
 }
