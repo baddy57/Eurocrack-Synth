@@ -342,6 +342,46 @@ class TestDisplay {
 		tft.fillCircle(x, y, 3, ILI9341_RED);
 	}
 
+	// Touch debug - display raw and mapped coordinates
+	static inline void drawTouchDebug(uint16_t rawX, uint16_t rawY, uint16_t rawZ,
+	                                   uint16_t mappedX, uint16_t mappedY) {
+		static constexpr uint16_t DEBUG_Y = 280;
+		static constexpr uint16_t DEBUG_BG_COLOR = 0x18C3;  // Dark blue
+
+		// Clear debug area
+		tft.fillRect(0, DEBUG_Y, 240, 40, DEBUG_BG_COLOR);
+
+		// Display raw coordinates
+		tft.setTextColor(ILI9341_YELLOW);
+		tft.setTextSize(1);
+		tft.setCursor(4, DEBUG_Y + 2);
+		tft.print("RAW: ");
+		tft.print(rawX);
+		tft.print(", ");
+		tft.print(rawY);
+		tft.print(" (");
+		tft.print(rawZ);
+		tft.print(")");
+
+		// Display mapped coordinates
+		tft.setCursor(4, DEBUG_Y + 14);
+		tft.print("MAP: ");
+		tft.print(mappedX);
+		tft.print(", ");
+		tft.print(mappedY);
+
+		// Display status
+		tft.setCursor(4, DEBUG_Y + 26);
+		tft.setTextColor(ILI9341_GREEN);
+		tft.print("TOUCH ACTIVE");
+	}
+
+	// Clear touch debug area
+	static inline void clearTouchDebug() {
+		static constexpr uint16_t DEBUG_Y = 280;
+		tft.fillRect(0, DEBUG_Y, 240, 40, TEST_COLOR_BACKGROUND);
+	}
+
 };
 
 #undef tft

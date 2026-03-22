@@ -9,17 +9,24 @@ struct TouchPoint {
 	uint16_t z;  // pressure
 };
 
+struct TouchPointRaw {
+	uint16_t x;
+	uint16_t y;
+	uint16_t z;
+};
+
 class SynthTouch {
 	static XPT2046_Touchscreen _ts;
 	static TouchPoint _currentPoint;
+	static TouchPointRaw _currentPointRaw;
 	static bool _wasTouched;
 	static uint32_t _lastPollTime;
 
 	// Calibration constants for coordinate mapping
-	static constexpr uint16_t TS_MIN_X = 300;
-	static constexpr uint16_t TS_MAX_X = 3700;
-	static constexpr uint16_t TS_MIN_Y = 400;
-	static constexpr uint16_t TS_MAX_Y = 3750;
+	static constexpr uint16_t TS_MIN_X = 150;
+	static constexpr uint16_t TS_MAX_X = 920;
+	static constexpr uint16_t TS_MIN_Y = 120;
+	static constexpr uint16_t TS_MAX_Y = 940;
 	static constexpr uint16_t DISPLAY_WIDTH = 240;
 	static constexpr uint16_t DISPLAY_HEIGHT = 320;
 	static constexpr uint16_t POLL_INTERVAL_MS = 20;  // 50Hz
@@ -32,6 +39,7 @@ public:
 
 	static bool isTouched();
 	static TouchPoint getPoint();
+	static TouchPointRaw getPointRaw();  // Get raw coordinates for calibration
 	static bool justPressed();   // Rising edge
 	static bool justReleased();  // Falling edge
 

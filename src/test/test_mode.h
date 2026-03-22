@@ -396,6 +396,17 @@ private:
 	static inline void pollCurrentModule() {
 		if (_module == nullptr) return;
 
+		#if CONFIGURATION__DEBUG_TOUCH_RAW
+		// Display raw touch coordinates for calibration
+		if (SynthTouch::isTouched()) {
+			TouchPoint mapped = SynthTouch::getPoint();
+			TouchPointRaw raw = SynthTouch::getPointRaw();
+			TestDisplay::drawTouchDebug(raw.x, raw.y, raw.z, mapped.x, mapped.y);
+		} else {
+			TestDisplay::clearTouchDebug();
+		}
+		#endif
+
 		#if CONFIGURATION__TRACE_TOUCH
 		// Draw red dots at touch points for debugging
 		if (SynthTouch::isTouched()) {

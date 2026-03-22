@@ -5,7 +5,7 @@ ILI9341_t3 SynthDisplay::_tft = ILI9341_t3(pins::LCD_CS, pins::LCD_DC);
 
 void SynthDisplay::init() {
 	_tft.begin();
-	_tft.setRotation(4);
+	_tft.setRotation(0);
 	_tft.fillScreen(CONFIGURATION__BACKGROUND_COLOR);
 }
 

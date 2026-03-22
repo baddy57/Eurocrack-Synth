@@ -1,14 +1,19 @@
 #include "synth_touch.h"
+#include <SPI.h>
 
 // Static member definitions
 XPT2046_Touchscreen SynthTouch::_ts = XPT2046_Touchscreen(pins::TOUCH_CS, pins::TOUCH_IRQ);
 TouchPoint SynthTouch::_currentPoint = {0, 0, 0};
+TouchPointRaw SynthTouch::_currentPointRaw = {0, 0, 0};
 bool SynthTouch::_wasTouched = false;
 uint32_t SynthTouch::_lastPollTime = 0;
 
 void SynthTouch::init() {
+	// Explicitly initialize SPI bus (shared with display)
+	SPI.begin();
+
 	_ts.begin();
-	_ts.setRotation(4);  // Match display rotation
+	_ts.setRotation(0);  // Try rotation 0 (may need adjustment)
 }
 
 void SynthTouch::update() {
@@ -24,12 +29,18 @@ void SynthTouch::update() {
 	if (currentlyTouched) {
 		TS_Point p = _ts.getPoint();
 
+		// Store raw coordinates for debugging
+		_currentPointRaw.x = p.x;
+		_currentPointRaw.y = p.y;
+		_currentPointRaw.z = p.z;
+
 		// Map raw coordinates to display coordinates
 		_currentPoint.x = mapCoordinate(p.x, TS_MIN_X, TS_MAX_X, DISPLAY_WIDTH);
 		_currentPoint.y = mapCoordinate(p.y, TS_MIN_Y, TS_MAX_Y, DISPLAY_HEIGHT);
 		_currentPoint.z = p.z;
 	} else {
 		_currentPoint.z = 0;
+		_currentPointRaw.z = 0;
 	}
 
 	_wasTouched = currentlyTouched;
@@ -41,6 +52,10 @@ bool SynthTouch::isTouched() {
 
 TouchPoint SynthTouch::getPoint() {
 	return _currentPoint;
+}
+
+TouchPointRaw SynthTouch::getPointRaw() {
+	return _currentPointRaw;
 }
 
 bool SynthTouch::justPressed() {
