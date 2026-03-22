@@ -23,6 +23,7 @@
 #include "configuration.h"
 #include "hardware_setup/motherboard.h"
 #include "services/synth_display.h"
+#include "services/synth_touch.h"
 #include "services/module_manager.h"
 #include "services/patch_cable_manager.h"
 
@@ -70,11 +71,12 @@ void setup() {
 	delay(2000);
 
 	SynthDisplay::init();
+	SynthTouch::init();
 
 	#if TEST_MODE_ENABLED
-	// Enter test mode and skip normal initialization
+	// Enter multi-module test mode with touchscreen support
 	pinMode(pins::READ, INPUT_PULLDOWN);
-	TestMode::enter();
+	TestMode::enterMultiModule();
 	pinMode(pins::READ, INPUT);
 	return;
 	#endif
@@ -123,7 +125,8 @@ void setup() {
 
 void loop() {
 	#if TEST_MODE_ENABLED
-	TestMode::update();
+	SynthTouch::update();
+	TestMode::updateMultiModule();
 	return;
 	#endif
 

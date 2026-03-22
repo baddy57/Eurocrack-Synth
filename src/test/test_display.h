@@ -268,6 +268,65 @@ class TestDisplay {
 		tft.println(message);
 	}
 
+	// Multi-module mode display methods
+	static inline void clearScreen() {
+		tft.fillScreen(TEST_COLOR_BACKGROUND);
+	}
+
+	static inline void drawTabBar(uint8_t currentIndex, uint8_t totalModules) {
+		static constexpr uint8_t TAB_HEIGHT = 20;
+		static constexpr uint16_t TAB_ACTIVE_COLOR = 0x07FF;    // Cyan
+		static constexpr uint16_t TAB_INACTIVE_COLOR = 0x4208;  // Dark gray
+
+		uint16_t tabWidth = 320 / totalModules;
+
+		for (uint8_t i = 0; i < totalModules; ++i) {
+			uint16_t x = i * tabWidth;
+			uint16_t color = (i == currentIndex) ? TAB_ACTIVE_COLOR : TAB_INACTIVE_COLOR;
+
+			// Draw tab background
+			tft.fillRect(x, 0, tabWidth - 1, TAB_HEIGHT, color);
+
+			// Draw tab number
+			tft.setTextColor(ILI9341_BLACK);
+			tft.setTextSize(1);
+			// Center the number in the tab
+			uint8_t textX = x + (tabWidth / 2) - 3;
+			tft.setCursor(textX, 6);
+			tft.print(i + 1);
+		}
+	}
+
+	static inline void drawMultiModuleHeader(const char* moduleName, uint8_t slot,
+	                                          uint8_t typeId, uint8_t moduleNum, uint8_t totalModules) {
+		static constexpr uint8_t MULTI_HEADER_Y = 20;
+		static constexpr uint8_t MULTI_INFO_Y = 36;
+
+		// Adjust analog section to start lower
+		const uint8_t MULTI_ANALOG_HEADER_Y = 52;
+
+		// Header line
+		tft.setTextColor(TEST_COLOR_HEADER);
+		tft.setCursor(COL_NAME, MULTI_HEADER_Y);
+		tft.print("Module ");
+		tft.print(moduleNum);
+		tft.print('/');
+		tft.print(totalModules);
+		tft.print(" - ");
+		tft.println(moduleName);
+
+		// Info line
+		tft.setTextColor(TEST_COLOR_LABEL);
+		tft.setCursor(COL_NAME, MULTI_INFO_Y);
+		tft.print("Slot: ");
+		tft.print(slot);
+		tft.print("   Type: ");
+		// Print all 8 binary digits with leading zeros
+		for (int8_t i = 7; i >= 0; --i) {
+			tft.print((typeId >> i) & 1);
+		}
+	}
+
 };
 
 #undef tft
