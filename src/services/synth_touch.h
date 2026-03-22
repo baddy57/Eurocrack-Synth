@@ -20,8 +20,8 @@ class SynthTouch {
 	static constexpr uint16_t TS_MAX_X = 3700;
 	static constexpr uint16_t TS_MIN_Y = 400;
 	static constexpr uint16_t TS_MAX_Y = 3750;
-	static constexpr uint16_t DISPLAY_WIDTH = 320;
-	static constexpr uint16_t DISPLAY_HEIGHT = 240;
+	static constexpr uint16_t DISPLAY_WIDTH = 240;
+	static constexpr uint16_t DISPLAY_HEIGHT = 320;
 	static constexpr uint16_t POLL_INTERVAL_MS = 20;  // 50Hz
 
 	static uint16_t mapCoordinate(uint16_t raw, uint16_t rawMin, uint16_t rawMax, uint16_t displayMax);

@@ -66,7 +66,13 @@ void setup() {
 	pinMode(pins::READ, INPUT);
 	pinMode(pins::VOLUME, INPUT);
 
+	#if TEST_MODE_ENABLED
+	// Test mode needs much less audio memory
+	AudioMemory(200);
+	#else
+	// Production mode needs more for full synth operation
 	AudioMemory(1500);
+	#endif
 
 	delay(2000);
 

@@ -32,16 +32,10 @@
 #include "../modules/Delay_single.h"
 #include "../modules/Delay_multi.h"
 
-// Multi-module test info structure
+// Multi-module test info structure (minimal - module created on demand)
 struct ModuleTestInfo {
-	uint8_t slot;                               // 0-15
-	uint8_t typeId;                             // Module type ID
-	Module* module;                             // Instantiated module
-	std::vector<TestControlInfo> analogControls;
-	std::vector<TestControlInfo> digitalControls;
-	std::vector<TestSocketInfo> sockets;
-	uint8_t currentOutputSocketIndex;
-	uint32_t lastSocketToggle;
+	uint8_t slot;    // 0-15
+	uint8_t typeId;  // Module type ID
 };
 
 class TestMode {
@@ -155,8 +149,8 @@ private:
 	static inline uint32_t _lastSocketToggle = 0;
 	static inline uint8_t _currentOutputSocketIndex = 0;
 
-	// Multi-module mode state
-	static inline std::vector<ModuleTestInfo> _detectedModules;
+	// Multi-module mode state (reuses single-module variables for current module)
+	static inline std::vector<ModuleTestInfo> _detectedModules;  // Just slot/typeId list
 	static inline uint8_t _currentModuleIndex = 0;
 	static inline bool _multiModuleMode = false;
 
@@ -297,7 +291,7 @@ private:
 	static inline void detectAllModules() {
 		_detectedModules.clear();
 
-		// Scan all 16 slots
+		// Scan all 16 slots - just store slot and typeId
 		for (uint8_t slot = 0; slot < CONFIGURATION__MAX_MODULES; ++slot) {
 			Address addr(slot);
 			uint8_t typeId = ModuleTypeIdMux(addr).getModuleId();
@@ -307,28 +301,6 @@ private:
 				ModuleTestInfo info;
 				info.slot = slot;
 				info.typeId = typeId;
-				info.module = createModuleByType(typeId, addr);
-				info.currentOutputSocketIndex = 0;
-				info.lastSocketToggle = millis();
-
-				if (info.module != nullptr) {
-					// Get test controls
-					info.module->getTestControls(info.analogControls, info.digitalControls);
-					info.module->getTestSockets(info.sockets);
-
-					// Find first output socket
-					while (info.currentOutputSocketIndex < info.sockets.size() &&
-					       !info.sockets[info.currentOutputSocketIndex].isOutput) {
-						info.currentOutputSocketIndex++;
-					}
-
-					// Activate first output socket if found
-					if (info.currentOutputSocketIndex < info.sockets.size() &&
-					    info.sockets[info.currentOutputSocketIndex].outputSocket) {
-						info.sockets[info.currentOutputSocketIndex].outputSocket->sendSignal();
-					}
-				}
-
 				_detectedModules.push_back(info);
 			}
 		}
@@ -340,6 +312,17 @@ private:
 		_currentModuleIndex = index;
 		const ModuleTestInfo& info = _detectedModules[index];
 
+		// Clean up previous module
+		if (_module != nullptr) {
+			delete _module;
+			_module = nullptr;
+		}
+
+		// Create module for this slot
+		_currentSlot = Address(info.slot);
+		_detectedTypeId = info.typeId;
+		_module = createModuleByType(info.typeId, _currentSlot);
+
 		// Clear screen
 		TestDisplay::clearScreen();
 
@@ -349,44 +332,49 @@ private:
 		// Draw tab bar
 		TestDisplay::drawTabBar(_currentModuleIndex, _detectedModules.size());
 
-		if (info.module == nullptr) {
+		if (_module == nullptr) {
 			// Module detected but no implementation
 			TestDisplay::drawMultiModuleHeader("UNKNOWN", info.slot, info.typeId,
 			                                    index + 1, _detectedModules.size());
 			return;
 		}
 
+		// Get test controls from the module
+		_analogControls.clear();
+		_digitalControls.clear();
+		_sockets.clear();
+
+		_module->getTestControls(_analogControls, _digitalControls);
+		_module->getTestSockets(_sockets);
+
 		// Draw module UI
-		TestDisplay::drawMultiModuleHeader(info.module->getModuleName(), info.slot,
-		                                    info.module->getModuleTypeId(),
+		TestDisplay::drawMultiModuleHeader(_module->getModuleName(), info.slot,
+		                                    _module->getModuleTypeId(),
 		                                    index + 1, _detectedModules.size());
-		TestDisplay::drawAnalogSection(info.analogControls);
-		TestDisplay::drawDigitalSection(info.digitalControls);
-		TestDisplay::drawSocketSection(info.sockets);
+		TestDisplay::drawAnalogSection(_analogControls);
+		TestDisplay::drawDigitalSection(_digitalControls);
+		TestDisplay::drawSocketSection(_sockets);
+
+		// Reset socket state
+		_lastSocketToggle = millis();
+		_currentOutputSocketIndex = 0;
+
+		// Find first output socket
+		while (_currentOutputSocketIndex < _sockets.size() &&
+		       !_sockets[_currentOutputSocketIndex].isOutput) {
+			_currentOutputSocketIndex++;
+		}
+
+		// Activate first output socket if found
+		if (_currentOutputSocketIndex < _sockets.size() &&
+		    _sockets[_currentOutputSocketIndex].outputSocket) {
+			_sockets[_currentOutputSocketIndex].outputSocket->sendSignal();
+		}
 
 		// Initial poll to show current values
-		Address addr(info.slot);
-
-		// Poll analog controls
-		for (uint8_t i = 0; i < info.analogControls.size(); ++i) {
-			const TestControlInfo& ctrl = info.analogControls[i];
-			uint16_t raw = TestReader::readAnalog(addr, ctrl.pinId);
-			TestDisplay::updateAnalog(i, raw, ctrl.pot);
-		}
-
-		// Poll digital controls
-		for (uint8_t i = 0; i < info.digitalControls.size(); ++i) {
-			const TestControlInfo& ctrl = info.digitalControls[i];
-			bool state = TestReader::readDigital(addr, ctrl.pinId, ctrl.type);
-			TestDisplay::updateDigital(i, state, ctrl.type);
-		}
-
-		// Poll sockets
-		for (uint8_t i = 0; i < info.sockets.size(); ++i) {
-			const TestControlInfo& ctrl = info.sockets[i].detector;
-			bool state = TestReader::readDigital(addr, ctrl.pinId, ctrl.type);
-			TestDisplay::updateJackDetector(i, state);
-		}
+		pollAnalogControls();
+		pollDigitalControls();
+		pollSockets();
 	}
 
 	static inline void checkTouchNavigation() {
@@ -397,7 +385,7 @@ private:
 		if (p.y >= 20) return;  // Not in tab bar
 
 		// Calculate which tab was touched
-		uint16_t tabWidth = 320 / _detectedModules.size();
+		uint16_t tabWidth = 240 / _detectedModules.size();
 		uint8_t tappedTab = p.x / tabWidth;
 
 		if (tappedTab < _detectedModules.size() && tappedTab != _currentModuleIndex) {
@@ -406,83 +394,20 @@ private:
 	}
 
 	static inline void pollCurrentModule() {
-		if (_currentModuleIndex >= _detectedModules.size()) return;
+		if (_module == nullptr) return;
 
-		ModuleTestInfo& info = _detectedModules[_currentModuleIndex];
-		Address addr(info.slot);
-
-		// Poll analog controls
-		for (uint8_t i = 0; i < info.analogControls.size(); ++i) {
-			const TestControlInfo& ctrl = info.analogControls[i];
-			uint16_t raw = TestReader::readAnalog(addr, ctrl.pinId);
-			TestDisplay::updateAnalog(i, raw, ctrl.pot);
+		#if CONFIGURATION__TRACE_TOUCH
+		// Draw red dots at touch points for debugging
+		if (SynthTouch::isTouched()) {
+			TouchPoint p = SynthTouch::getPoint();
+			TestDisplay::drawTouchPoint(p.x, p.y);
 		}
+		#endif
 
-		// Poll digital controls
-		for (uint8_t i = 0; i < info.digitalControls.size(); ++i) {
-			const TestControlInfo& ctrl = info.digitalControls[i];
-			bool state = TestReader::readDigital(addr, ctrl.pinId, ctrl.type);
-			TestDisplay::updateDigital(i, state, ctrl.type);
-		}
-
-		// Poll sockets - jack detectors
-		for (uint8_t i = 0; i < info.sockets.size(); ++i) {
-			const TestControlInfo& ctrl = info.sockets[i].detector;
-			bool state = TestReader::readDigital(addr, ctrl.pinId, ctrl.type);
-			TestDisplay::updateJackDetector(i, state);
-		}
-
-		// Socket output cycling
-		uint32_t now = millis();
-		if (now - info.lastSocketToggle >= SOCKET_TOGGLE_INTERVAL_MS) {
-			info.lastSocketToggle = now;
-
-			// Reset current output socket
-			if (info.currentOutputSocketIndex < info.sockets.size()) {
-				const auto& currentSocket = info.sockets[info.currentOutputSocketIndex];
-				if (currentSocket.isOutput && currentSocket.outputSocket) {
-					currentSocket.outputSocket->resetSignal();
-				}
-			}
-
-			// Move to next output socket
-			info.currentOutputSocketIndex++;
-
-			// Find next output socket (skip input sockets)
-			while (info.currentOutputSocketIndex < info.sockets.size() &&
-			       !info.sockets[info.currentOutputSocketIndex].isOutput) {
-				info.currentOutputSocketIndex++;
-			}
-
-			// Wrap around to first output socket
-			if (info.currentOutputSocketIndex >= info.sockets.size()) {
-				info.currentOutputSocketIndex = 0;
-				while (info.currentOutputSocketIndex < info.sockets.size() &&
-				       !info.sockets[info.currentOutputSocketIndex].isOutput) {
-					info.currentOutputSocketIndex++;
-				}
-			}
-
-			// Activate current output socket
-			if (info.currentOutputSocketIndex < info.sockets.size()) {
-				const auto& currentSocket = info.sockets[info.currentOutputSocketIndex];
-				if (currentSocket.isOutput && currentSocket.outputSocket) {
-					currentSocket.outputSocket->sendSignal();
-				}
-			}
-		}
-
-		// Update socket display
-		for (uint8_t i = 0; i < info.sockets.size(); ++i) {
-			const TestSocketInfo& socket = info.sockets[i];
-			if (socket.isOutput) {
-				bool isActive = (i == info.currentOutputSocketIndex);
-				TestDisplay::updateJackSending(i, isActive);
-			} else if (socket.inputSocket) {
-				bool receiving = socket.inputSocket->isReceiving();
-				TestDisplay::updateJackReceiving(i, receiving);
-			}
-		}
+		// Reuse single-module polling methods
+		pollAnalogControls();
+		pollDigitalControls();
+		pollSockets();
 	}
 };
 

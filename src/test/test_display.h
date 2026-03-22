@@ -290,7 +290,7 @@ class TestDisplay {
 		static constexpr uint16_t TAB_ACTIVE_COLOR = 0x07FF;    // Cyan
 		static constexpr uint16_t TAB_INACTIVE_COLOR = 0x4208;  // Dark gray
 
-		uint16_t tabWidth = 320 / totalModules;
+		uint16_t tabWidth = 240 / totalModules;
 
 		for (uint8_t i = 0; i < totalModules; ++i) {
 			uint16_t x = i * tabWidth;
@@ -334,6 +334,12 @@ class TestDisplay {
 		for (int8_t i = 7; i >= 0; --i) {
 			tft.print((typeId >> i) & 1);
 		}
+	}
+
+	// Touch trace debug feature - draw red point at touch location
+	static inline void drawTouchPoint(uint16_t x, uint16_t y) {
+		// Draw a small red circle (3px radius)
+		tft.fillCircle(x, y, 3, ILI9341_RED);
 	}
 
 };

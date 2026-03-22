@@ -8,7 +8,7 @@ uint32_t SynthTouch::_lastPollTime = 0;
 
 void SynthTouch::init() {
 	_ts.begin();
-	_ts.setRotation(1);  // Match display rotation
+	_ts.setRotation(4);  // Match display rotation
 }
 
 void SynthTouch::update() {
