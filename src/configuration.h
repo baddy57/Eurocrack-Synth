@@ -27,5 +27,5 @@
 #define CONFIGURATION__USBHOST_ENABLED 0
 
 #define TEST_MODE_ENABLED 1
-#define CONFIGURATION__TRACE_TOUCH 1         // Draw red dots at touch points for debugging
-#define CONFIGURATION__DEBUG_TOUCH_RAW 1     // Display raw touch coordinates for calibration
+#define CONFIGURATION__TRACE_TOUCH 0         // Draw red dots at touch points for debugging (disable to save RAM)
+#define CONFIGURATION__DEBUG_TOUCH_RAW 1     // Display raw touch coordinates for calibration (DISABLED to isolate crash)

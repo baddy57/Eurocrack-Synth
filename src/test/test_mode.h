@@ -314,7 +314,11 @@ private:
 
 		// Clean up previous module
 		if (_module != nullptr) {
-			delete _module;
+			_analogControls.clear();
+			_digitalControls.clear();
+			_sockets.clear();
+			// Don't delete - just leak it to avoid crash (temporary workaround)
+			// TODO: Fix module deletion properly
 			_module = nullptr;
 		}
 
@@ -323,17 +327,11 @@ private:
 		_detectedTypeId = info.typeId;
 		_module = createModuleByType(info.typeId, _currentSlot);
 
-		// Clear screen
 		TestDisplay::clearScreen();
-
-		// Set multi-module layout (analog section starts at 52px)
 		TestDisplay::setMultiModuleLayout();
-
-		// Draw tab bar
 		TestDisplay::drawTabBar(_currentModuleIndex, _detectedModules.size());
 
-		if (_module == nullptr) {
-			// Module detected but no implementation
+		if (!_module) {
 			TestDisplay::drawMultiModuleHeader("UNKNOWN", info.slot, info.typeId,
 			                                    index + 1, _detectedModules.size());
 			return;
@@ -378,44 +376,44 @@ private:
 	}
 
 	static inline void checkTouchNavigation() {
-		if (!SynthTouch::justPressed()) return;
+		if (!SynthTouch::justPressed() || _detectedModules.empty()) return;
 
-		// Check if touch is in tab bar area (top 20 pixels)
 		TouchPoint p = SynthTouch::getPoint();
+
+		// Bounds check - ignore touches with invalid coordinates
+		if (p.x >= 240 || p.y >= 320) return;
 		if (p.y >= 20) return;  // Not in tab bar
 
-		// Calculate which tab was touched
+		// Calculate tab with overflow protection
 		uint16_t tabWidth = 240 / _detectedModules.size();
-		uint8_t tappedTab = p.x / tabWidth;
+		if (tabWidth == 0) return;  // Safety
 
+		uint16_t tappedTab = p.x / tabWidth;
 		if (tappedTab < _detectedModules.size() && tappedTab != _currentModuleIndex) {
-			loadModule(tappedTab);
+			loadModule((uint8_t)tappedTab);
 		}
 	}
 
 	static inline void pollCurrentModule() {
-		if (_module == nullptr) return;
+		if (!_module) return;
 
 		#if CONFIGURATION__DEBUG_TOUCH_RAW
-		// Display raw touch coordinates for calibration
-		if (SynthTouch::isTouched()) {
+		TouchPointRaw raw = SynthTouch::getPointRaw();
+		if (raw.z > 0) {
 			TouchPoint mapped = SynthTouch::getPoint();
-			TouchPointRaw raw = SynthTouch::getPointRaw();
-			TestDisplay::drawTouchDebug(raw.x, raw.y, raw.z, mapped.x, mapped.y);
+			TestDisplay::drawTouchDebug(raw.x, raw.y, raw.z, mapped.x, mapped.y, SynthTouch::isTouched());
 		} else {
 			TestDisplay::clearTouchDebug();
 		}
 		#endif
 
 		#if CONFIGURATION__TRACE_TOUCH
-		// Draw red dots at touch points for debugging
 		if (SynthTouch::isTouched()) {
 			TouchPoint p = SynthTouch::getPoint();
 			TestDisplay::drawTouchPoint(p.x, p.y);
 		}
 		#endif
 
-		// Reuse single-module polling methods
 		pollAnalogControls();
 		pollDigitalControls();
 		pollSockets();

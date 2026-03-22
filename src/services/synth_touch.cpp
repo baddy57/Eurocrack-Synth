@@ -9,11 +9,14 @@ bool SynthTouch::_wasTouched = false;
 uint32_t SynthTouch::_lastPollTime = 0;
 
 void SynthTouch::init() {
-	// Explicitly initialize SPI bus (shared with display)
-	SPI.begin();
+	// SPI should already be initialized by display
+	// Don't call SPI.begin() again as it might reset display settings
 
 	_ts.begin();
-	_ts.setRotation(0);  // Try rotation 0 (may need adjustment)
+	_ts.setRotation(0);  // Match display rotation
+
+	// Give it time to stabilize
+	delay(10);
 }
 
 void SynthTouch::update() {
@@ -24,21 +27,34 @@ void SynthTouch::update() {
 	}
 	_lastPollTime = now;
 
-	bool currentlyTouched = _ts.touched();
+	bool currentlyTouched = false;
 
-	if (currentlyTouched) {
+	// Use IRQ pin for more reliable detection
+	if (_ts.tirqTouched() && _ts.touched()) {
 		TS_Point p = _ts.getPoint();
 
-		// Store raw coordinates for debugging
-		_currentPointRaw.x = p.x;
-		_currentPointRaw.y = p.y;
-		_currentPointRaw.z = p.z;
+		// Filter by pressure to eliminate noise
+		// Valid touches have pressure in range [PRESSURE_MIN, PRESSURE_MAX]
+		if (p.z >= PRESSURE_MIN && p.z <= PRESSURE_MAX) {
+			currentlyTouched = true;
 
-		// Map raw coordinates to display coordinates
-		_currentPoint.x = mapCoordinate(p.x, TS_MIN_X, TS_MAX_X, DISPLAY_WIDTH);
-		_currentPoint.y = mapCoordinate(p.y, TS_MIN_Y, TS_MAX_Y, DISPLAY_HEIGHT);
-		_currentPoint.z = p.z;
-	} else {
+			// Store raw coordinates for debugging (only for valid touches)
+			_currentPointRaw.x = p.x;
+			_currentPointRaw.y = p.y;
+			_currentPointRaw.z = p.z;
+
+			// Map raw coordinates to display coordinates
+			uint16_t mappedX = mapCoordinate(p.x, TS_MIN_X, TS_MAX_X, DISPLAY_WIDTH);
+			uint16_t mappedY = mapCoordinate(p.y, TS_MIN_Y, TS_MAX_Y, DISPLAY_HEIGHT);
+
+			// Extra safety: clamp to display bounds (should already be done in mapCoordinate)
+			_currentPoint.x = (mappedX < DISPLAY_WIDTH) ? mappedX : (DISPLAY_WIDTH - 1);
+			_currentPoint.y = (mappedY < DISPLAY_HEIGHT) ? mappedY : (DISPLAY_HEIGHT - 1);
+			_currentPoint.z = p.z;
+		}
+	}
+
+	if (!currentlyTouched) {
 		_currentPoint.z = 0;
 		_currentPointRaw.z = 0;
 	}
@@ -82,14 +98,18 @@ bool SynthTouch::isTouchedInRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 }
 
 uint16_t SynthTouch::mapCoordinate(uint16_t raw, uint16_t rawMin, uint16_t rawMax, uint16_t displayMax) {
+	// Safety: prevent division by zero
+	if (rawMax <= rawMin) return 0;
+	if (displayMax == 0) return 0;
+
 	// Clamp to valid range
 	if (raw < rawMin) raw = rawMin;
 	if (raw > rawMax) raw = rawMax;
 
-	// Map to display coordinates
+	// Map to display coordinates (use 32-bit to prevent overflow)
 	uint32_t mapped = ((uint32_t)(raw - rawMin) * displayMax) / (rawMax - rawMin);
 
-	// Clamp to display bounds
+	// Clamp to display bounds (ensure we never exceed displayMax)
 	if (mapped >= displayMax) mapped = displayMax - 1;
 
 	return (uint16_t)mapped;
