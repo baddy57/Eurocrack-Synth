@@ -23,6 +23,7 @@
 #include "configuration.h"
 #include "hardware_setup/motherboard.h"
 #include "services/synth_display.h"
+#include "services/synth_touch.h"
 #include "services/module_manager.h"
 #include "services/patch_cable_manager.h"
 
@@ -39,42 +40,26 @@ MIDIDevice midiOnUsbHost(usbHost);
 #define POLYPHONIC
 
 void setup() {
+	// Initialize all motherboard pins (mux selectors, touchscreen, display)
+	Motherboard::init();
 
-	pinMode(pins::RA, OUTPUT);
-	pinMode(pins::RB, OUTPUT);
-	pinMode(pins::RC, OUTPUT);
-	pinMode(pins::RD, OUTPUT);
-	pinMode(pins::RE, OUTPUT);
-	pinMode(pins::RF, OUTPUT);
-	pinMode(pins::RG, OUTPUT);
-	pinMode(pins::RH, OUTPUT);
-	pinMode(pins::RI, OUTPUT);
-	pinMode(pins::RJ, OUTPUT);
-	pinMode(pins::RK, OUTPUT);
-	pinMode(pins::RL, OUTPUT);
-	pinMode(pins::WA, OUTPUT);
-	pinMode(pins::WB, OUTPUT);
-	pinMode(pins::WC, OUTPUT);
-	pinMode(pins::WD, OUTPUT);
-	pinMode(pins::WE, OUTPUT);
-	pinMode(pins::WF, OUTPUT);
-	pinMode(pins::WG, OUTPUT);
-	pinMode(pins::WH, OUTPUT);
-	pinMode(pins::WI, OUTPUT);
-	pinMode(pins::WRITE, OUTPUT);
-	pinMode(pins::READ, INPUT);
-	pinMode(pins::VOLUME, INPUT);
-
+	#if TEST_MODE_ENABLED
+	// Test mode needs much less audio memory
+	AudioMemory(200);
+	#else
+	// Production mode needs more for full synth operation
 	AudioMemory(1500);
+	#endif
 
 	delay(2000);
 
 	SynthDisplay::init();
+	SynthTouch::init();
 
 	#if TEST_MODE_ENABLED
-	// Enter test mode and skip normal initialization
+	// Enter multi-module test mode with touchscreen support
 	pinMode(pins::READ, INPUT_PULLDOWN);
-	TestMode::enter();
+	TestMode::enterMultiModule();
 	pinMode(pins::READ, INPUT);
 	return;
 	#endif
@@ -97,33 +82,14 @@ void setup() {
 
 	pinMode(pins::READ, INPUT);
 
-	//reset all mux selectors
-	digitalWrite(pins::RA, LOW);
-	digitalWrite(pins::RB, LOW);
-	digitalWrite(pins::RC, LOW);
-	digitalWrite(pins::RD, LOW);
-	digitalWrite(pins::RE, LOW);
-	digitalWrite(pins::RF, LOW);
-	digitalWrite(pins::RG, LOW);
-	digitalWrite(pins::RH, LOW);
-	digitalWrite(pins::RI, LOW);
-	digitalWrite(pins::RJ, LOW);
-	digitalWrite(pins::RK, LOW);
-	digitalWrite(pins::RL, LOW);
-	digitalWrite(pins::WA, LOW);
-	digitalWrite(pins::WB, LOW);
-	digitalWrite(pins::WC, LOW);
-	digitalWrite(pins::WD, LOW);
-	digitalWrite(pins::WE, LOW);
-	digitalWrite(pins::WF, LOW);
-	digitalWrite(pins::WG, LOW);
-	digitalWrite(pins::WH, LOW);
-	digitalWrite(pins::WI, LOW);
+	// Reset all multiplexer selectors
+	Motherboard::resetMuxSelectors();
 }
 
 void loop() {
 	#if TEST_MODE_ENABLED
-	TestMode::update();
+	SynthTouch::update();
+	TestMode::updateMultiModule();
 	return;
 	#endif
 

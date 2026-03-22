@@ -4,7 +4,7 @@
 
 #include <ILI9341_t3.h>
 //#include <font_Arial.h> // from ILI9341_t3
-//#include <XPT2046_Touchscreen.h>
+#include <XPT2046_Touchscreen.h>
 #include <SPI.h>
 #include <USBHost_t36.h>
 
@@ -73,4 +73,70 @@ const uint_fast8_t IN_SEL2[6] 	=	{pins::RG, pins::RH, pins::RI, pins::RL, pins::
 //XPT2046_Touchscreen ts(pins::TOUCH_CS, 255); // Param 2 - 255 - No interrupts
 //XPT2046_Touchscreen ts(pins::TOUCH_CS, pins::TOUCH_IRQ); // Param 2 - Touch IRQ Pin - interrupt enabled polling
 
+// Motherboard hardware initialization
+class Motherboard {
+public:
+	static void init() {
+		// Multiplexer selector pins (OUTPUT)
+		pinMode(pins::RA, OUTPUT);
+		pinMode(pins::RB, OUTPUT);
+		pinMode(pins::RC, OUTPUT);
+		pinMode(pins::RD, OUTPUT);
+		pinMode(pins::RE, OUTPUT);
+		pinMode(pins::RF, OUTPUT);
+		pinMode(pins::RG, OUTPUT);
+		pinMode(pins::RH, OUTPUT);
+		pinMode(pins::RI, OUTPUT);
+		pinMode(pins::RJ, OUTPUT);
+		pinMode(pins::RK, OUTPUT);
+		pinMode(pins::RL, OUTPUT);
+		pinMode(pins::WA, OUTPUT);
+		pinMode(pins::WB, OUTPUT);
+		pinMode(pins::WC, OUTPUT);
+		pinMode(pins::WD, OUTPUT);
+		pinMode(pins::WE, OUTPUT);
+		pinMode(pins::WF, OUTPUT);
+		pinMode(pins::WG, OUTPUT);
+		pinMode(pins::WH, OUTPUT);
+		pinMode(pins::WI, OUTPUT);
+		pinMode(pins::WRITE, OUTPUT);
+		pinMode(pins::READ, INPUT);
+		pinMode(pins::VOLUME, INPUT);
+
+		// Touchscreen pins
+		pinMode(pins::TOUCH_IRQ, INPUT_PULLUP);  // Interrupt pin with pullup
+		pinMode(pins::TOUCH_CS, OUTPUT);         // Chip select
+		digitalWrite(pins::TOUCH_CS, HIGH);      // Start deselected
+
+		// Display CS/DC pins (if not handled by ILI9341_t3 library)
+		pinMode(pins::LCD_CS, OUTPUT);
+		pinMode(pins::LCD_DC, OUTPUT);
+		digitalWrite(pins::LCD_CS, HIGH);        // Start deselected
+	}
+
+	static void resetMuxSelectors() {
+		// Reset all multiplexer selectors to LOW
+		digitalWrite(pins::RA, LOW);
+		digitalWrite(pins::RB, LOW);
+		digitalWrite(pins::RC, LOW);
+		digitalWrite(pins::RD, LOW);
+		digitalWrite(pins::RE, LOW);
+		digitalWrite(pins::RF, LOW);
+		digitalWrite(pins::RG, LOW);
+		digitalWrite(pins::RH, LOW);
+		digitalWrite(pins::RI, LOW);
+		digitalWrite(pins::RJ, LOW);
+		digitalWrite(pins::RK, LOW);
+		digitalWrite(pins::RL, LOW);
+		digitalWrite(pins::WA, LOW);
+		digitalWrite(pins::WB, LOW);
+		digitalWrite(pins::WC, LOW);
+		digitalWrite(pins::WD, LOW);
+		digitalWrite(pins::WE, LOW);
+		digitalWrite(pins::WF, LOW);
+		digitalWrite(pins::WG, LOW);
+		digitalWrite(pins::WH, LOW);
+		digitalWrite(pins::WI, LOW);
+	}
+};
 

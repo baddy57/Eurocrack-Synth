@@ -10,6 +10,7 @@
 #include "test_config.h"
 #include "test_display.h"
 #include "test_reader.h"
+#include "../services/synth_touch.h"
 #include <Arduino.h>
 
 // Include all module headers for instantiation
@@ -30,6 +31,12 @@
 #include "../modules/Distortion_bc.h"
 #include "../modules/Delay_single.h"
 #include "../modules/Delay_multi.h"
+
+// Multi-module test info structure (minimal - module created on demand)
+struct ModuleTestInfo {
+	uint8_t slot;    // 0-15
+	uint8_t typeId;  // Module type ID
+};
 
 class TestMode {
 public:
@@ -97,7 +104,41 @@ public:
 		pollSockets();
 	}
 
+	// Multi-module test mode - detects all modules and enables touch navigation
+	static inline void enterMultiModule() {
+		TestDisplay::init();
+
+		detectAllModules();
+
+		if (_detectedModules.empty()) {
+			// No modules detected at all
+			TestDisplay::showError("No modules detected!");
+			return;
+		}
+
+		_multiModuleMode = true;
+		_currentModuleIndex = 0;
+
+		// Load first module
+		loadModule(0);
+
+		_lastUpdate = millis();
+	}
+
+	// Multi-module update loop
+	static inline void updateMultiModule() {
+		if (_detectedModules.empty()) return;
+
+		uint32_t now = millis();
+		if (now - _lastUpdate < UPDATE_INTERVAL_MS) return;
+		_lastUpdate = now;
+
+		checkTouchNavigation();
+		pollCurrentModule();
+	}
+
 private:
+	// Single-module mode state
 	static inline Address _currentSlot{0};
 	static inline Module* _module = nullptr;
 	static inline uint8_t _detectedTypeId = 0;
@@ -107,6 +148,11 @@ private:
 	static inline uint32_t _lastUpdate = 0;
 	static inline uint32_t _lastSocketToggle = 0;
 	static inline uint8_t _currentOutputSocketIndex = 0;
+
+	// Multi-module mode state (reuses single-module variables for current module)
+	static inline std::vector<ModuleTestInfo> _detectedModules;  // Just slot/typeId list
+	static inline uint8_t _currentModuleIndex = 0;
+	static inline bool _multiModuleMode = false;
 
 	// Update rate (20 Hz = 50ms interval)
 	static constexpr uint32_t UPDATE_INTERVAL_MS = 50;
@@ -239,6 +285,138 @@ private:
 				TestDisplay::updateJackReceiving(i, receiving);
 			}
 		}
+	}
+
+	// Multi-module mode methods
+	static inline void detectAllModules() {
+		_detectedModules.clear();
+
+		// Scan all 16 slots - just store slot and typeId
+		for (uint8_t slot = 0; slot < CONFIGURATION__MAX_MODULES; ++slot) {
+			Address addr(slot);
+			uint8_t typeId = ModuleTypeIdMux(addr).getModuleId();
+
+			// Skip empty slots (0) and invalid (255)
+			if (typeId != 0 && typeId != 255) {
+				ModuleTestInfo info;
+				info.slot = slot;
+				info.typeId = typeId;
+				_detectedModules.push_back(info);
+			}
+		}
+	}
+
+	static inline void loadModule(uint8_t index) {
+		if (index >= _detectedModules.size()) return;
+
+		_currentModuleIndex = index;
+		const ModuleTestInfo& info = _detectedModules[index];
+
+		// Clean up previous module
+		if (_module != nullptr) {
+			_analogControls.clear();
+			_digitalControls.clear();
+			_sockets.clear();
+			// Don't delete - just leak it to avoid crash (temporary workaround)
+			// TODO: Fix module deletion properly
+			_module = nullptr;
+		}
+
+		// Create module for this slot
+		_currentSlot = Address(info.slot);
+		_detectedTypeId = info.typeId;
+		_module = createModuleByType(info.typeId, _currentSlot);
+
+		TestDisplay::clearScreen();
+		TestDisplay::setMultiModuleLayout();
+		TestDisplay::drawTabBar(_currentModuleIndex, _detectedModules.size());
+
+		if (!_module) {
+			TestDisplay::drawMultiModuleHeader("UNKNOWN", info.slot, info.typeId,
+			                                    index + 1, _detectedModules.size());
+			return;
+		}
+
+		// Get test controls from the module
+		_analogControls.clear();
+		_digitalControls.clear();
+		_sockets.clear();
+
+		_module->getTestControls(_analogControls, _digitalControls);
+		_module->getTestSockets(_sockets);
+
+		// Draw module UI
+		TestDisplay::drawMultiModuleHeader(_module->getModuleName(), info.slot,
+		                                    _module->getModuleTypeId(),
+		                                    index + 1, _detectedModules.size());
+		TestDisplay::drawAnalogSection(_analogControls);
+		TestDisplay::drawDigitalSection(_digitalControls);
+		TestDisplay::drawSocketSection(_sockets);
+
+		// Reset socket state
+		_lastSocketToggle = millis();
+		_currentOutputSocketIndex = 0;
+
+		// Find first output socket
+		while (_currentOutputSocketIndex < _sockets.size() &&
+		       !_sockets[_currentOutputSocketIndex].isOutput) {
+			_currentOutputSocketIndex++;
+		}
+
+		// Activate first output socket if found
+		if (_currentOutputSocketIndex < _sockets.size() &&
+		    _sockets[_currentOutputSocketIndex].outputSocket) {
+			_sockets[_currentOutputSocketIndex].outputSocket->sendSignal();
+		}
+
+		// Initial poll to show current values
+		pollAnalogControls();
+		pollDigitalControls();
+		pollSockets();
+	}
+
+	static inline void checkTouchNavigation() {
+		if (!SynthTouch::justPressed() || _detectedModules.empty()) return;
+
+		TouchPoint p = SynthTouch::getPoint();
+
+		// Bounds check - ignore touches with invalid coordinates
+		if (p.x >= 240 || p.y >= 320) return;
+		if (p.y >= 20) return;  // Not in tab bar
+
+		// Calculate tab with overflow protection
+		uint16_t tabWidth = 240 / _detectedModules.size();
+		if (tabWidth == 0) return;  // Safety
+
+		uint16_t tappedTab = p.x / tabWidth;
+		if (tappedTab < _detectedModules.size() && tappedTab != _currentModuleIndex) {
+			loadModule((uint8_t)tappedTab);
+		}
+	}
+
+	static inline void pollCurrentModule() {
+		if (!_module) return;
+
+		#if CONFIGURATION__DEBUG_TOUCH_RAW
+		TouchPointRaw raw = SynthTouch::getPointRaw();
+		if (raw.z > 0) {
+			TouchPoint mapped = SynthTouch::getPoint();
+			TestDisplay::drawTouchDebug(raw.x, raw.y, raw.z, mapped.x, mapped.y, SynthTouch::isTouched());
+		} else {
+			TestDisplay::clearTouchDebug();
+		}
+		#endif
+
+		#if CONFIGURATION__TRACE_TOUCH
+		if (SynthTouch::isTouched()) {
+			TouchPoint p = SynthTouch::getPoint();
+			TestDisplay::drawTouchPoint(p.x, p.y);
+		}
+		#endif
+
+		pollAnalogControls();
+		pollDigitalControls();
+		pollSockets();
 	}
 };
 

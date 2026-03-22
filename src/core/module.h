@@ -39,6 +39,7 @@ class Module{
 		bool verbose;
 	public:
 		inline Module(const Address& address): moduleAddress(address), verbose(false){};
+		virtual ~Module() = default;  // Virtual destructor for proper cleanup
 
 		virtual void updateValues()=0;
 

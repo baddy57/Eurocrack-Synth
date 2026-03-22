@@ -30,8 +30,8 @@ class TestDisplay {
 	// Screen layout constants
 	static constexpr uint8_t HEADER_Y = 0;
 	static constexpr uint8_t INFO_Y = 16;
-	static constexpr uint8_t ANALOG_HEADER_Y = 36;
-	static constexpr uint8_t ANALOG_START_Y = 52;
+	inline static uint8_t ANALOG_HEADER_Y = 36;
+	inline static uint8_t ANALOG_START_Y = 52;
 	inline static uint8_t DIGITAL_HEADER_Y;
 	inline static uint8_t DIGITAL_START_Y;
 	inline static uint8_t SOCKET_HEADER_Y;
@@ -266,6 +266,135 @@ class TestDisplay {
 		tft.setTextColor(TEST_COLOR_LABEL);
 		tft.setCursor(20, 130);
 		tft.println(message);
+	}
+
+	// Multi-module mode display methods
+	static inline void clearScreen() {
+		tft.fillScreen(TEST_COLOR_BACKGROUND);
+	}
+
+	// Set layout for multi-module mode (tab bar + header + info takes 52px)
+	static inline void setMultiModuleLayout() {
+		ANALOG_HEADER_Y = 52;
+		ANALOG_START_Y = 68;
+	}
+
+	// Reset to single-module layout
+	static inline void setSingleModuleLayout() {
+		ANALOG_HEADER_Y = 36;
+		ANALOG_START_Y = 52;
+	}
+
+	static inline void drawTabBar(uint8_t currentIndex, uint8_t totalModules) {
+		static constexpr uint8_t TAB_HEIGHT = 20;
+		static constexpr uint16_t TAB_ACTIVE_COLOR = 0x07FF;    // Cyan
+		static constexpr uint16_t TAB_INACTIVE_COLOR = 0x4208;  // Dark gray
+
+		uint16_t tabWidth = 240 / totalModules;
+
+		for (uint8_t i = 0; i < totalModules; ++i) {
+			uint16_t x = i * tabWidth;
+			uint16_t color = (i == currentIndex) ? TAB_ACTIVE_COLOR : TAB_INACTIVE_COLOR;
+
+			// Draw tab background
+			tft.fillRect(x, 0, tabWidth - 1, TAB_HEIGHT, color);
+
+			// Draw tab number
+			tft.setTextColor(ILI9341_BLACK);
+			tft.setTextSize(1);
+			// Center the number in the tab
+			uint8_t textX = x + (tabWidth / 2) - 3;
+			tft.setCursor(textX, 6);
+			tft.print(i + 1);
+		}
+	}
+
+	static inline void drawMultiModuleHeader(const char* moduleName, uint8_t slot,
+	                                          uint8_t typeId, uint8_t moduleNum, uint8_t totalModules) {
+		static constexpr uint8_t MULTI_HEADER_Y = 20;
+		static constexpr uint8_t MULTI_INFO_Y = 36;
+
+		// Header line
+		tft.setTextColor(TEST_COLOR_HEADER);
+		tft.setCursor(COL_NAME, MULTI_HEADER_Y);
+		tft.print("Module ");
+		tft.print(moduleNum);
+		tft.print('/');
+		tft.print(totalModules);
+		tft.print(" - ");
+		tft.println(moduleName);
+
+		// Info line
+		tft.setTextColor(TEST_COLOR_LABEL);
+		tft.setCursor(COL_NAME, MULTI_INFO_Y);
+		tft.print("Slot: ");
+		tft.print(slot);
+		tft.print("   Type: ");
+		// Print all 8 binary digits with leading zeros
+		for (int8_t i = 7; i >= 0; --i) {
+			tft.print((typeId >> i) & 1);
+		}
+	}
+
+	// Touch trace debug feature - draw red point at touch location
+	static inline void drawTouchPoint(uint16_t x, uint16_t y) {
+		// Bounds check to prevent crashes from miscalibrated touch
+		if (x >= 240 || y >= 320) return;
+		// Draw a small red circle (3px radius)
+		tft.fillCircle(x, y, 3, ILI9341_RED);
+	}
+
+	// Touch debug - display raw and mapped coordinates
+	static inline void drawTouchDebug(uint16_t rawX, uint16_t rawY, uint16_t rawZ,
+	                                   uint16_t mappedX, uint16_t mappedY, bool validTouch) {
+		static constexpr uint16_t DEBUG_Y = 280;
+		static constexpr uint16_t DEBUG_BG_COLOR = 0x18C3;  // Dark blue
+
+		// Clear debug area
+		tft.fillRect(0, DEBUG_Y, 240, 40, DEBUG_BG_COLOR);
+
+		// Display raw coordinates
+		tft.setTextColor(ILI9341_YELLOW);
+		tft.setTextSize(1);
+		tft.setCursor(4, DEBUG_Y + 2);
+		tft.print("RAW: ");
+		tft.print(rawX);
+		tft.print(", ");
+		tft.print(rawY);
+		tft.print(" (Z=");
+		tft.print(rawZ);
+		tft.print(")");
+
+		// Display mapped coordinates if valid
+		if (validTouch) {
+			tft.setCursor(4, DEBUG_Y + 14);
+			tft.print("MAP: ");
+			tft.print(mappedX);
+			tft.print(", ");
+			tft.print(mappedY);
+
+			// Display status
+			tft.setCursor(4, DEBUG_Y + 26);
+			tft.setTextColor(ILI9341_GREEN);
+			tft.print("TOUCH VALID");
+		} else {
+			// Show why it's filtered
+			tft.setCursor(4, DEBUG_Y + 14);
+			tft.setTextColor(ILI9341_RED);
+			if (rawZ < 10) {
+				tft.print("FILTERED: Z too low");
+			} else if (rawZ > 4000) {
+				tft.print("FILTERED: Z too high (noise)");
+			} else {
+				tft.print("FILTERED: Unknown");
+			}
+		}
+	}
+
+	// Clear touch debug area
+	static inline void clearTouchDebug() {
+		static constexpr uint16_t DEBUG_Y = 280;
+		tft.fillRect(0, DEBUG_Y, 240, 40, TEST_COLOR_BACKGROUND);
 	}
 
 };
