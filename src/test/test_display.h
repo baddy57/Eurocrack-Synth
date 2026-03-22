@@ -30,8 +30,8 @@ class TestDisplay {
 	// Screen layout constants
 	static constexpr uint8_t HEADER_Y = 0;
 	static constexpr uint8_t INFO_Y = 16;
-	static constexpr uint8_t ANALOG_HEADER_Y = 36;
-	static constexpr uint8_t ANALOG_START_Y = 52;
+	inline static uint8_t ANALOG_HEADER_Y = 36;
+	inline static uint8_t ANALOG_START_Y = 52;
 	inline static uint8_t DIGITAL_HEADER_Y;
 	inline static uint8_t DIGITAL_START_Y;
 	inline static uint8_t SOCKET_HEADER_Y;
@@ -273,6 +273,18 @@ class TestDisplay {
 		tft.fillScreen(TEST_COLOR_BACKGROUND);
 	}
 
+	// Set layout for multi-module mode (tab bar + header + info takes 52px)
+	static inline void setMultiModuleLayout() {
+		ANALOG_HEADER_Y = 52;
+		ANALOG_START_Y = 68;
+	}
+
+	// Reset to single-module layout
+	static inline void setSingleModuleLayout() {
+		ANALOG_HEADER_Y = 36;
+		ANALOG_START_Y = 52;
+	}
+
 	static inline void drawTabBar(uint8_t currentIndex, uint8_t totalModules) {
 		static constexpr uint8_t TAB_HEIGHT = 20;
 		static constexpr uint16_t TAB_ACTIVE_COLOR = 0x07FF;    // Cyan
@@ -301,9 +313,6 @@ class TestDisplay {
 	                                          uint8_t typeId, uint8_t moduleNum, uint8_t totalModules) {
 		static constexpr uint8_t MULTI_HEADER_Y = 20;
 		static constexpr uint8_t MULTI_INFO_Y = 36;
-
-		// Adjust analog section to start lower
-		const uint8_t MULTI_ANALOG_HEADER_Y = 52;
 
 		// Header line
 		tft.setTextColor(TEST_COLOR_HEADER);

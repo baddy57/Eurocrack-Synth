@@ -343,6 +343,9 @@ private:
 		// Clear screen
 		TestDisplay::clearScreen();
 
+		// Set multi-module layout (analog section starts at 52px)
+		TestDisplay::setMultiModuleLayout();
+
 		// Draw tab bar
 		TestDisplay::drawTabBar(_currentModuleIndex, _detectedModules.size());
 
