@@ -9,8 +9,8 @@ bool SynthTouch::_wasTouched = false;
 uint32_t SynthTouch::_lastPollTime = 0;
 
 void SynthTouch::init() {
-	// SPI should already be initialized by display
-	// Don't call SPI.begin() again as it might reset display settings
+	// Pin modes now handled by Motherboard::init()
+	// SPI already initialized by display
 
 	_ts.begin();
 	_ts.setRotation(0);  // Match display rotation
@@ -29,8 +29,8 @@ void SynthTouch::update() {
 
 	bool currentlyTouched = false;
 
-	// Use IRQ pin for more reliable detection
-	if (_ts.tirqTouched() && _ts.touched()) {
+	// Check for touch (library handles SPI transaction and CS pin)
+	if (_ts.touched()) {
 		TS_Point p = _ts.getPoint();
 
 		// Filter by pressure to eliminate noise
