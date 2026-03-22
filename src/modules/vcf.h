@@ -4,8 +4,8 @@
 
 namespace VCF_pins {
 	enum inputs { POT0=16, POT1, POT2,
-				  SIG_IN_D=25, SIG_IN,
-				  FREQ_CV_D, FREQ_CV,
+				  SIG_IN=25, SIG_IN_D,
+				  FREQ_CV, FREQ_CV_D,
 				  HPF_D, BPF_D, LPF_D };
 	enum outputs { LPF, BPF, HPF };
 }
@@ -25,9 +25,9 @@ private:
 public:
 	inline VCF(const Address& a)
 		: Module(a)
-		, _freq_pot0(a, VCF_pins::POT0, 4700)
-		, _res_pot1(a, VCF_pins::POT1, 3200)
-		, _oct_pot2(a, VCF_pins::POT2, 3200)
+		, _freq_pot0(a, VCF_pins::POT0, 1.f)
+		, _res_pot1(a, VCF_pins::POT1, 1.f)
+		, _oct_pot2(a, VCF_pins::POT2, 1.f)
 		, in(a, VCF_pins::SIG_IN, VCF_pins::SIG_IN_D, _filter, 0, "VCF_IN")
 		, cv(a, VCF_pins::FREQ_CV, VCF_pins::FREQ_CV_D, _filter, 1, "VCF_CV")
 		, lpf(a, VCF_pins::LPF, VCF_pins::LPF_D, _filter, 0, "LPF")

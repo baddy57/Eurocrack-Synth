@@ -1,3 +1,5 @@
+#if TEST_MODE_ENABLED
+
 #pragma once
 
 #include <cstdint>
@@ -239,3 +241,5 @@ private:
 		}
 	}
 };
+
+#endif
