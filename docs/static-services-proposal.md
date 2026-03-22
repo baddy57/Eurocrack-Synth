@@ -108,7 +108,7 @@ public:
 ```cpp
 #pragma once
 #include <ILI9341_t3.h>
-#include "core/HardwareCfg.h"
+#include "hardware_setup/HardwareCfg.h"
 
 class SynthDisplay {
     static ILI9341_t3 tft;
@@ -262,7 +262,7 @@ struct Output {
 #include "services/Modules.h"
 #include "services/Connections.h"
 #include "core/ModuleFactory.h"
-#include "core/HardwareCfg.h"
+#include "hardware_setup/HardwareCfg.h"
 
 void setup() {
     // Pin setup

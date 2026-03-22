@@ -20,7 +20,8 @@
 #include "core/module.h"
 #include "core/address.h"
 #include "core/patch_cable.h"
-#include "core/hardware_cfg.h"
+#include "configuration.h"
+#include "hardware_setup/motherboard.h"
 #include "services/synth_display.h"
 #include "services/module_manager.h"
 #include "services/patch_cable_manager.h"
@@ -63,8 +64,6 @@ void setup() {
 	pinMode(pins::WRITE, OUTPUT);
 	pinMode(pins::READ, INPUT);
 	pinMode(pins::VOLUME, INPUT);
-	// pinMode(pins::RGB1_3, OUTPUT);
-	// pinMode(pins::RGB0_3, OUTPUT);
 
 	AudioMemory(1500);
 

@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <vector>
 #include "../core/address.h"
-#include "../core/hardware_cfg.h"
+#include "../hardware_setup/motherboard.h"
 #include "../controls/module_type_id_mux.h"
 #include "test_config.h"
 #include "test_display.h"

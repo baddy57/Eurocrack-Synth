@@ -4,7 +4,8 @@
 
 #include <Wire.h>
 
-#include "hardware_cfg.h"
+#include "../configuration.h"
+#include "../hardware_setup/motherboard.h"
 
 //partial address for a module slot
 class Address{

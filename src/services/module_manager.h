@@ -6,7 +6,7 @@
 
 #include "../core/address.h"
 #include "../core/module.h"
-#include "../core/hardware_cfg.h"
+#include "../hardware_setup/motherboard.h"
 
 #include "../controls/module_type_id_mux.h"
 
@@ -27,8 +27,6 @@
 #include "../modules/Distortion_bc.h"
 #include "../modules/Delay_single.h"
 #include "../modules/Delay_multi.h"
-
-extern const uint_fast8_t CONFIGURATION__MAX_MODULES;
 
 #include "synth_display.h"
 #define tft SynthDisplay::raw()

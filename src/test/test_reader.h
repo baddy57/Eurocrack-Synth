@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../core/address.h"
-#include "../core/hardware_cfg.h"
+#include "../hardware_setup/motherboard.h"
 #include "test_config.h"
 #include <Arduino.h>
 

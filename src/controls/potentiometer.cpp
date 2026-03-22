@@ -1,10 +1,7 @@
 #include "potentiometer.h"
 
 #include <math.h>
-
-extern const float CONFIGURATION__POT_DEADZONE;
-
-extern const uint_fast8_t CONFIGURATION__POT_READS;
+#include "../configuration.h"
 
 #warning "Potentiometer pullup compensation is obsolete, use dedicated multiplexers instead"
 void Potentiometer::setPullUpResistorCompensation(float pullup)
